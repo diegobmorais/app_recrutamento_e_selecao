@@ -88,21 +88,19 @@ if (!function_exists('getMenu')) {
 if (!function_exists('generateMenu')) {
     function generateMenu($grouped, $parent = null)
     {
-         $html = '';
+        $html = '';
 
-        foreach ($grouped as $category => $menuItems)
-        {
+        foreach ($grouped as $category => $menuItems) {
             $company_settings = getCompanyAllSetting();
-            if(!empty($company_settings['category_wise_sidemenu']) && $company_settings['category_wise_sidemenu'] == 'on'){
+            if (!empty($company_settings['category_wise_sidemenu']) && $company_settings['category_wise_sidemenu'] == 'on') {
                 $icon = isset(categoryIcon()[$category]) ? categoryIcon()[$category] : 'home';
                 $html .= '<li class="dash-item dash-caption">
-                        <label>'.$category.'</label>
-                        <i class="ti ti-'.$icon.'"></i>
+                        <label>' . $category . '</label>
+                        <i class="ti ti-' . $icon . '"></i>
                       </li>';
             }
 
-            $html .= generateSubMenu($menuItems,$parent);
-
+            $html .= generateSubMenu($menuItems, $parent);
         }
 
         return $html;
@@ -156,23 +154,23 @@ if (!function_exists('categoryIcon')) {
     function categoryIcon()
     {
         $categoryIcon = [
-        'General' => 'indent-increase',
-        'Addon Manager' => 'apps',
-        'Finance' => 'chart-dots',
-        'HR' => 'users',
-        'Sales' => 'businessplan',
-        'eCommerce' => 'shopping-cart',
-        'Education' => 'school',
-        'Operations' => 'stack-2',
-        'Productivity' => 'list-check',
-        'Communication' => 'messages',
-        'Medical' => 'ambulance',
-        'Vehicle' => 'bike',
-        'AI' => 'brand-gitlab',
-        'Settings' => 'adjustments-horizontal',
-       ];
+            'General' => 'indent-increase',
+            'Addon Manager' => 'apps',
+            'Finance' => 'chart-dots',
+            'HR' => 'users',
+            'Sales' => 'businessplan',
+            'eCommerce' => 'shopping-cart',
+            'Education' => 'school',
+            'Operations' => 'stack-2',
+            'Productivity' => 'list-check',
+            'Communication' => 'messages',
+            'Medical' => 'ambulance',
+            'Vehicle' => 'bike',
+            'AI' => 'brand-gitlab',
+            'Settings' => 'adjustments-horizontal',
+        ];
 
-       return $categoryIcon;
+        return $categoryIcon;
     }
 }
 
@@ -540,7 +538,7 @@ if (!function_exists('ActivatedModule')) {
                         }
                     }
                 } else {
-                   static $active_module = null;
+                    static $active_module = null;
                     if ($active_module == null) {
                         $active_module = userActiveModule::where('user_id', $user->id)->pluck('module')->toArray();
                     }
@@ -1206,15 +1204,15 @@ if (!function_exists('PlanCheck')) {
     }
 }
 if (!function_exists('CheckCoupon')) {
-    function CheckCoupon($code, $price = 0, $plan_id)
+    function CheckCoupon($code, $plan_id, $price = 0)
     {
         if (empty($code) || intval($price) <= 0) {
             return $price;
         }
 
         $coupon = Coupon::where('code', strtoupper($code))
-                        ->where('is_active', '1')
-                        ->first();
+            ->where('is_active', '1')
+            ->first();
 
         if (empty($coupon)) {
             return $price;
@@ -1223,11 +1221,13 @@ if (!function_exists('CheckCoupon')) {
         $usedCoupon = $coupon->used_coupon();
         $userUsedCoupon = \Auth::user()->user_coupon_user($coupon);
 
-        if ($usedCoupon >= $coupon->limit ||
+        if (
+            $usedCoupon >= $coupon->limit ||
             $userUsedCoupon >= $coupon->limit_per_user ||
             $coupon->minimum_spend > $price ||
             $coupon->maximum_spend < $price ||
-            $coupon->expiry_date < date('Y-m-d')) {
+            $coupon->expiry_date < date('Y-m-d')
+        ) {
             return $price;
         }
 
@@ -1241,7 +1241,8 @@ if (!function_exists('CheckCoupon')) {
                 break;
             case 'fixed':
                 if ((!empty($coupon->included_module) && in_array($plan_id, explode(',', $coupon->included_module))) ||
-                    (empty($coupon->included_module) && !in_array($plan_id, explode(',', $coupon->excluded_module)))) {
+                    (empty($coupon->included_module) && !in_array($plan_id, explode(',', $coupon->excluded_module)))
+                ) {
                     $finalPrice = $price - $coupon->discount;
                 } else {
                     return $price;
@@ -1652,7 +1653,6 @@ if (!function_exists('super_currency_format_with_sym')) {
         //     . number_format($price, $format, $decimal_separator, $thousand_separator) . ((isset($currency_space) && $currency_space) == 'withspace' ? ' ' : '') .
         //     (($symbol_position == "post") ?  $symbol : '');
         return (($symbol_position == "pre") ? $symbol : '') . ($currency_space == 'withspace' ? ' ' : '') . $price . ($currency_space == 'withspace' ? ' ' : '') . (($symbol_position == "post") ? $symbol : '');
-
     }
 }
 if (!function_exists('company_datetime_formate')) {
