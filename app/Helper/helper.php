@@ -540,7 +540,7 @@ if (!function_exists('ActivatedModule')) {
                         }
                     }
                 } else {
-                   //static $active_module = null;
+                   static $active_module = null;
                     if ($active_module == null) {
                         $active_module = userActiveModule::where('user_id', $user->id)->pluck('module')->toArray();
                     }

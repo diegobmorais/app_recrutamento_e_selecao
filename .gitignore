@@ -24,6 +24,8 @@ jspm_packages/
 .env
 .env.local
 .env.*.local
+.htaccess
+.htaccess.local
 
 # Ignorar arquivos temporários de compilação
 *.swp
