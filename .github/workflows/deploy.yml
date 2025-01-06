@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Upload Files via FTP
-      uses: sebastianpopp/ftp-deploy-action@v2.0.0
+      uses: SamKirkland/FTP-Deploy-Action@4.5.0
       with:
         ftp-server: ${{ secrets.FTP_HOST }}
         ftp-username: ${{ secrets.FTP_USERNAME }}
