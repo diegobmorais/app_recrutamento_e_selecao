@@ -1,1 +1,51 @@
-node_modules
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de dependências gerados
+node_modules/
+bower_components/
+jspm_packages/
+
+# Ignorar arquivos de build e de distribuição
+/dist
+/build
+/tmp
+/out
+*.log
+
+# Ignorar arquivos de editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignorar arquivos de configuração local
+.env
+.env.local
+.env.*.local
+
+# Ignorar arquivos temporários de compilação
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignorar arquivos de banco de dados local
+*.sqlite
+*.db
+
+# Ignorar arquivos de sistema operacional
+Desktop.ini
+
+# Ignorar arquivos de logs
+*.log
+
+# Ignorar arquivos do sistema de controle de versão
+.git
+.gitmodules
+
+# Ignorar arquivos de backup e recovery do editor
+*~
+# Pasta de dependências do Composer
+/vendor/
