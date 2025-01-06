@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+    - name: Get latest code
+      uses: actions/checkout@v4
 
     - name: Upload Files via FTP
-      uses: SamKirkland/FTP-Deploy-Action@4.5.0
+      uses: SamKirkland/FTP-Deploy-Action@4.3.5
       with:
         ftp-server: ${{ secrets.FTP_HOST }}
         ftp-username: ${{ secrets.FTP_USERNAME }}
