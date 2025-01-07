@@ -1008,7 +1008,7 @@ class ProposalController extends Controller
                 }
                 else
                 {
-                    \App::setLocale('en');
+                    \App::setLocale('pt');
                 }
 
                 $proposal    = Proposal::where('id', $id)->first();

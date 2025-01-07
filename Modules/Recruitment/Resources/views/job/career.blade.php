@@ -38,9 +38,9 @@
             <div class="container">
                 <div class="job-banner-content text-center text-white">
                     <h1 class="text-white mb-3">
-                        {{ __(' We help') }} <br> {{ __('businesses grow') }}
+                        {{ __(' Nós ajudamos') }} <br> {{ __('negócios a crescerem') }}
                     </h1>
-                    <p>{{ __('Work there. Find the dream job you’ve always wanted..') }}</p>
+                    <p>{{ __('Trabalhe aqui.') }}</p>
                 </div>
             </div>
         </section>
@@ -52,16 +52,16 @@
                     @endphp
 
                     <h2 class="h1 mb-3"> <span class="text-primary">+{{ $totaljob }}
-                        </span>{{ __('Job openings') }}</h2>
-                    <p>{{ __('Always looking for better ways to do things, innovate') }} <br>
-                        {{ __('and help people achieve their goals') }}.</p>
+                        </span>{{ __('Vagas Em Aberto') }}</h2>
+                    <p>{{ __('Sempre procurando maneiras melhores de fazer as coisas, inovar') }} <br>
+                        {{ __('e ajudar as pessoas a atingirem seus objetivos') }}.</p>
                 </div>
                 <div class="row g-4">
                     @foreach ($jobs as $job)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 job-card">
                             <div class="job-card-body">
                                 <div class="d-flex mb-3 align-items-center justify-content-between ">
-                                    <img src="{{ asset('Modules/Recruitment/Resources/assets/image/figma.png') }}" alt="">
+                                    <img src="{{ asset('uploads/logo/favicon.png') }}" alt="">
                                     @if (!empty($job->branches) ? $job->branches->name : $job->location)
                                         <span>{{ !empty($job->branches) ? $job->branches->name : $job->location }} <i
                                                 class="ti ti-map-pin ms-1"></i></span>

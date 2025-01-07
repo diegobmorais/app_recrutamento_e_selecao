@@ -35,7 +35,7 @@
             <div class="container">
                 <div class="job-banner-content text-center text-white">
                     <h1 class="text-white mb-3">
-                        {{__(' We help')}} <br> {{__('businesses grow')}}
+                        {{__(' Nos ajudamos')}} <br> {{__('negócios a crescerem')}}
                     </h1>
                     <p>{{ __('Work there. Find the dream job you’ve always wanted..') }}</p>
                     </p>
@@ -57,7 +57,7 @@
                             <p> <i class="ti ti-map-pin ms-1"></i> {{!empty($job->branches)?$job->branches->name: $job->location}}</p>
                         @endif
 
-                        <a href="{{route('job.apply',[$job->code,$currantLang])}}" class="btn btn-primary rounded">{{__('Apply now')}} <i class="ti ti-send ms-2"></i> </a>
+                        <a href="{{route('job.apply',[$job->code,$currantLang])}}" class="btn btn-primary rounded">{{__('Cadastre-se agora')}} <i class="ti ti-send ms-2"></i> </a>
                     </div>
                     <h3>{{__('Requirements')}}</h3>
                     <p>{!! $job->requirement !!}</p>
