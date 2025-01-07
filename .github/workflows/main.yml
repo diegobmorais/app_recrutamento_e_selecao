@@ -21,5 +21,9 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}        
         server-dir: public_html/
-        exclude: vendor/ 
-          
+        exclude: |
+         vendor/
+         .git*
+         node_modules/
+         '**/*.log'
+                

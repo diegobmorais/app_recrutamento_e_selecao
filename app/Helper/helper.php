@@ -516,6 +516,7 @@ if (!function_exists('ActivatedModule')) {
     function ActivatedModule($user_id = null)
     {
         $activated_module = user::$superadmin_activated_module;
+        static $active_module = null;
 
         if ($user_id != null) {
             $user = User::find($user_id);
@@ -532,13 +533,13 @@ if (!function_exists('ActivatedModule')) {
                     $user_not_com = User::find($user->created_by);
                     if (!empty($user)) {
                         // Sidebar Performance Changes
-                        static $active_module = null;
+                        //static $active_module = null;
                         if ($active_module == null) {
                             $active_module = userActiveModule::where('user_id', $user_not_com->id)->pluck('module')->toArray();
                         }
                     }
                 } else {
-                    static $active_module = null;
+                    //static $active_module = null;
                     if ($active_module == null) {
                         $active_module = userActiveModule::where('user_id', $user->id)->pluck('module')->toArray();
                     }

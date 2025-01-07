@@ -41,9 +41,9 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Jobs'),
+            'title' => __('Vacancies'),
             'icon' => '',
-            'name' => 'jobs',
+            'name' => 'vacancies',
             'parent' => 'recruitment',
             'order' => 10,
             'ignore_if' => [],
@@ -54,9 +54,9 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Job Create'),
+            'title' => __('Vacancies Create'),
             'icon' => '',
-            'name' => 'job-create',
+            'name' => 'vacancies-create',
             'parent' => 'recruitment',
             'order' => 15,
             'ignore_if' => [],
@@ -67,7 +67,7 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Job Application'),
+            'title' => __('Vacancies Application'),
             'icon' => '',
             'name' => 'job-application',
             'parent' => 'recruitment',
@@ -80,7 +80,7 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Job Archived'),
+            'title' => __('Vacancies Archived'),
             'icon' => '',
             'name' => 'job-archived',
             'parent' => 'recruitment',
@@ -93,7 +93,7 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Job Candidate'),
+            'title' => __('Vacancies Candidate'),
             'icon' => '',
             'name' => 'job-candidate',
             'parent' => 'recruitment',
@@ -106,7 +106,7 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Job On-boarding'),
+            'title' => __('Vacancies On-boarding'),
             'icon' => '',
             'name' => 'job-on-boarding',
             'parent' => 'recruitment',
