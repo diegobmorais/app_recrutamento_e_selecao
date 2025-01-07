@@ -64,7 +64,7 @@ class CompanyMenuListener
             'route' => 'roles.index',
             'module' => $module,
             'permission' => 'roles manage'
-        ]);
+        ]);/*
         $menu->add([
             'category' => 'Finance',
             'title' => __('Proposal'),
@@ -91,9 +91,6 @@ class CompanyMenuListener
             'module' => $module,
         'permission' => 'invoice manage'
         ]);
-
-
-
         $menu->add([
             'category' => 'Finance',
             'title' => __('Purchases'),
@@ -189,7 +186,7 @@ class CompanyMenuListener
             'route' => 'reports.warehouse',
             'module' => $module,
             'permission' => 'report warehouse'
-        ]);
+        ]);*/
 
 
         $menu->add([
