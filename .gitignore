@@ -50,4 +50,4 @@ Desktop.ini
 # Ignorar arquivos de backup e recovery do editor
 *~
 # Pasta de dependências do Composer
-/vendor/
+vendor/
