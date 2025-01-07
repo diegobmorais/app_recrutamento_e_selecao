@@ -2264,7 +2264,7 @@ class ProjectController extends Controller
         $workspace_id = $project->workspace;
         $project_id = \Session::get('checked_' . $id_de);
         if ($lang == '') {
-            $lang = !empty(company_setting('defult_language', $company_id, $workspace_id)) ? company_setting('defult_language', $company_id, $workspace_id) : 'en';
+            $lang = !empty(company_setting('defult_language', $company_id, $workspace_id)) ? company_setting('defult_language', $company_id, $workspace_id) : 'pt';
         }
         \App::setLocale($lang);
 

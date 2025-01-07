@@ -607,7 +607,7 @@ if (!function_exists('getActiveLanguage')) {
             return Auth::user()->lang;
         } else {
             $admin_settings = getAdminAllSetting();
-            return !empty($admin_settings['defult_language']) ? $admin_settings['defult_language'] : 'en';
+            return !empty($admin_settings['defult_language']) ? $admin_settings['defult_language'] : 'pt';
         }
     }
 }

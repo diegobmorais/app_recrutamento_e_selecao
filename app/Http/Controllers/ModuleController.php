@@ -56,7 +56,7 @@ class ModuleController extends Controller
             // Sidebar Performance Changes
             sideMenuCacheForget('all');
 
-            \App::setLocale('en');
+            \App::setLocale('pt');
 
             if($module->isEnabled())
             {

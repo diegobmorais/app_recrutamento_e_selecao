@@ -1385,7 +1385,7 @@ class InvoiceController extends Controller
                 if (!is_null($users)) {
                     \App::setLocale($users->lang);
                 } else {
-                    \App::setLocale('en');
+                    \App::setLocale('pt');
                 }
 
                 $invoice    = Invoice::where('id', $id)->first();

@@ -357,7 +357,7 @@ class JobController extends Controller
             return redirect('login');
         }
         if ($lang == null) {
-            $lang = 'en';
+            $lang = 'pt';
         }
 
         $jobs = Job::where('created_by', $company_id)->where('status', 'active')->where('workspace', $workspace_id)->with('branches')->get();
@@ -370,7 +370,7 @@ class JobController extends Controller
         $currantLang = \Session::get('lang');
         if (empty($currantLang)) {
             $user        = User::find($company_id);
-            $currantLang = !empty($user) && !empty($user->lang) ? $user->lang : 'en';
+            $currantLang = !empty($user) && !empty($user->lang) ? $user->lang : 'pt';
         }
 
         return view('recruitment::job.career', compact('jobs', 'languages', 'currantLang', 'company_id', 'workspace_id', 'slug'));
@@ -394,7 +394,7 @@ class JobController extends Controller
 
             $currantLang = \Session::get('lang');
             if (empty($currantLang)) {
-                $currantLang = !empty($job->createdBy) ? $job->createdBy->lang : 'en';
+                $currantLang = !empty($job->createdBy) ? $job->createdBy->lang : 'pt';
             }
 
             $company_id = $job->created_by;
@@ -422,7 +422,7 @@ class JobController extends Controller
 
         $currantLang = \Session::get('lang');
         if (empty($currantLang)) {
-            $currantLang = !empty($job->createdBy) ? $job->createdBy->lang : 'en';
+            $currantLang = !empty($job->createdBy) ? $job->createdBy->lang : 'pt';
         }
 
         $company_id = $job->created_by;
@@ -447,7 +447,7 @@ class JobController extends Controller
 
             $currantLang = \Session::get('lang');
             if (empty($currantLang)) {
-                $currantLang = !empty($job->createdBy) ? $job->createdBy->lang : 'en';
+                $currantLang = !empty($job->createdBy) ? $job->createdBy->lang : 'pt';
             }
 
             $company_id = $job->created_by;

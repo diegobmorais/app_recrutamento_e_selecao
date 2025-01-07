@@ -30,7 +30,7 @@ class PasswordResetLinkController extends Controller
         }
         else
         {
-            $lang = array_key_exists($lang, languages()) ? $lang : 'en';
+            $lang = array_key_exists($lang, languages()) ? $lang : 'pt';
         }
         \App::setLocale($lang);
         $admin_settings = getAdminAllSetting();
