@@ -7,7 +7,7 @@
  * @fileOverview Simple CKEditor 4 plugin that adds placeholder text to the editor.
  */
 ( function() {
-	CKEDITOR.plugins.add( 'editorplaceholder', {
+	CKEDITOR.plugins.add( 'editorplaceholder', {		
 		isSupportedEnvironment: function() {
 			return !CKEDITOR.env.ie || CKEDITOR.env.version >= 9;
 		},
@@ -30,7 +30,7 @@
 
 		}
 	} );
-
+	console.log(typeof CKEDITOR);
 	var ATTRIBUTE_NAME = 'data-cke-editorplaceholder';
 
 	/**

@@ -31,6 +31,9 @@ class Job extends Model
         'code',
         'custom_question',
         'workspace',
+        'qualify_lead',
+        'receive_notification',
+        'activete_pre_selection',
         'created_by',
     ];
 
@@ -40,14 +43,14 @@ class Job extends Model
     }
 
     public static $status = [
-        'active' => 'Active',
-        'in_active' => 'In Active',
+        'active' => 'Ativo',
+        'in_active' => 'Desativado',
     ];
 
     public static $job_type = [
         '' => 'Select Job Type',
-        'full_time' => 'Full Time',
-        'part_time' => 'Part Time',
+        'full_time' => 'Tempo Integral',
+        'part_time' => 'Autônomo',
     ];
 
     public function branches()
@@ -80,11 +83,10 @@ class Job extends Model
         ];
 
         $job_stages = [
-            "Applied",
-            "Phone Screen",
-            "Interview",
-            "Hired",
-            "Rejected",
+            "Candidatos",
+            "Pré-Seleção",
+            "Teste Comportamental",
+            "Aprovados",           
         ];
 
         if ($company_id == Null) {

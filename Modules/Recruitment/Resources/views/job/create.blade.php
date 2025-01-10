@@ -32,12 +32,27 @@
 
         $("#submit").click(function() {
             var skill = $('.skill_data').val();
-
             if (skill == '') {
                 $('#skill_validation').removeClass('d-none')
                 return false;
             } else {
                 $('#skill_validation').addClass('d-none')
+            }
+
+            var average = $('.average_data').val();
+            if (average == '') {
+                $('#average_validation').removeClass('d-none')
+                return false;
+            } else {
+                $('#average_validation').addClass('d-none')
+            }
+
+            var benefits = $('.benefits_data').val();
+            if (benefits == '') {
+                $('#benefits_validation').removeClass('d-none')
+                return false;
+            } else {
+                $('#benefits_validation').addClass('d-none')
             }
 
             var description = $('textarea[name="description"]').val();
@@ -141,7 +156,7 @@
                                 {!! Form::text('title', old('title'), [
                                     'class' => 'form-control',
                                     'required' => 'required',
-                                    'placeholder' => 'Enter job title',
+                                    'placeholder' => 'Titulo da vaga',
                                 ]) !!}
                             </div>
                             
@@ -166,13 +181,13 @@
                                 {!! Form::text('location', old('location'), [
                                     'class' => 'form-control',
                                     'required' => 'required',
-                                    'placeholder' => 'Enter job Location',
+                                    'placeholder' => 'Localização da vaga',
                                 ]) !!}
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('category', __('Job Category'), ['class' => 'col-form-label']) !!}
-                                {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Select Job Category', 'required' => 'required']) }}
+                                {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Categoria', 'required' => 'required']) }}
                                 @if (empty($categories->count()))
                                     <div class=" text-xs">
                                         {{ __('Please add job category. ') }}<a
@@ -194,22 +209,22 @@
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('status', __('Status'), ['class' => 'col-form-label']) !!}
-                                {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Select Status', 'required' => 'required']) }}
+                                {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
                             </div>
                             
                             
                             <div class="form-group col-md-6">
                                 {{ Form::label('job_type', __('Job Type'), ['class' => 'col-form-label']) }}
-                                {{ Form::select('job_type', $job_type, null, ['class' => 'form-control select']) }}
+                                {{ Form::select('job_type', ['' => __('Tipo de Vaga')] + $job_type, null, ['class' => 'form-control select']) }}
                             </div>
                             
                             <div class="form-group col-md-6">
-                                {!! Form::label('salary_from', __('Salary From'), ['class' => 'col-form-label']) !!}
-                                {!! Form::number('salary_from', old('salary_from'), [
+                                {!! Form::label('remuneration', __('Remuneração'), ['class' => 'col-form-label']) !!}
+                                {!! Form::number('remuneration', old('remuneration'), [
                                     'class' => 'form-control',
                                     'required' => 'required',
                                     'step' => '1',
-                                    'placeholder' => 'Enter Amount',
+                                    'placeholder' => 'R$',
                                 ]) !!}
                             </div>
                             
@@ -219,18 +234,9 @@
                                     'class' => 'form-control',
                                     'required' => 'required',
                                     'step' => '1',
-                                    'placeholder' => 'Enter Position',
+                                    'placeholder' => 'Quantidade',
                                 ]) !!}
-                            </div>
-                            <div class="form-group col-md-6">
-                                {!! Form::label('salary_to', __('Salary To'), ['class' => 'col-form-label']) !!}
-                                {!! Form::number('salary_to', old('salary_to'), [
-                                    'class' => 'form-control',
-                                    'required' => 'required',
-                                    'step' => '1',
-                                    'placeholder' => 'Enter Amount',
-                                ]) !!}
-                            </div>
+                            </div>                           
                             <div class="form-group col-md-6">
                                 {!! Form::label('start_date', __('Start Date'), ['class' => 'col-form-label']) !!}
                                 {!! Form::date('start_date', old('start_date'), [
@@ -248,10 +254,20 @@
                                 ]) !!}
                             </div>
                             <div class="form-group col-md-12">
+                                <label class="col-form-label" for="average ">{{ __('Nota de aprovação') }}</label>
+                                <input type="number" class="form-control average_data" value="" name="average" placeholder="Nota minima" />
+                            </div>
+                            <p class="text-danger d-none" id="average_validation">{{ __('average filed is required.') }}</p>
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label" for="benefits">{{ __('Benefícios') }}</label>
+                                <input type="text" class="form-control benefits_data" value="" data-toggle="tags"
+                                    name="benefits" placeholder="Benefícios" />
+                            </div>
+                            <p class="text-danger d-none" id="benefits_validation">{{ __('benefits filed is required.') }}</p>
+                            <div class="form-group col-md-12">
                                 <label class="col-form-label" for="skill">{{ __('Skill Box') }}</label>
                                 <input type="text" class="form-control skill_data" value="" data-toggle="tags"
-                                    name="skill" placeholder="Skill" />
-
+                                    name="skill" placeholder="Habilidades" />
                             </div>
                             <p class="text-danger d-none" id="skill_validation">{{ __('Skill filed is required.') }}</p>
                         </div>
@@ -269,18 +285,18 @@
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="applicant[]"
                                                 value="gender" id="check-gender">
-                                            <label class="form-check-label" for="check-gender">{{ __('Gender') }} </label>
+                                            <label class="form-check-label" for="check-gender">{{ __('Gênero') }} </label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="applicant[]"
                                                 value="dob" id="check-dob">
                                             <label class="form-check-label"
-                                                for="check-dob">{{ __('Date Of Birth') }}</label>
+                                                for="check-dob">{{ __('Data de Nascimento') }}</label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="applicant[]"
                                                 value="country" id="check-country">
-                                            <label class="form-check-label" for="check-country">{{ __('Country') }}</label>
+                                            <label class="form-check-label" for="check-country">{{ __('País') }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -292,26 +308,48 @@
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="visibility[]"
                                                 value="profile" id="check-profile">
-                                            <label class="form-check-label" for="check-profile">{{ __('Profile Image') }}
+                                            <label class="form-check-label" for="check-profile">{{ __('Perfil') }}
                                             </label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="visibility[]"
                                                 value="resume" id="check-resume">
-                                            <label class="form-check-label" for="check-resume">{{ __('Resume') }}</label>
+                                            <label class="form-check-label" for="check-resume">{{ __('Resumo') }}</label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="visibility[]"
                                                 value="letter" id="check-letter">
                                             <label class="form-check-label"
-                                                for="check-letter">{{ __('Cover Letter') }}</label>
+                                                for="check-letter">{{ __('Carta de Apresentação') }}</label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="visibility[]"
                                                 value="terms" id="check-terms">
                                             <label class="form-check-label"
-                                                for="check-terms">{{ __('Terms And Conditions') }}</label>
+                                                for="check-terms">{{ __('Termos e Condições') }}</label>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <h6>{{ __('Opções da vaga') }}</h6>
+                                <div class="my-4">
+                                    <div class="form-check custom-checkbox">
+                                        <input type="checkbox" class="form-check-input" name="qualify-lead"
+                                            value="qualify-lead" id="check-qualify-lead">
+                                        <label class="form-check-label" for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga') }}</label>
+                                    </div>
+                                    <div class="form-check custom-checkbox">
+                                        <input type="checkbox" class="form-check-input" name="notification"
+                                            value="notification" id="check-notification">
+                                        <label class="form-check-label"
+                                            for="check-notification">{{ __('Receber notificações a cada candidato recebido') }}</label>
+                                    </div>
+                                    <div class="form-check custom-checkbox">
+                                        <input type="checkbox" class="form-check-input" name="activate-pre-selection"
+                                            value="activate-pre-selection" id="check-activate-pre-selection">
+                                        <label class="form-check-label"
+                                            for="check-activate-pre-selection">{{ __('Realizar pré-seleção automática a cada candidato') }}</label>
                                     </div>
                                 </div>
                             </div>

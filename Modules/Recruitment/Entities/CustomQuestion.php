@@ -22,7 +22,7 @@ class CustomQuestion extends Model
     }
 
     public static $is_required = [
-        'yes' => 'Yes',
-        'no' => 'No',
+        'yes' => 'Sim',
+        'no' => 'Não',
     ];
 }

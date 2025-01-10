@@ -61,7 +61,7 @@
                             </div>
                             <div class="ms-3">
                                 <small class="text-muted">{{__('Total')}}</small>
-                                <h6 class="m-0">{{__('Jobs')}}</h6>
+                                <h6 class="m-0">{{__('Vagas')}}</h6>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="ms-3">
                                 <small class="text-muted">{{__('Active')}}</small>
-                                <h6 class="m-0">{{__('Jobs')}}</h6>
+                                <h6 class="m-0">{{__('Vagas')}}</h6>
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="ms-3">
                                 <small class="text-muted">{{__('Inactive')}}</small>
-                                <h6 class="m-0">{{__('Jobs')}}</h6>
+                                <h6 class="m-0">{{__('Vagas')}}</h6>
                             </div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                                         <span>
                                             @if($job->status!='in_active')
                                                 <div class="action-btn bg-primary ms-2">
-                                                    <a href="#" id="{{ route('job.requirement',[$job->code,!empty($job)?$job->createdBy->lang:'en']) }}" class="mx-3 btn btn-sm align-items-center"  onclick="copyToClipboard(this)" data-bs-toggle="tooltip" title="{{__('Copy')}}" data-original-title="{{__('Click to copy')}}"><i class="ti ti-link text-white"></i></a>
+                                                    <a href="#" id="{{ route('job.requirement',[$job->code,!empty($job)?$job->createdBy->lang:'en']) }}" class="mx-3 btn btn-sm align-items-center"  onclick="copyToClipboard(this)" data-bs-toggle="tooltip" title="{{__('Compartilhar')}}" data-original-title="{{__('Click to copy')}}"><i class="ti ti-link text-white"></i></a>
                                                 </div>
                                             @endif
                                             @permission('job show')

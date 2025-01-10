@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('is_required', __('Is Required'), ['class' => 'col-form-label']) }}
-            {{ Form::select('is_required', $is_required, null, ['class' => 'form-control ','placeholder'=>'Select Is Required', 'required' => 'required']) }}
+            {{ Form::select('is_required', $is_required, null, ['class' => 'form-control ','placeholder'=>'Pergunta obrigatória', 'required' => 'required']) }}
         </div>
     </div>
 </div>

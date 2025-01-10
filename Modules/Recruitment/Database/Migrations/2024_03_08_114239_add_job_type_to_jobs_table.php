@@ -24,12 +24,9 @@ return new class extends Migration
             if (!Schema::hasColumn('jobs', 'job_type')) {
                 $table->string('job_type')->nullable()->after('user_id');
             }
-            if (!Schema::hasColumn('jobs', 'salary_from')) {
-                $table->integer('salary_from')->nullable()->after('job_type');
-            }
-            if (!Schema::hasColumn('jobs', 'salary_to')) {
-                $table->integer('salary_to')->nullable()->after('salary_from');
-            }
+            if (!Schema::hasColumn('jobs', 'remuneration')) {
+                $table->integer('remuneration')->nullable()->after('job_type');
+            }            
         });
         
     }

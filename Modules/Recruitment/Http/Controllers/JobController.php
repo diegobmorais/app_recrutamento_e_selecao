@@ -101,8 +101,7 @@ class JobController extends Controller
                 'location' => 'required',
                 'category' => 'required',
                 'job_type' => 'required',
-                'salary_from' => 'required',
-                'salary_to' => 'required',
+                'remuneration' => 'required',                
                 'skill' => 'required',
                 'position' => 'required|min:0',
                 'start_date' => 'required|after:yesterday',
@@ -110,6 +109,7 @@ class JobController extends Controller
                 'description' => 'required',
                 'requirement' => 'required',
                 'custom_question.*' => 'required',
+                'average' => 'required',
             ];
 
             if (module_is_active('Hrm') && $request->has('branch')) {
@@ -142,8 +142,7 @@ class JobController extends Controller
             $job->position             = $request->position;
             $job->status               = $request->status;
             $job->job_type             = $request->job_type;
-            $job->salary_from          = $request->salary_from;
-            $job->salary_to            = $request->salary_to;
+            $job->remuneration         = $request->remuneration;            
             $job->start_date           = $request->start_date;
             $job->end_date             = $request->end_date;
             $job->description          = $request->description;
@@ -154,6 +153,10 @@ class JobController extends Controller
             $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';
             $job->custom_question      = !empty($request->custom_question) ? implode(',', $request->custom_question) : '';
             $job->workspace            = getActiveWorkSpace();
+            $job->qualify_lead         = $request->qualify_lead;
+            $job->receive_notification = $request->notification;
+            $job->activate_pre_selection = $request->activate_pre_selection;
+            $job->average              = $request->average;
             $job->created_by           = creatorId();
             $job->save();
 
@@ -249,8 +252,7 @@ class JobController extends Controller
                 'location' => 'required',
                 'category' => 'required',
                 'job_type' => 'required',
-                'salary_from' => 'required',
-                'salary_to' => 'required',
+                'remuneration' => 'required',               
                 'skill' => 'required',
                 'position' => 'required|min:0',
                 'start_date' => 'required|after:yesterday',
@@ -289,8 +291,7 @@ class JobController extends Controller
             $job->position             = $request->position;
             $job->status               = $request->status;
             $job->job_type             = $request->job_type;
-            $job->salary_from          = $request->salary_from;
-            $job->salary_to            = $request->salary_to;
+            $job->remuneration          = $request->remuneration;           
             $job->start_date           = $request->start_date;
             $job->end_date             = $request->end_date;
             $job->description          = $request->description;
@@ -299,8 +300,15 @@ class JobController extends Controller
             $job->applicant            = !empty($request->applicant) ? implode(',', $request->applicant) : '';
             $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';
             $job->custom_question      = !empty($request->custom_question) ? implode(',', $request->custom_question) : '';
+            $job->qualify_lead         = $request->qualify_lead;
+            $job->receive_notification = $request->notification;
+            $job->activate_pre_selection = $request->activate_pre_selection;
+            $job->average              = $request->average;
+
             $job->save();
+
             event(new UpdateJob($request, $job));
+
             return redirect()->route('job.index')->with('success', __('Job  successfully updated.'));
         } else {
             return redirect()->route('job.index')->with('error', __('Permission denied.'));
