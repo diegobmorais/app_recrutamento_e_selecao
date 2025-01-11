@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-
+env:
+  ACTIONS_STEP_DEBUG: true
+  
 jobs:
   deploy:
     name: Deploy to Production
@@ -20,7 +22,8 @@ jobs:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}        
-        server-dir: /  
+        server-dir: /
+        dangerous-clean-slate: false
         exclude: |
          vendor/
          .git*
