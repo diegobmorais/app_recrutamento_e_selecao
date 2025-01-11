@@ -6,7 +6,7 @@ on:
       - main
 env:
   ACTIONS_STEP_DEBUG: true
-  
+
 jobs:
   deploy:
     name: Deploy to Production
@@ -29,4 +29,5 @@ jobs:
          .git*
          node_modules/
          '**/*.log'
+         Modules/
                 
