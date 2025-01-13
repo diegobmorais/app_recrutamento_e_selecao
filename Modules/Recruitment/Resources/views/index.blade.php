@@ -41,6 +41,7 @@
                 dayMaxEvents: true,
                 handleWindowResize: true,
                 events: {!! json_encode($calenderTasks) !!},
+                locale: 'pt-br'
             });
             calendar.render();
         })();

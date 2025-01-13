@@ -224,12 +224,12 @@
             @permission('user create')
                 <div class="col-md-3 All">
                     <a href="#" class="btn-addnew-project " style="padding: 90px 10px;" data-ajax-popup="true" data-size="md"
-                        data-title="{{ __('Create New '.($singular_name)) }}" data-url="{{ route('users.create') }}">
+                        data-title="{{ __('Criar Novo '.($singular_name)) }}" data-url="{{ route('users.create') }}">
                         <div class="bg-primary proj-add-icon">
                             <i class="ti ti-plus my-2"></i>
                         </div>
-                        <h6 class="mt-4 mb-2">{{ __('New '.($singular_name)) }}</h6>
-                        <p class="text-muted text-center">{{ __('Click here to Create New '.($singular_name)) }}</p>
+                        <h6 class="mt-4 mb-2">{{ __('Novo '.($singular_name)) }}</h6>
+                        <p class="text-muted text-center">{{ __('Clique aqui para criar um novo '.($singular_name)) }}</p>
                     </a>
                 </div>
             @endpermission
