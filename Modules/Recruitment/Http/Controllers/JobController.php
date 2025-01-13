@@ -92,7 +92,7 @@ class JobController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {
+    {  
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
@@ -152,12 +152,12 @@ class JobController extends Controller
             $job->applicant            = !empty($request->applicant) ? implode(',', $request->applicant) : '';
             $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';
             $job->custom_question      = !empty($request->custom_question) ? implode(',', $request->custom_question) : '';
-            $job->workspace            = getActiveWorkSpace();
-            $job->qualify_lead         = $request->qualify_lead;
+            $job->workspace            = getActiveWorkSpace();                      
+            $job->qualify_lead         = $request->qualify_lead;           
             $job->receive_notification = $request->notification;
             $job->activate_pre_selection = $request->activate_pre_selection;
             $job->average              = $request->average;
-            $job->created_by           = creatorId();
+            $job->created_by           = creatorId();            
             $job->save();
 
             event(new CreateJob($request, $job));

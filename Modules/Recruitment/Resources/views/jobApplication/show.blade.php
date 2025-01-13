@@ -266,16 +266,16 @@
                     </dl>
                    <div class='rating-stars text-right'>
                         <ul id='stars'>
-                            <li class='star {{(in_array($jobApplication->rating,[1,2,3,4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title="Poor" data-value='1'>
+                            <li class='star {{(in_array($jobApplication->rating,[1,2,3,4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title="Ruim" data-value='1'>
                             <i class='fa fa-star fa-fw'></i>
                             </li>
-                            <li class='star {{(in_array($jobApplication->rating,[2,3,4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='Fair' data-value='2'>
+                            <li class='star {{(in_array($jobApplication->rating,[2,3,4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='Justo' data-value='2'>
                             <i class='fa fa-star fa-fw'></i>
                             </li>
-                         <li class='star {{(in_array($jobApplication->rating,[3,4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='Good' data-value='3'>
+                         <li class='star {{(in_array($jobApplication->rating,[3,4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='Bom' data-value='3'>
                             <i class='fa fa-star fa-fw'></i>
                             </li>
-                            <li class='star {{(in_array($jobApplication->rating,[4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='Excellent' data-value='4'>
+                            <li class='star {{(in_array($jobApplication->rating,[4,5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='Excelente' data-value='4'>
                             <i class='fa fa-star fa-fw'></i>
                             </li>
                             <li class='star {{(in_array($jobApplication->rating,[5])==true)?'selected':''}}' data-bs-toggle="tooltip"   data-bs-original-title='WOW!!!' data-value='5'>
