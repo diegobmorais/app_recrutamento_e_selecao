@@ -202,7 +202,7 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'user chat manage'
         ]);
-        $menu->add([
+       /* $menu->add([
             'category' => 'Settings',
             'title' => __('Helpdesk'),
             'icon' => 'headphones',
@@ -214,7 +214,7 @@ class CompanyMenuListener
             'route' => 'helpdesk.index',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
-        ]);
+        ]);*/
         $menu->add([
             'category' => 'Settings',
             'title' => __('Settings'),

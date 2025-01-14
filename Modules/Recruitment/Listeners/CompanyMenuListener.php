@@ -103,7 +103,7 @@ class CompanyMenuListener
             'route' => 'job-candidates.index',
             'module' => $module,
             'permission' => 'jobapplication candidate manage'
-        ]);*/
+        ]);
         $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies On-boarding'),
@@ -116,7 +116,7 @@ class CompanyMenuListener
             'route' => 'job.on.board',
             'module' => $module,
             'permission' => 'jobonboard manage'
-        ]);
+        ]);*/
         $menu->add([
             'category' => 'HR',
             'title' => __('Custom Question'),
