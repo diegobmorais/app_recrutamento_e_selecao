@@ -77,8 +77,8 @@
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    {!! Form::label('category', __('Job Category'), ['class' => 'form-label']) !!}
-                                    {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Select Job Category', 'required' => 'required']) }}
+                                    {!! Form::label('category', __('Categoria da Vaga'), ['class' => 'form-label']) !!}
+                                    {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Selecione a categoria', 'required' => 'required']) }}
                                 </div>
 
                                 <div class="form-group col-md-6" id="users" style="display: none;">
@@ -91,39 +91,34 @@
                                         </div>
                                     @endif
                                 </div>
-    
+
                                 <div class="form-group col-md-6">
                                     {!! Form::label('status', __('Status'), ['class' => 'form-label']) !!}
-                                    {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Select Status', 'required' => 'required']) }}
+                                    {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
                                 </div>
-                                
-                                
+
+
                                 <div class="form-group col-md-6">
-                                    {{ Form::label('job_type', __('Job Type'), ['class' => 'form-label']) }}
+                                    {{ Form::label('job_type', __('Tipo de Vaga'), ['class' => 'form-label']) }}
                                     {{ Form::select('job_type', $job_type, null, ['class' => 'form-control select']) }}
                                 </div>
-                                
+
                                 <div class="form-group col-md-6">
-                                    {!! Form::label('salary_from', __('Salary From'), ['class' => 'form-label']) !!}
-                                    {!! Form::number('salary_from', old('salary_from'), [
+                                    {!! Form::label('remuneration', __('Remuneração'), ['class' => 'form-label']) !!}
+                                    {!! Form::number('remuneration', old('remuneration'), [
                                         'class' => 'form-control',
                                         'required' => 'required',
                                         'step' => '1',
-                                        'placeholder' => 'Enter Amount',
+                                        'placeholder' => 'Entre com o valor',
                                     ]) !!}
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     {!! Form::label('position', __('No. of Positions'), ['class' => 'form-label']) !!}
-                                    {!! Form::text('position', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Enter Position',]) !!}
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {!! Form::label('salary_to', __('Salary To'), ['class' => 'form-label']) !!}
-                                    {!! Form::number('salary_to', old('salary_to'), [
+                                    {!! Form::text('position', null, [
                                         'class' => 'form-control',
                                         'required' => 'required',
-                                        'step' => '1',
-                                        'placeholder' => 'Enter Amount',
+                                        'placeholder' => 'Enter Position',
                                     ]) !!}
                                 </div>
                                 <div class="form-group col-md-6">
@@ -134,11 +129,16 @@
                                     {!! Form::label('end_date', __('End Date'), ['class' => 'form-label']) !!}
                                     {!! Form::date('end_date', null, ['class' => 'form-control ', 'autocomplete' => 'off']) !!}
                                 </div>
-
                                 <div class="form-group col-md-12">
                                     <label class="col-form-label" for="skill">{{ __('Skill Box') }}</label>
                                     <input type="text" class="form-control" value="{{ $job->skill }}"
-                                        data-toggle="tags" name="skill" placeholder="Skill" />
+                                        data-toggle="tags" name="skill" placeholder="Habilidades" />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="col-form-label"
+                                        for="average">{{ __('Nota media de aprovação') }}</label>
+                                    <input type="number" class="form-control" value="{{ $job->average }}" name="average"
+                                        placeholder="average" />
                                 </div>
                             </div>
                         </div>
@@ -208,6 +208,29 @@
                                                 <label class="form-check-label"
                                                     for="check-terms">{{ __('Terms And Conditions') }}</label>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12" id="vaga-opcoes">
+                                    <h6>{{ __('Opções da vaga') }}</h6>
+                                    <div class="my-4">
+                                        <div class="form-check custom-checkbox">
+                                            <input type="checkbox" class="form-check-input" name="qualify_lead"
+                                                value="qualify-lead" id="check-qualify-lead" {{$job->qualify_lead === 1 ? 'checked' : ''}}>
+                                            <label class="form-check-label"
+                                                for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga') }}</label>
+                                        </div>
+                                        <div class="form-check custom-checkbox">
+                                            <input type="checkbox" class="form-check-input" name="notification"
+                                                value="notification" id="check-notification" {{$job->receive_notification === 1 ? 'checked' : ''}}>
+                                            <label class="form-check-label"
+                                                for="check-notification">{{ __('Receber notificações a cada candidato recebido') }}</label>
+                                        </div>
+                                        <div class="form-check custom-checkbox">
+                                            <input type="checkbox" class="form-check-input" name="activate_pre_selection"
+                                                value="activate-pre-selection" id="check-activate-pre-selection" {{$job->activate_pre_selection === 1 ? 'checked' : ''}}>
+                                            <label class="form-check-label"
+                                                for="check-activate-pre-selection">{{ __('Realizar pré-seleção automática a cada candidato') }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -288,65 +311,80 @@
         </div>
     @endsection
 
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            var checkbox = $('#check-terms');
-            var termsDiv = $('#termsandcondition');
-            var textarea = $('#terms_and_conditions');
-            var validationMessage = $('#terms_val');
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                var checkbox = $('#check-terms');
+                var termsDiv = $('#termsandcondition');
+                var textarea = $('#terms_and_conditions');
+                var validationMessage = $('#terms_val');
 
-            checkbox.change(function() {
-                if (checkbox.is(':checked')) {
-                    termsDiv.show();
-                } else {
+                checkbox.change(function() {
+                    if (checkbox.is(':checked')) {
+                        termsDiv.show();
+                    } else {
+                        termsDiv.hide();
+                    }
+                });
+
+                if (!checkbox.is(':checked')) {
                     termsDiv.hide();
                 }
+
+                $('form').submit(function(event) {
+                    if (checkbox.is(':checked') && textarea.val().trim() === '') {
+                        validationMessage.removeClass('d-none');
+                        event.preventDefault();
+                    }
+                    $("#vaga-opcoes input[type='checkbox']").each(function() {
+                        if (!this.checked) {
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = this.name;
+                            hiddenInput.value = '0';
+                            $(this).closest('form').append(hiddenInput);
+                        } else {
+                            const hiddenInput = document.createElement('input');    
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = this.name;
+                            hiddenInput.value = '1';
+                            $(this).closest('form').append(hiddenInput);
+                        }
+                    });
+                });
+                textarea.on('input', function() {
+                    if (textarea.val().trim() !== '') {
+                        validationMessage.addClass('d-none');
+                    }
+                });
             });
+        </script>
 
-            if (!checkbox.is(':checked')) {
-                termsDiv.hide();
-            }
-
-            $('form').submit(function(event) {
-                if (checkbox.is(':checked') && textarea.val().trim() === '') {
-                    validationMessage.removeClass('d-none');
-                    event.preventDefault();
+        <script>
+            $(document).ready(function() {
+                function toggleFormGroups() {
+                    var selectedType = $('#recruitment_type').val();
+                    if (selectedType === 'internal') {
+                        $('#branch').show();
+                        $('#users').hide();
+                        $('#branch').prop('required', true);
+                        $('#users').prop('required', false);
+                    } else if (selectedType === 'client') {
+                        $('#branch').hide();
+                        $('#users').show();
+                        $('#users').prop('required', true);
+                        $('#branch').prop('required', false);
+                    } else {
+                        $('#branch').hide();
+                        $('#users').hide();
+                        $('#users').prop('required', false);
+                        $('#branch').prop('required', false);
+                    }
                 }
+
+                toggleFormGroups();
+
+                $('#recruitment_type').change(toggleFormGroups);
             });
-            textarea.on('input', function() {
-                if (textarea.val().trim() !== '') {
-                    validationMessage.addClass('d-none');
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            function toggleFormGroups() {
-                var selectedType = $('#recruitment_type').val();
-                if (selectedType === 'internal') {
-                    $('#branch').show();
-                    $('#users').hide();
-                    $('#branch').prop('required', true);
-                    $('#users').prop('required', false);
-                } else if (selectedType === 'client') {
-                    $('#branch').hide();
-                    $('#users').show();
-                    $('#users').prop('required', true);
-                    $('#branch').prop('required', false);
-                } else {
-                    $('#branch').hide();
-                    $('#users').hide();
-                    $('#users').prop('required', false);
-                    $('#branch').prop('required', false);
-                }
-            }
-
-            toggleFormGroups();
-
-            $('#recruitment_type').change(toggleFormGroups);
-        });
-    </script>
-@endpush
+        </script>
+    @endpush

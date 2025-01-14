@@ -48,7 +48,7 @@ class Job extends Model
     ];
 
     public static $job_type = [
-        '' => 'Select Job Type',
+        '' => 'Selecione o tipo',
         'full_time' => 'Tempo Integral',
         'part_time' => 'Autônomo',
     ];

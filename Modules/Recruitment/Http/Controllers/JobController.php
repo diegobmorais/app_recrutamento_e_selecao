@@ -180,7 +180,7 @@ class JobController extends Controller
             $job->applicant  = !empty($job->applicant) ? explode(',', $job->applicant) : '';
             $job->visibility = !empty($job->visibility) ? explode(',', $job->visibility) : '';
             $job->skill      = !empty($job->skill) ? explode(',', $job->skill) : '';
-
+          
             return view('recruitment::job.show', compact('status', 'job'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));

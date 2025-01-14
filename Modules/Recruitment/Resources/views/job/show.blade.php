@@ -54,13 +54,13 @@
                                         @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>{{ __('Salary From') }}</td>
-                                    <td class="">{{ currency_format_with_sym($job->salary_from) }}</td>
+                                <tr>                      
+                                    <td>{{ __('Remuneração') }}</td>
+                                    <td class="">{{ currency_format_with_sym($job->remuneration) }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ __('Salary To') }}</td>
-                                    <td class="">{{ currency_format_with_sym($job->salary_to) }}</td>
+                                    <td>{{ __('Nota mínimina de aprovação') }}</td>
+                                    <td class="">{{ $job->average}}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ __('Created Date') }}</td>
