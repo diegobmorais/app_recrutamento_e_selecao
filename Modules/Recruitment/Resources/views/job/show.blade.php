@@ -59,6 +59,10 @@
                                     <td class="">{{ currency_format_with_sym($job->remuneration) }}</td>
                                 </tr>
                                 <tr>
+                                    <td>{{ __('Beneficios') }}</td>
+                                    <td class="">{{ $job->benefits}}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ __('Nota mínimina de aprovação') }}</td>
                                     <td class="">{{ $job->average}}</td>
                                 </tr>

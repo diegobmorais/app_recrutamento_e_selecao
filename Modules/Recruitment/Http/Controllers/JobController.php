@@ -139,6 +139,7 @@ class JobController extends Controller
             $job->category             = $request->category;
             $job->user_id              = $request->user_id;
             $job->skill                = $request->skill;
+            $job->benefits             = $request->benefits;
             $job->position             = $request->position;
             $job->status               = $request->status;
             $job->job_type             = $request->job_type;
@@ -288,6 +289,7 @@ class JobController extends Controller
             $job->category             = $request->category;
             $job->user_id              = $request->user_id;
             $job->skill                = $request->skill;
+            $job->benefits             = $request->benefits;
             $job->position             = $request->position;
             $job->status               = $request->status;
             $job->job_type             = $request->job_type;

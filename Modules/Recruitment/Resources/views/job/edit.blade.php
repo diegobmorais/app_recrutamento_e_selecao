@@ -130,6 +130,13 @@
                                     {!! Form::date('end_date', null, ['class' => 'form-control ', 'autocomplete' => 'off']) !!}
                                 </div>
                                 <div class="form-group col-md-12">
+                                    <label class="col-form-label" for="benefits">{{ __('Benefícios') }}</label>
+                                    <input type="text" class="form-control benefits_data" value="{{ $job->benefits }}"
+                                        data-toggle="tags" name="benefits" placeholder="Benefícios" />
+                                </div>
+                                <p class="text-danger d-none" id="benefits_validation">
+                                    {{ __('benefits filed is required.') }}
+                                <div class="form-group col-md-12">
                                     <label class="col-form-label" for="skill">{{ __('Skill Box') }}</label>
                                     <input type="text" class="form-control" value="{{ $job->skill }}"
                                         data-toggle="tags" name="skill" placeholder="Habilidades" />
@@ -216,19 +223,22 @@
                                     <div class="my-4">
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="qualify_lead"
-                                                value="qualify-lead" id="check-qualify-lead" {{$job->qualify_lead === 1 ? 'checked' : ''}}>
+                                                value="qualify-lead" id="check-qualify-lead"
+                                                {{ $job->qualify_lead === 1 ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga') }}</label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="notification"
-                                                value="notification" id="check-notification" {{$job->receive_notification === 1 ? 'checked' : ''}}>
+                                                value="notification" id="check-notification"
+                                                {{ $job->receive_notification === 1 ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="check-notification">{{ __('Receber notificações a cada candidato recebido') }}</label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="activate_pre_selection"
-                                                value="activate-pre-selection" id="check-activate-pre-selection" {{$job->activate_pre_selection === 1 ? 'checked' : ''}}>
+                                                value="activate-pre-selection" id="check-activate-pre-selection"
+                                                {{ $job->activate_pre_selection === 1 ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="check-activate-pre-selection">{{ __('Realizar pré-seleção automática a cada candidato') }}</label>
                                         </div>
@@ -331,7 +341,8 @@
                     termsDiv.hide();
                 }
 
-                $('form').submit(function(event) {
+                $('form').submit(function(event) {                  
+                    
                     if (checkbox.is(':checked') && textarea.val().trim() === '') {
                         validationMessage.removeClass('d-none');
                         event.preventDefault();
@@ -344,7 +355,7 @@
                             hiddenInput.value = '0';
                             $(this).closest('form').append(hiddenInput);
                         } else {
-                            const hiddenInput = document.createElement('input');    
+                            const hiddenInput = document.createElement('input');
                             hiddenInput.type = 'hidden';
                             hiddenInput.name = this.name;
                             hiddenInput.value = '1';

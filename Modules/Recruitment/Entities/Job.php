@@ -22,6 +22,7 @@ class Job extends Model
         'branch',
         'category',
         'skill',
+        'benefits',
         'position',
         'start_date',
         'end_date',
