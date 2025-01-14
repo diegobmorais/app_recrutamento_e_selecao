@@ -29,6 +29,7 @@ class JobApplication extends Model
         'is_archive',
         'custom_question',
         'workspace',
+        'test_available',
         'created_by',
     ];
     

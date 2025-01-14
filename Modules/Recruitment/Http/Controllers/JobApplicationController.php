@@ -76,8 +76,7 @@ class JobApplicationController extends Controller
                 $filter['job'] = $request->job;
             } else {
                 $filter['job'] = '';
-            }
-
+            }           
             return view('recruitment::jobApplication.index', compact('stages', 'jobs', 'filter'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -196,7 +195,7 @@ class JobApplicationController extends Controller
      * @return Renderable
      */
     public function show($ids)
-    {
+    {   
         if (Auth::user()->isAbleTo('jobapplication show')) {
             $id             = Crypt::decrypt($ids);
             $jobApplication = JobApplication::find($id);
@@ -205,7 +204,7 @@ class JobApplicationController extends Controller
             $notes          = JobApplicationNote::where('application_id', $id)->get();
 
             $stages = JobStage::where('created_by', creatorId())->where('workspace', getActiveWorkSpace())->get();
-
+            
             return view('recruitment::jobApplication.show', compact('jobApplication', 'notes', 'stages', 'jobOnBoards', 'interview'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));

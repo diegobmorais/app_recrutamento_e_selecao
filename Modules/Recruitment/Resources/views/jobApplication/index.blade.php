@@ -9,8 +9,7 @@
 @push('css')
     <link href="{{ asset('Modules/Recruitment/Resources/assets/css/bootstrap-tagsinput.css') }}" rel="stylesheet" />
     <link href="{{ asset('Modules/Recruitment/Resources/assets/css/custom.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/dragula.min.css')}}">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins/dragula.min.css') }}">
 @endpush
 @push('scripts')
     <script src="{{ asset('assets/js/plugins/dragula.min.js') }}"></script>
@@ -226,6 +225,29 @@
                                                 <h5><a
                                                         href="{{ route('job-application.show', \Crypt::encrypt($application->id)) }}">{{ $application->name }}</a>
                                                 </h5>
+                                                @php
+                                                    $testAvailable = json_decode($application->test_available, true);
+                                                @endphp                                                                                               
+                                                <div class="mt-2">
+                                                    <div class="icon-item">
+                                                        <div class="circle" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                            background-color: {{ isset($testAvailable['qualified']) && $testAvailable['qualified'] == 1 ? '#28a745' : '#dc3545' }};">
+                                                        </div>
+                                                        <span style="font-size: 10px;">Candidato Qualificado</span>
+                                                    </div>
+                                                    <div class="icon-item">
+                                                        <div class="circle" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                            background-color: {{ isset($testAvailable['pre_selection']) && $testAvailable['pre_selection'] == 1 ? '#28a745' : '#dc3545' }};">
+                                                        </div>
+                                                        <span style="font-size: 10px;">Teste Pré-seleção</span> 
+                                                    </div>
+                                                    <div class="icon-item">
+                                                        <div class="circle" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                            background-color: {{ isset($testAvailable['behavioral']) && $testAvailable['behavioral'] == 1 ? '#28a745' : '#dc3545' }};">
+                                                        </div>
+                                                        <span style="font-size: 10px;">Teste Comportamental</span>
+                                                    </div>
+                                                </div>
                                                 <div class="card-header-right">
                                                     <div class="btn-group card-option">
                                                         <button type="button" class="btn dropdown-toggle"
