@@ -1,8 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Modules\Hrm\Http\Controllers\EmployeeController;
 use Modules\Recruitment\Entities\JobCandidate;
+use Modules\Recruitment\Http\Controllers\ChatbotController;
 use Modules\Recruitment\Http\Controllers\CustomQuestionController;
 use Modules\Recruitment\Http\Controllers\DashboardController;
 use Modules\Recruitment\Http\Controllers\InterviewScheduleController;
@@ -57,7 +59,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Recruitment'], function () {
             'auth',
         ]
     );
-       
+
     Route::get('job-grid', [JobController::class, 'grid'])->name('job.grid')->middleware(
         [
             'auth'
@@ -270,4 +272,6 @@ Route::get('job/apply/{code}/{lang}', [JobController::class, 'jobApply'])->name(
 Route::get('terms_and_condition/{code}/{lang}', [JobController::class, 'TermsAndCondition'])->name('job.terms.and.conditions');
 Route::post('job/apply/data/{code}', [JobController::class, 'jobApplyData'])->name('job.apply.data');
 
+//chat-bot
+Route::get('chatbot/start', [ChatbotController::class, 'index'])->name('recruitment.chatbot');
 //------------------------------------ End Recurtment --------------------------------

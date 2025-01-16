@@ -253,7 +253,7 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('Script carregado!');
+           
             const qualifyLead = document.getElementById('qualify_lead').value;
             const jobMovies = JSON.parse(document.getElementById('job_movies').value || '[]');
             const movieModal = new bootstrap.Modal(document.getElementById('movieModal'));
