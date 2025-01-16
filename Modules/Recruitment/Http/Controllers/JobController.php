@@ -450,8 +450,10 @@ class JobController extends Controller
 
         \App::setLocale($lang);
 
-        $job                                = Job::where('code', $code)->first();
+        $job = Job::where('code', $code)->first();
 
+        $movies = JobMovies::where('job_id', $job->id)->get();
+       
         $que = !empty($job->custom_question) ? explode(",", $job->custom_question) : [];
 
         $questions = CustomQuestion::wherein('id', $que)->get();
@@ -465,7 +467,7 @@ class JobController extends Controller
 
         $company_id = $job->created_by;
         $workspace_id = $job->workspace;
-        return view('recruitment::job.apply', compact('job', 'questions', 'languages', 'currantLang', 'company_id', 'workspace_id'));
+        return view('recruitment::job.apply', compact('job', 'questions', 'languages', 'currantLang', 'company_id', 'workspace_id', 'movies'));
     }
 
     public function TermsAndCondition($code, $lang)
@@ -567,7 +569,17 @@ class JobController extends Controller
         $jobApplication->stage           = !empty($stage) ? $stage->id : 1;
         $jobApplication->custom_question = json_encode($request->question);
         $jobApplication->workspace      = getActiveWorkSpace($job->created_by);
-        $jobApplication->created_by      = $job->created_by;
+        $jobApplication->created_by      = $job->created_by;        
+
+        $jobMovieCheck = JobMovies::where('job_id', $job->id)->get();          
+          
+        $testAvailable = [
+            'qualified'    => $jobMovieCheck->isNotEmpty() ? 1 : 0,
+            'behavioral'   => 0,
+            'pre_selection' => 0,
+        ];
+        $jobApplication->test_available = json_encode($testAvailable);
+
         $jobApplication->save();
 
         event(new CreateJobApplication($request, $jobApplication));
