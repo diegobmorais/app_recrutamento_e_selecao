@@ -15,6 +15,7 @@ use Modules\Recruitment\Entities\Job;
 use Modules\Recruitment\Entities\JobApplication;
 use Modules\Recruitment\Entities\JobApplicationNote;
 use Modules\Recruitment\Entities\JobCategory;
+use Modules\Recruitment\Entities\JobMovies;
 use Modules\Recruitment\Entities\JobOnBoard;
 use Modules\Recruitment\Entities\JobStage;
 use Modules\Recruitment\Events\CreateJob;
@@ -92,7 +93,7 @@ class JobController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {  
+    {
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
@@ -101,7 +102,7 @@ class JobController extends Controller
                 'location' => 'required',
                 'category' => 'required',
                 'job_type' => 'required',
-                'remuneration' => 'required',                
+                'remuneration' => 'required',
                 'skill' => 'required',
                 'position' => 'required|min:0',
                 'start_date' => 'required|after:yesterday',
@@ -143,7 +144,7 @@ class JobController extends Controller
             $job->position             = $request->position;
             $job->status               = $request->status;
             $job->job_type             = $request->job_type;
-            $job->remuneration         = $request->remuneration;            
+            $job->remuneration         = $request->remuneration;
             $job->start_date           = $request->start_date;
             $job->end_date             = $request->end_date;
             $job->description          = $request->description;
@@ -153,14 +154,25 @@ class JobController extends Controller
             $job->applicant            = !empty($request->applicant) ? implode(',', $request->applicant) : '';
             $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';
             $job->custom_question      = !empty($request->custom_question) ? implode(',', $request->custom_question) : '';
-            $job->workspace            = getActiveWorkSpace();                      
-            $job->qualify_lead         = $request->qualify_lead;           
+            $job->workspace            = getActiveWorkSpace();
+            $job->qualify_lead         = $request->qualify_lead;
             $job->receive_notification = $request->notification;
             $job->activate_pre_selection = $request->activate_pre_selection;
             $job->average              = $request->average;
-            $job->created_by           = creatorId();            
+            $job->created_by           = creatorId();
             $job->save();
 
+            if ($request->has('movies')){
+                $movies = json_decode($request->movies, true);
+
+                foreach($movies as $movie){
+                    JobMovies::create([
+                        'job_id' => $job->id,
+                        'name' => $movie['name'],
+                        'path' => $movie['path'],
+                    ]);
+                }
+            }
             event(new CreateJob($request, $job));
 
             return redirect()->route('job.index')->with('success', __('Job  successfully created.'));
@@ -181,7 +193,7 @@ class JobController extends Controller
             $job->applicant  = !empty($job->applicant) ? explode(',', $job->applicant) : '';
             $job->visibility = !empty($job->visibility) ? explode(',', $job->visibility) : '';
             $job->skill      = !empty($job->skill) ? explode(',', $job->skill) : '';
-          
+
             return view('recruitment::job.show', compact('status', 'job'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -202,6 +214,8 @@ class JobController extends Controller
 
             $status = Job::$status;
 
+            $job_movies = JobMovies::where('job_id', $job->id)->get();
+          
             $job->applicant       = explode(',', $job->applicant);
             $job->visibility      = explode(',', $job->visibility);
             $job->custom_question = explode(',', $job->custom_question);
@@ -231,7 +245,7 @@ class JobController extends Controller
                 ];
             }
 
-            return view('recruitment::job.edit', compact('categories', 'status', 'branches', 'job', 'customQuestion', 'users', 'job_type', 'recruitment_type'));
+            return view('recruitment::job.edit', compact('categories', 'status', 'branches', 'job', 'customQuestion', 'users', 'job_type', 'recruitment_type', 'job_movies'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -253,7 +267,7 @@ class JobController extends Controller
                 'location' => 'required',
                 'category' => 'required',
                 'job_type' => 'required',
-                'remuneration' => 'required',               
+                'remuneration' => 'required',
                 'skill' => 'required',
                 'position' => 'required|min:0',
                 'start_date' => 'required|after:yesterday',
@@ -293,7 +307,7 @@ class JobController extends Controller
             $job->position             = $request->position;
             $job->status               = $request->status;
             $job->job_type             = $request->job_type;
-            $job->remuneration          = $request->remuneration;           
+            $job->remuneration          = $request->remuneration;
             $job->start_date           = $request->start_date;
             $job->end_date             = $request->end_date;
             $job->description          = $request->description;
@@ -309,6 +323,22 @@ class JobController extends Controller
 
             $job->save();
 
+            if ($request->has('removed_movies')) {
+                $removedMovies = json_decode($request->removed_movies, true);
+                JobMovies::whereIn('id', $removedMovies)->delete();
+            }   
+
+            if ($request->has('movies')) {
+                $movies = json_decode($request->movies, true);
+                foreach ($movies as $movie) {
+                    JobMovies::create([
+                        'job_id' => $job->id,
+                        'name' => $movie['name'],
+                        'path' => $movie['path'],
+                    ]);
+                }
+            }
+            
             event(new UpdateJob($request, $job));
 
             return redirect()->route('job.index')->with('success', __('Job  successfully updated.'));
@@ -389,8 +419,7 @@ class JobController extends Controller
     public function jobRequirement($code, $lang)
     {
         $job = Job::where('code', $code)->first();
-        if($job)
-        {
+        if ($job) {
             if ($job->status == 'in_active') {
                 return redirect()->back()->with('error', __('This Job is not Active.'));
             }
@@ -410,8 +439,7 @@ class JobController extends Controller
             $company_id = $job->created_by;
             $workspace_id = $job->workspace;
             return view('recruitment::job.requirement', compact('job', 'languages', 'currantLang', 'company_id', 'workspace_id'));
-        }
-        else{
+        } else {
             return redirect()->back()->with('error', __('This Job is not Found.'));
         }
     }
@@ -443,8 +471,7 @@ class JobController extends Controller
     public function TermsAndCondition($code, $lang)
     {
         $job = Job::where('code', $code)->first();
-        if($job)
-        {
+        if ($job) {
             if ($job->status == 'in_active') {
                 return redirect()->back()->with('error', __('This Job is not Active.'));
             }
@@ -463,8 +490,7 @@ class JobController extends Controller
             $company_id = $job->created_by;
             $workspace_id = $job->workspace;
             return view('recruitment::job.terms', compact('job', 'languages', 'currantLang', 'company_id', 'workspace_id'));
-        }
-        else{
+        } else {
             return redirect()->back()->with('error', __('This Job is not Found.'));
         }
     }

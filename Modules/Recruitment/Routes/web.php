@@ -57,6 +57,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Recruitment'], function () {
             'auth',
         ]
     );
+       
     Route::get('job-grid', [JobController::class, 'grid'])->name('job.grid')->middleware(
         [
             'auth'

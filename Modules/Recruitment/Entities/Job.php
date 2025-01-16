@@ -53,7 +53,10 @@ class Job extends Model
         'full_time' => 'Tempo Integral',
         'part_time' => 'Autônomo',
     ];
-
+    public function movies()
+    {
+        return $this->hasMany(JobMovies::class, 'job_id');
+    }
     public function branches()
     {
         return $this->hasOne(\Modules\Hrm\Entities\Branch::class, 'id', 'branch');

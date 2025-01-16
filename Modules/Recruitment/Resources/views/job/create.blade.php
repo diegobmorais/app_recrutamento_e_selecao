@@ -143,6 +143,47 @@
             $('#recruitment_type').change(toggleFormGroups);
         });
     </script>
+    <script>
+        const movieData = []
+
+        function addMovie() {
+            const name = $('#movie_name').val().trim();
+            const path = $('#movie_path').val().trim();
+
+            if (name === '' && path === '') {
+                $("#alertContainer").html('<div class="alert alert-danger">Preencha todos os campos.</div>')
+                setTimeout(() => ("#alertContainer").html(""), 3000)
+            }
+            const movie = {
+                name: name,
+                path: path,
+            }
+            movieData.push(movie)
+
+            const movie_list = `
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>${name} - <a href="${path}" target="_blank">Ver Curso</a></span>
+                    <i class="ti ti-trash text-danger cursor-pointer" onclick="removeMovieList(${movieData.length - 1}, this)" title="Remover"></i>
+                </li>
+            `;
+
+            $('#movie_list').append(movie_list)
+
+            $('#movie_name').val('')
+            $('#movie_path').val('')
+        }
+
+        function removeMovieList(index, element) {
+            movieData.splice(index, 1)
+            $(element).closest('li').remove()
+        }
+
+        function beforeFormSubmit() {        
+            const moviesInput = document.querySelector('#movies_input');
+            moviesInput.value = JSON.stringify(movieData);
+        }
+        document.querySelector('#formMain').addEventListener('click', beforeFormSubmit);
+    </script>
 @endpush
 
 @section('page-breadcrumb')
@@ -154,7 +195,7 @@
 @endphp
 @section('content')
     <div class="row">
-        {{ Form::open(['url' => 'job', 'method' => 'post']) }}
+        {{ Form::open(['url' => 'job', 'method' => 'post', 'id' => 'formMain']) }}
 
         <div class="row mt-3">
             <div class="col-md-6 ">
@@ -386,6 +427,23 @@
                                         </div>
                                     @endforeach
                                 </div>
+                            </div>                            
+                            <div class="form-group col-md-12">
+                                <div class="header">
+                                    <h5 class="title mb-2" id="addVideoModalLabel">Aplicar Cursos para Vaga</h5>
+                                </div>
+                                <div>
+                                    <input type="text" id="movie_name" class="form-control mb-3" placeholder="Nome">
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="movie_path" class="form-control"
+                                            placeholder="Adicione o link do Curso">
+                                        <button type="button" class="btn btn-success"
+                                            onclick="addMovie()">Adicionar</button>
+                                    </div>
+                                    <input type="hidden" name="movies" id="movies_input">
+                                    <div id="alertContainer"></div>
+                                    <ul id="movie_list" class="list-group mt-3"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -401,7 +459,8 @@
                                     class="form-control dec_data summernote {{ !empty($errors->first('description')) ? 'is-invalid' : '' }}" required
                                     id="description"></textarea>
 
-                                <p class="text-danger d-none" id="description_val">{{ __('This filed is required.') }}
+                                <p class="text-danger d-none" id="description_val">
+                                    {{ __('This filed is required.') }}
                                 </p>
                             </div>
                         </div>
@@ -440,7 +499,8 @@
             </div>
             <div class="col-md-12 text-end">
                 <div class="form-group">
-                    <input type="submit" id="submit" value="{{ __('Create') }}" class="btn btn-primary">
+                    <input type="submit" id="submit" onclick="submitForm()" value="{{ __('Create') }}"
+                        class="btn btn-primary">
                 </div>
             </div>
             {{ Form::close() }}

@@ -43,7 +43,7 @@
 @section('content')
     <div class="row">
 
-        {{ Form::model($job, ['route' => ['job.update', $job->id], 'method' => 'PUT']) }}
+        {{ Form::model($job, ['route' => ['job.update', $job->id], 'method' => 'PUT', 'id' => 'formMain']) }}
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-6 ">
@@ -263,6 +263,36 @@
                                         @endforeach
                                     </div>
                                 </div>
+                                <div class="form-group col-md-12">
+                                    <div class="header">
+                                        <h5 class="title mb-2" id="addVideoModalLabel">Aplicar Cursos para Vaga</h5>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="movie_name" class="form-control mb-3"
+                                            placeholder="Nome">
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="movie_path" class="form-control"
+                                                placeholder="Adicione o link do Curso">
+                                            <button type="button" class="btn btn-success"
+                                                onclick="addMovie()">Adicionar</button>
+                                        </div>                                        
+                                        <div id="alertContainer"></div>
+                                        <ul id="movie_list" class="list-group mt-3">
+                                            @foreach ($job->movies as $movie)
+                                                <li class="list-group-item d-flex justify-content-between align-items-center"
+                                                    data-id="{{ $movie->id }}">
+                                                    <span>{{ $movie->name }} - <a href="{{ $movie->path }}"
+                                                            target="_blank">Ver Curso</a></span>
+                                                    <i class="ti ti-trash text-danger cursor-pointer"
+                                                        onclick="removeMovieList({{ $movie->id }}, this)"
+                                                        title="Remover"></i>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="movies" id="movies_input">
+                                    <input type="hidden" name="removed_movies" id="removed_movies">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -341,8 +371,8 @@
                     termsDiv.hide();
                 }
 
-                $('form').submit(function(event) {                  
-                    
+                $('form').submit(function(event) {
+
                     if (checkbox.is(':checked') && textarea.val().trim() === '') {
                         validationMessage.removeClass('d-none');
                         event.preventDefault();
@@ -397,5 +427,58 @@
 
                 $('#recruitment_type').change(toggleFormGroups);
             });
+        </script>
+
+        <script>
+            let movieData = [];
+            let removedMovies = [];
+
+            function addMovie() {
+                const name = $('#movie_name').val().trim();
+                const path = $('#movie_path').val().trim();
+
+                if (!name || !path) {
+                    $("#alertContainer").html('<div class="alert alert-danger">Preencha todos os campos.</div>');
+                    setTimeout(() => $("#alertContainer").html(""), 3000);
+                    return;
+                }
+
+                const movie = {
+                    name,
+                    path
+                };
+                movieData.push(movie);
+
+                const movieListItem = `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${name} - <a href="${path}" target="_blank">Ver Curso</a></span>
+                        <i class="ti ti-trash text-danger cursor-pointer" onclick="removeNewMovie(${movieData.length - 1}, this)" title="Remover"></i>
+                    </li>
+                `;
+
+                $('#movie_list').append(movieListItem);
+
+                $('#movie_name').val('');
+                $('#movie_path').val('');
+            }
+
+            function removeMovieList(movieId, element) {
+                removedMovies.push(movieId);
+                $(element).closest('li').remove();
+            }
+
+            function removeNewMovie(index, element) {
+                movieData.splice(index, 1);
+                $(element).closest('li').remove();
+            }
+
+            function beforeFormSubmit() {               
+                const moviesInput = document.querySelector('#movies_input');
+                const removedMoviesInput = document.querySelector('#removed_movies');
+                moviesInput.value = JSON.stringify(movieData); 
+                removedMoviesInput.value = JSON.stringify(removedMovies); 
+            }
+
+            document.querySelector('#formMain').addEventListener('submit', beforeFormSubmit);
         </script>
     @endpush
