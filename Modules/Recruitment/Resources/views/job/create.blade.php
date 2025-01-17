@@ -499,7 +499,7 @@
             </div>
             <div class="col-md-12 text-end">
                 <div class="form-group">
-                    <input type="submit" id="submit" onclick="submitForm()" value="{{ __('Create') }}"
+                    <input type="submit" id="submit" value="{{ __('Create') }}"
                         class="btn btn-primary">
                 </div>
             </div>
