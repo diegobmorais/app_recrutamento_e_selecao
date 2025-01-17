@@ -36,6 +36,7 @@ class VerifyCsrfToken extends Middleware
         '/course/easebuzz*',
         'plan-get-powertranz-status',
         '/invoice-powertranz-status/*',
-        '/property-booking-pay-with-stripe/*'
+        '/property-booking-pay-with-stripe/*',
+        '/job'
     ];
 }

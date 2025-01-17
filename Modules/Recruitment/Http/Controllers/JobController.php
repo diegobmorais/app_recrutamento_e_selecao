@@ -93,7 +93,8 @@ class JobController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {
+    {   
+        \Log::info('Request recebido:', $request->all());
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
