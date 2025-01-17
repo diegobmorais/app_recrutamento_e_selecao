@@ -37,7 +37,5 @@ class VerifyCsrfToken extends Middleware
         'plan-get-powertranz-status',
         '/invoice-powertranz-status/*',
         '/property-booking-pay-with-stripe/*'
-
-
     ];
 }

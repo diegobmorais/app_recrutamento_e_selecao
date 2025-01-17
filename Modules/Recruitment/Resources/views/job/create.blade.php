@@ -196,7 +196,7 @@
 @section('content')
     <div class="row">
         {{ Form::open(['url' => 'job', 'method' => 'post', 'id' => 'formMain']) }}
-
+        @csrf
         <div class="row mt-3">
             <div class="col-md-6 ">
                 <div class="card card-fluid jobs-card">
