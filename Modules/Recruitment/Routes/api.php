@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\Recruitment\Http\Controllers\AssistantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/recruitment', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->prefix('recruitment')->group( function () {
+    Route::post('create-assistant', [AssistantController::class, 'store'])->name('recruitment.create-assistant');  
 });

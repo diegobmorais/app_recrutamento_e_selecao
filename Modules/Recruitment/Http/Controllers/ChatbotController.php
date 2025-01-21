@@ -14,7 +14,7 @@ class ChatbotController extends Controller
      */
     public function index()
     {
-        return view('recruitment::chatBot.chatbot');
+        return view('recruitment::chatBot.index');
     }
 
     /**

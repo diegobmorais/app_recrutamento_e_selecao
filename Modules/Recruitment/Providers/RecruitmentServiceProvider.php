@@ -3,7 +3,8 @@
 namespace Modules\Recruitment\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Modules\Recruitment\Services\AssistantOpenAI;
+use Modules\Recruitment\Services\OpenAIPromptGenerator;
 
 class RecruitmentServiceProvider extends ServiceProvider
 {
@@ -36,11 +37,22 @@ class RecruitmentServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
+    {   
+        
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
-    }
 
+        $this->app->singleton(\Modules\Recruitment\Services\OpenAIPromptGenerator::class, function () {
+            return new \Modules\Recruitment\Services\OpenAIPromptGenerator();
+        });
+               
+        $this->app->singleton(\Modules\Recruitment\Services\AssistantOpenAI::class, function ($app) {
+            return new \Modules\Recruitment\Services\AssistantOpenAI(
+                $app->make(\Modules\Recruitment\Services\OpenAIPromptGenerator::class)
+            );
+        });
+    }
+    
     /**
      * Register config.
      *

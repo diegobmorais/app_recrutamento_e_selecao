@@ -23,13 +23,13 @@
   ),
   'barryvdh/laravel-debugbar' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
     'aliases' => 
     array (
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
     ),
   ),
   'dcblogdev/laravel-box' => 
@@ -123,13 +123,13 @@
   ),
   'laravel/socialite' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    ),
     'aliases' => 
     array (
       'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
+    ),
+    'providers' => 
+    array (
+      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
     ),
   ),
   'laravel/tinker' => 
@@ -241,13 +241,13 @@
   ),
   'omniphx/forrest' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Omniphx\\Forrest\\Providers\\Laravel\\ForrestServiceProvider',
-    ),
     'aliases' => 
     array (
       'Forrest' => 'Omniphx\\Forrest\\Providers\\Laravel\\Facades\\Forrest',
+    ),
+    'providers' => 
+    array (
+      0 => 'Omniphx\\Forrest\\Providers\\Laravel\\ForrestServiceProvider',
     ),
   ),
   'php-open-source-saver/jwt-auth' => 
@@ -304,13 +304,13 @@
   ),
   'spatie/laravel-ignition' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
   'srmklive/paypal' => 

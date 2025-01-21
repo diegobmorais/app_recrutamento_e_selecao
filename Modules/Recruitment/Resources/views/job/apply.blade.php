@@ -3,7 +3,7 @@
     {{ $job->title }}
 @endsection
 @push('css')
-<link rel="stylesheet" href="{{ asset('assets/fonts/movies/movie-player.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/movies/movie-player.min.css') }}">
 @endpush
 @section('content')
     <div class="job-wrapper">
@@ -253,8 +253,8 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-           
             const qualifyLead = document.getElementById('qualify_lead').value;
+            const activatePreSelection = {{ $job->activate_pre_selection ? 'true' : 'false' }};
             const jobMovies = JSON.parse(document.getElementById('job_movies').value || '[]');
             const movieModal = new bootstrap.Modal(document.getElementById('movieModal'));
             const carouselInner = document.getElementById('carouselInner');
@@ -262,21 +262,26 @@
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             let currentIndex = 0;
-            let moviesWatched = 0;
             let playerInstances = [];
-            // Exibe o modal com os vídeos obrigatórios
-            const showMovies = () => {
-                carouselInner.innerHTML = '';
-                moviesWatched = 0;
 
+            const openChatbot = (callback) => {
+                const chatbotWindow = window.open('{{ route('recruitment.chatbot') }}', '_blank',
+                    'width=460,height=600');
+                chatbotWindow.onbeforeunload = () => {
+                    if (callback) callback();
+                };
+            };
+
+            const showMovies = (callback) => {
+                carouselInner.innerHTML = '';
                 jobMovies.forEach((movie, index) => {
                     const isActive = index === 0 ? 'active' : '';
                     const videoId = movie.path.match(/v=([^&]+)/)[1];
                     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     const videoElement = `
-                        <div class="carousel-item ${isActive}">
-                            <div id="player-${index}" class="youtube-player"></div>
-                        </div>`;
+                <div class="carousel-item ${isActive}">
+                    <div id="player-${index}" class="youtube-player"></div>
+                </div>`;
                     carouselInner.insertAdjacentHTML('beforeend', videoElement);
 
                     playerInstances.push(
@@ -292,52 +297,41 @@
                 });
                 updateControls();
                 movieModal.show();
-            };
-            const onPlayerStateChange = (event, index) => {
-                if (event.data === YT.PlayerState.ENDED) {                    
-                    if (index < jobMovies.length - 1) {
-                        nextBtn.removeAttribute("disabled");
-                    } else {
-                        confirmButton.removeAttribute("disabled");
+
+                confirmButton.addEventListener('click', () => {
+                    movieModal.hide();
+                    if (activatePreSelection) {
+                        openChatbot(callback);
+                    } else if (callback){
+                        callback();
                     }
+                });
+            };
+
+            const onPlayerStateChange = (event, index) => {
+                if (event.data === YT.PlayerState.ENDED && index === jobMovies.length - 1) {
+                    confirmButton.removeAttribute('disabled');
                 }
-            }
-            updateControls = () => {
+            };
+
+            const updateControls = () => {
                 prevBtn.disabled = currentIndex === 0;
                 nextBtn.disabled = true;
-            }
+            };
 
-            // Volta para o vídeo anterior
-            prevBtn.addEventListener('click', () => {
-                currentIndex--;
-                $('#movieCarousel').carousel('prev');
-                updateControls();
-            });
+            const handleSubmit = (e) => {
+                e.preventDefault();
 
-            // Monitora quando o vídeo termina
-            carouselInner.addEventListener('timeupdate', (e) => {
-                const iframe = e.target;
-                if (iframe.dataset.index == currentIndex && iframe.currentTime >= iframe.duration - 2) {
-                    nextBtn.removeAttribute(
-                        'disabled');
-                }
-            });
-
-            // Finaliza o processo e envia o formulário
-            confirmButton.addEventListener('click', () => {
-                movieModal.hide();
-                document.querySelector('form').submit();
-            });
-
-            // Exibe o modal se necessário ao clicar no botão de envio
-            document.getElementById('submitApplication').addEventListener('click', (e) => {
-                if (qualifyLead == 1 && jobMovies.length > 0) {
-                    e.preventDefault();
-                    showMovies();
+                if (jobMovies.length > 0) {
+                    showMovies(() => document.querySelector('form').submit());
+                } else if (activatePreSelection) {
+                    openChatbot(() => document.querySelector('form').submit());
                 } else {
                     document.querySelector('form').submit();
                 }
-            });
+            };
+
+            document.getElementById('submitApplication').addEventListener('click', handleSubmit);
         });
     </script>
 @endpush

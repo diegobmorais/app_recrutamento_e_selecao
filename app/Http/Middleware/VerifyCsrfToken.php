@@ -3,17 +3,12 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
-use Illuminate\Support\Facades\Log;
 
 class VerifyCsrfToken extends Middleware
 {   
     protected function tokensMatch($request)
     {
-        $token = $this->getTokenFromRequest($request);
-        $sessionToken = $request->session()->token();
-
-        Log::info('Token do Request:', [$token]);
-        Log::info('Token da Sessão:', [$sessionToken]);
+        $token = $this->getTokenFromRequest($request);  
 
         return is_string($request->session()->token()) &&
                is_string($token) &&

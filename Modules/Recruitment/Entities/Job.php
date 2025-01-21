@@ -36,6 +36,8 @@ class Job extends Model
         'receive_notification',
         'activete_pre_selection',
         'created_by',
+        'id_assistant_openai_pre_selection',
+        'id_assistant_openai_behavioral_test',
     ];
 
     protected static function newFactory()

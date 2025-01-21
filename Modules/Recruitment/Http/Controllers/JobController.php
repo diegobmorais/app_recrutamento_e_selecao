@@ -22,9 +22,10 @@ use Modules\Recruitment\Events\CreateJob;
 use Modules\Recruitment\Events\CreateJobApplication;
 use Modules\Recruitment\Events\DestroyJob;
 use Modules\Recruitment\Events\UpdateJob;
+use Modules\Recruitment\Services\AssistantOpenAI;
 
 class JobController extends Controller
-{
+{     
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -93,8 +94,7 @@ class JobController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {   
-        \Log::info('Request recebido:', $request->all());
+    {          
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
@@ -163,17 +163,27 @@ class JobController extends Controller
             $job->created_by           = creatorId();
             $job->save();
 
-            if ($request->has('movies')){
+            if ($request->has('movies')) {
                 $movies = json_decode($request->movies, true);
 
-                foreach($movies as $movie){
+                foreach ($movies as $movie) {
                     JobMovies::create([
                         'job_id' => $job->id,
                         'name' => $movie['name'],
                         'path' => $movie['path'],
                     ]);
                 }
-            }
+            }            
+            $assistantService = app(AssistantOpenAI::class);
+           
+            $preSelectionResponse = $assistantService->createAssistant('pre-selection', $job);
+            $behavioralTestResponse = $assistantService->createAssistant('behavioral-test', $job);
+            
+            $job->update([
+                'id_assistant_openai_pre_selection' => $preSelectionResponse['id'] ?? null,
+                'id_assistant_openai_behavioral_test' => $behavioralTestResponse['id'] ?? null,
+            ]);
+
             event(new CreateJob($request, $job));
 
             return redirect()->route('job.index')->with('success', __('Job  successfully created.'));
@@ -216,7 +226,7 @@ class JobController extends Controller
             $status = Job::$status;
 
             $job_movies = JobMovies::where('job_id', $job->id)->get();
-          
+
             $job->applicant       = explode(',', $job->applicant);
             $job->visibility      = explode(',', $job->visibility);
             $job->custom_question = explode(',', $job->custom_question);
@@ -327,7 +337,7 @@ class JobController extends Controller
             if ($request->has('removed_movies')) {
                 $removedMovies = json_decode($request->removed_movies, true);
                 JobMovies::whereIn('id', $removedMovies)->delete();
-            }   
+            }
 
             if ($request->has('movies')) {
                 $movies = json_decode($request->movies, true);
@@ -339,7 +349,7 @@ class JobController extends Controller
                     ]);
                 }
             }
-            
+
             event(new UpdateJob($request, $job));
 
             return redirect()->route('job.index')->with('success', __('Job  successfully updated.'));
@@ -454,7 +464,7 @@ class JobController extends Controller
         $job = Job::where('code', $code)->first();
 
         $movies = JobMovies::where('job_id', $job->id)->get();
-       
+
         $que = !empty($job->custom_question) ? explode(",", $job->custom_question) : [];
 
         $questions = CustomQuestion::wherein('id', $que)->get();
@@ -570,10 +580,10 @@ class JobController extends Controller
         $jobApplication->stage           = !empty($stage) ? $stage->id : 1;
         $jobApplication->custom_question = json_encode($request->question);
         $jobApplication->workspace      = getActiveWorkSpace($job->created_by);
-        $jobApplication->created_by      = $job->created_by;        
+        $jobApplication->created_by      = $job->created_by;
 
-        $jobMovieCheck = JobMovies::where('job_id', $job->id)->get();          
-          
+        $jobMovieCheck = JobMovies::where('job_id', $job->id)->get();
+
         $testAvailable = [
             'qualified'    => $jobMovieCheck->isNotEmpty() ? 1 : 0,
             'behavioral'   => 0,
