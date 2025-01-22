@@ -15,6 +15,7 @@ use Modules\Recruitment\Http\Controllers\JobCategoryController;
 use Modules\Recruitment\Http\Controllers\JobController;
 use Modules\Recruitment\Http\Controllers\JobExperienceCandidateController;
 use Modules\Recruitment\Http\Controllers\JobExperienceController;
+use Modules\Recruitment\Http\Controllers\JobInterviewCandidateController;
 use Modules\Recruitment\Http\Controllers\JobProjectController;
 use Modules\Recruitment\Http\Controllers\JobQualificationController;
 use Modules\Recruitment\Http\Controllers\JobSkillController;
@@ -274,4 +275,15 @@ Route::post('job/apply/data/{code}', [JobController::class, 'jobApplyData'])->na
 
 //chat-bot
 Route::get('chatbot/start', [ChatbotController::class, 'index'])->name('recruitment.chatbot');
+
+Route::prefix('assistants')->group(function () {  
+    Route::get('get-response/{threadId}', [ChatbotController::class, 'getResponse'])->name('assistants.getResponse');  
+    Route::get('{vagaId}/{tipoTeste}', [ChatbotController::class, 'getAssistant'])->name('assistants.getAssistant');
+    Route::post('create-thread', [ChatbotController::class, 'createThread'])->name('assistants.createThread');
+    Route::post('send-message', [ChatbotController::class, 'sendMessage'])->name('assistants.sendMessage');
+    Route::post('run/{threadId}', [ChatbotController::class, 'runAssistant'])->name('assistants.run');   
+    Route::post('recover-thread/{threadId}/{runId}', [ChatbotController::class, 'recoverThread'])->name('assistants.recoverThread');  
+    Route::post('save-summary/{candidateId}/{testType}', [ChatbotController::class, 'saveSummary'])->name('assistants.saveSummary');
+    Route::post('save-history', [JobInterviewCandidateController::class, 'saveMessage'])->name('assistants.saveHistory');
+});
 //------------------------------------ End Recurtment --------------------------------

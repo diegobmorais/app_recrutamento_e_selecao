@@ -25,7 +25,7 @@ use Modules\Recruitment\Events\UpdateJob;
 use Modules\Recruitment\Services\AssistantOpenAI;
 
 class JobController extends Controller
-{     
+{
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -94,7 +94,7 @@ class JobController extends Controller
      * @return Renderable
      */
     public function store(Request $request)
-    {          
+    {
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
@@ -173,12 +173,12 @@ class JobController extends Controller
                         'path' => $movie['path'],
                     ]);
                 }
-            }            
+            }
             $assistantService = app(AssistantOpenAI::class);
-           
+
             $preSelectionResponse = $assistantService->createAssistant('pre-selection', $job);
             $behavioralTestResponse = $assistantService->createAssistant('behavioral-test', $job);
-            
+
             $job->update([
                 'id_assistant_openai_pre_selection' => $preSelectionResponse['id'] ?? null,
                 'id_assistant_openai_behavioral_test' => $behavioralTestResponse['id'] ?? null,
@@ -595,6 +595,15 @@ class JobController extends Controller
 
         event(new CreateJobApplication($request, $jobApplication));
 
+        if ($job->activate_pre_selection) {
+            return redirect()->route('recruitment.chatbot', [
+                'jobId' => $job->id,
+                'jobApplicationId' => $jobApplication->id,
+                'name' => $jobApplication->name,
+                'testType' => 'pre_selection',
+                'assistantId' => $job->id_assistant_openai_pre_selection,
+            ]);
+        }
         return redirect()->back()->with('success', __('Job application successfully send.'));
     }
 

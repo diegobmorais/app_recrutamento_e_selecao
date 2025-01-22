@@ -264,14 +264,6 @@
             let currentIndex = 0;
             let playerInstances = [];
 
-            const openChatbot = (callback) => {
-                const chatbotWindow = window.open('{{ route('recruitment.chatbot') }}', '_blank',
-                    'width=460,height=600');
-                chatbotWindow.onbeforeunload = () => {
-                    if (callback) callback();
-                };
-            };
-
             const showMovies = (callback) => {
                 carouselInner.innerHTML = '';
                 jobMovies.forEach((movie, index) => {
@@ -302,7 +294,7 @@
                     movieModal.hide();
                     if (activatePreSelection) {
                         openChatbot(callback);
-                    } else if (callback){
+                    } else if (callback) {
                         callback();
                     }
                 });
@@ -324,8 +316,6 @@
 
                 if (jobMovies.length > 0) {
                     showMovies(() => document.querySelector('form').submit());
-                } else if (activatePreSelection) {
-                    openChatbot(() => document.querySelector('form').submit());
                 } else {
                     document.querySelector('form').submit();
                 }
