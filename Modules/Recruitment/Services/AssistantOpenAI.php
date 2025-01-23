@@ -5,7 +5,6 @@ namespace Modules\Recruitment\Services;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Modules\Recruitment\Entities\CustomQuestion;
 use Modules\Recruitment\Entities\JobCustomQuestion;
 
 class AssistantOpenAI
@@ -50,7 +49,7 @@ class AssistantOpenAI
     private function callApiOpenAI($data)
     {
         $url = "https://api.openai.com/v1/assistants";
-        $apiKey = env('API_KEY_CHATGPT');
+        $apiKey = config('services.openai.api_key');
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',

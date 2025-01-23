@@ -32,7 +32,7 @@ class JobController extends Controller
      * @return Renderable
      */
     public function index()
-    {
+    {   
         if (Auth::user()->isAbleTo('job manage')) {
             $jobs = Job::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->with(['branches', 'createdBy'])->get();
 

@@ -29,8 +29,33 @@
             })
         });
 
-
         $("#submit").click(function() {
+            var allChecked = true;
+            var customQuestionsContainer = $('#customQuestionsContainer');
+            var errorMessageContainer = $('#customQuestionsError');
+
+            if (errorMessageContainer.length === 0) {
+                errorMessageContainer = $('<div id="customQuestionsError" class="text-danger mt-2 d-none"></div>');
+                errorMessageContainer.text('{{ __('Por favor, selecione todas as perguntas obrigatórias.') }}');
+                customQuestionsContainer.append(errorMessageContainer);
+            }
+
+            customQuestionsContainer.find('input[type="checkbox"]').each(function() {
+                if (!this.checked) {
+                    allChecked = false;
+                }
+            });
+
+            if (!allChecked) {
+                errorMessageContainer.removeClass('d-none');
+                $('html, body').animate({
+                    scrollTop: customQuestionsContainer.offset().top - 50
+                }, 500);
+                return false;
+            } else {
+                errorMessageContainer.addClass('d-none');
+            }
+            
             $("#vaga-opcoes input[type='checkbox']").each(function() {
                 if (!this.checked) {
                     const hiddenInput = document.createElement('input');
@@ -272,7 +297,6 @@
 @section('content')
     <div class="row">
         {{ Form::open(['url' => 'job', 'method' => 'post', 'id' => 'formMain']) }}
-        @csrf
         <div class="row mt-3">
             <div class="col-md-6 ">
                 <div class="card card-fluid jobs-card">
