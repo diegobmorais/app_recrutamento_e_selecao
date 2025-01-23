@@ -133,8 +133,7 @@ class JobController extends Controller
             }
 
             $job                       = new Job();
-            $job->title                = $request->title;
-            $job->recruitment_type     = $request->recruitment_type;
+            $job->title                = $request->title;       
             $job->branch               = !empty($request->branch) ? $request->branch : 0;
             $job->location             = !empty($request->location) ? $request->location : '';
             $job->category             = $request->category;
@@ -248,7 +247,7 @@ class JobController extends Controller
 
             $job_type        = Job::$job_type;
 
-            $recruitment_type = [];
+            /*$recruitment_type = [];
 
             if (module_is_active('Hrm')) {
                 $recruitment_type = [
@@ -261,9 +260,9 @@ class JobController extends Controller
                     '' => __('Select Recruitment Type'),
                     'client' => __('Client'),
                 ];
-            }
+            }*/
 
-            return view('recruitment::job.edit', compact('categories', 'status', 'branches', 'job', 'customQuestion', 'users', 'job_type', 'recruitment_type', 'job_movies'));
+            return view('recruitment::job.edit', compact('categories', 'status', 'branches', 'job', 'customQuestion', 'users', 'job_type', 'job_movies'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -312,8 +311,7 @@ class JobController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
-            $job->title                = $request->title;
-            $job->recruitment_type     = $request->recruitment_type;
+            $job->title                = $request->title;         
             $job->branch               = !empty($request->branch) ? $request->branch : 0;
             $job->location             = !empty($request->location) ? $request->location : '';
             $job->category             = $request->category;

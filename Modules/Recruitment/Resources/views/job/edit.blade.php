@@ -54,12 +54,12 @@
                                     {!! Form::label('title', __('Job Title'), ['class' => 'col-form-label']) !!}
                                     {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
-
+                                {{------------------------------------
                                 <div class="form-group col-md-6">
                                     {{ Form::label('recruitment_type', __('Recruitment Type'), ['class' => 'col-form-label']) }}
                                     {{ Form::select('recruitment_type', $recruitment_type, null, ['class' => 'form-control select', 'id' => 'recruitment_type']) }}
                                 </div>
-
+                                --------------------------------------}}
                                 @if (module_is_active('Hrm'))
                                     <div class="form-group col-md-6" id="branch" style="display: none;">
                                         {!! Form::label(
@@ -71,14 +71,19 @@
                                     </div>
                                 @endif
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6 mt-2">
                                     {!! Form::label('location', __('Location'), ['class' => 'form-label']) !!}
                                     {!! Form::text('location', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
-
+                                
                                 <div class="form-group col-md-6">
-                                    {!! Form::label('category', __('Categoria da Vaga'), ['class' => 'form-label']) !!}
-                                    {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Selecione a categoria', 'required' => 'required']) }}
+                                    {!! Form::label('category', __('Tipo da Vaga'), ['class' => 'form-label']) !!}
+                                    {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Categoria', 'required' => 'required']) }}
+                                </div>
+                               
+                                <div class="form-group col-md-6">
+                                    {!! Form::label('status', __('Status'), ['class' => 'form-label']) !!}
+                                    {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
                                 </div>
 
                                 <div class="form-group col-md-6" id="users" style="display: none;">
@@ -90,19 +95,13 @@
                                                 href="{{ route('users.index') }}">{{ __('here') }}</a>.
                                         </div>
                                     @endif
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    {!! Form::label('status', __('Status'), ['class' => 'form-label']) !!}
-                                    {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
-                                </div>
-
-
+                                </div>    
+                                {{------------------------------------
                                 <div class="form-group col-md-6">
                                     {{ Form::label('job_type', __('Tipo de Vaga'), ['class' => 'form-label']) }}
                                     {{ Form::select('job_type', $job_type, null, ['class' => 'form-control select']) }}
                                 </div>
-
+                                 --------------------------------------}}
                                 <div class="form-group col-md-6">
                                     {!! Form::label('remuneration', __('Remuneração'), ['class' => 'form-label']) !!}
                                     {!! Form::number('remuneration', old('remuneration'), [
@@ -155,6 +154,7 @@
                     <div class="card card-fluid jobs-card">
                         <div class="card-body ">
                             <div class="row">
+                                {{--
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <h6>{{ __('Need to Ask ?') }}</h6>
@@ -218,6 +218,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                --}}
                                 <div class="form-group col-md-12" id="vaga-opcoes">
                                     <h6>{{ __('Opções da vaga') }}</h6>
                                     <div class="my-4">
@@ -400,7 +401,7 @@
                 });
             });
         </script>
-
+        <!--
         <script>
             $(document).ready(function() {
                 function toggleFormGroups() {
@@ -428,7 +429,7 @@
                 $('#recruitment_type').change(toggleFormGroups);
             });
         </script>
-
+        -->
         <script>
             let movieData = [];
             let removedMovies = [];
