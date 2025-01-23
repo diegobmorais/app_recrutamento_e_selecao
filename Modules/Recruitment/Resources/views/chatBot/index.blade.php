@@ -11,7 +11,7 @@
 <body>
     <div id="chatbox" class="chat-container">
         <div id="chatHeader" class="chat-header d-flex justify-content-between mb-3">
-            <span id="creationDate" class="chat-date"></span>            
+            <span id="creationDate" class="chat-date"></span>
         </div>
 
         <div class="chat-title chat-box-header text-center mb-3">
@@ -95,7 +95,6 @@
             const data = await response.json();
 
             assistenteId = data.assistenteId;
-            console.log('Assistente ID:', assistenteId);
         }
         // Salva parâmetros da URL no sessionStorage
         function salvarParametrosNoLocalStorage() {
@@ -121,21 +120,20 @@
             const nome = sessionStorage.getItem('nome');
 
             if (tipoTeste === 'pre-selection') {
-                addMensagem(`Olá ${nome}, tudo bem?`, false);
-                addMensagem('Iremos iniciar seu processo de seleção.', false);
-                addMensagem(
+                setTimeout(() => addMensagem(`Olá ${nome}, tudo bem?`, false), 1000);
+                setTimeout(() => addMensagem('Iremos iniciar seu processo de seleção.', false), 2000);
+                setTimeout(() => addMensagem(
                     'Logo a seguir iremos enviar algumas perguntas para você responder. Seja o mais verdadeiro possível.',
-                    false
-                );
-                addMensagem('Está pronto?', false);
+                    false), 2000);
+                setTimeout(() => addMensagem('Está pronto?', false), 2000);
             } else if (tipoTeste === 'behavioral-test') {
-                addMensagem(`Olá ${nome}, bem-vindo ao teste comportamental.`, false);
-                addMensagem('Este teste tem como objetivo entender melhor o seu perfil comportamental.', false);
-                addMensagem(
+                setTimeout(() => addMensagem(`Olá ${nome}, bem-vindo ao teste comportamental.`, false), 1000);
+                setTimeout(() => addMensagem('Este teste tem como objetivo entender melhor o seu perfil comportamental.',
+                    false), 2000);
+                setTimeout(() => addMensagem(
                     'Por favor, responda às perguntas que enviaremos a seguir. Seja o mais verdadeiro possível.',
-                    false
-                );
-                addMensagem('Vamos começar?', false);
+                    false), 2000);
+                setTimeout(() => addMensagem('Vamos começar?', false), 2000);
             }
         }
         // Cria uma nova thread no backend
@@ -154,6 +152,7 @@
 
             const data = await response.json();
             threadId = data.threadId;
+            console.log('Thread ID:', threadId);
             sessionStorage.setItem('threadId', threadId);
         }
         // Salva mensagem no banco
@@ -298,14 +297,14 @@
         //adiciona msg no chat
         function addMensagem(text, isUser) {
             const chatMensagens = document.getElementById('chat-mensagens');
-   
+
             const messageContainer = document.createElement('div');
             messageContainer.classList.add('chat-message', isUser ? 'chat-message-user' : 'chat-message-bot');
 
             const avatar = document.createElement('div');
             avatar.classList.add('avatar');
             avatar.textContent = isUser ? 'Você' : 'IA';
-      
+
             const message = document.createElement('div');
             message.classList.add('message');
             message.textContent = text;
@@ -317,9 +316,9 @@
                 messageContainer.appendChild(avatar);
                 messageContainer.appendChild(message);
             }
-        
+
             chatMensagens.appendChild(messageContainer);
-     
+
             chatMensagens.scrollTop = chatMensagens.scrollHeight;
         }
         // Finaliza o teste e salva o resumo
