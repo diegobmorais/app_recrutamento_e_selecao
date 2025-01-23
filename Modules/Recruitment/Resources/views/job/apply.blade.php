@@ -289,15 +289,6 @@
                 });
                 updateControls();
                 movieModal.show();
-
-                confirmButton.addEventListener('click', () => {
-                    movieModal.hide();
-                    if (activatePreSelection) {
-                        openChatbot(callback);
-                    } else if (callback) {
-                        callback();
-                    }
-                });
             };
 
             const onPlayerStateChange = (event, index) => {
@@ -310,6 +301,11 @@
                 prevBtn.disabled = currentIndex === 0;
                 nextBtn.disabled = true;
             };
+            
+            confirmButton.addEventListener('click', () => {
+                movieModal.hide();
+                document.querySelector('form').submit(); 
+            });
 
             const handleSubmit = (e) => {
                 e.preventDefault();
