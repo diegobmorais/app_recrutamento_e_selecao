@@ -6,6 +6,7 @@ namespace Modules\Recruitment\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Modules\Recruitment\Entities\CustomQuestion;
+use Modules\Recruitment\Entities\JobCustomQuestion;
 
 class AssistantOpenAI
 { 
@@ -18,7 +19,7 @@ class AssistantOpenAI
     {   
         Auth::user()->isAbleTo('job manage');
         
-        $questions = CustomQuestion::where('created_by', creatorId())->where('workspace', getActiveWorkSpace())->get();       
+        $questions = JobCustomQuestion::where('job_id', $jobs->id)->get();    
         $prompts = new OpenAIPromptGenerator();     
 
         if ($questions && $jobs) { 

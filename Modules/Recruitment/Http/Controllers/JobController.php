@@ -15,6 +15,7 @@ use Modules\Recruitment\Entities\Job;
 use Modules\Recruitment\Entities\JobApplication;
 use Modules\Recruitment\Entities\JobApplicationNote;
 use Modules\Recruitment\Entities\JobCategory;
+use Modules\Recruitment\Entities\JobCustomQuestion;
 use Modules\Recruitment\Entities\JobMovies;
 use Modules\Recruitment\Entities\JobOnBoard;
 use Modules\Recruitment\Entities\JobStage;
@@ -98,11 +99,9 @@ class JobController extends Controller
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
-                'title' => 'required',
-                'recruitment_type' => 'required',
+                'title' => 'required',               
                 'location' => 'required',
-                'category' => 'required',
-                'job_type' => 'required',
+                'category' => 'required',               
                 'remuneration' => 'required',
                 'skill' => 'required',
                 'position' => 'required|min:0',
@@ -110,7 +109,7 @@ class JobController extends Controller
                 'end_date' => 'required|after_or_equal:start_date',
                 'description' => 'required',
                 'requirement' => 'required',
-                'custom_question.*' => 'required',
+                'custom_question.*' => 'required',          
                 'average' => 'required',
             ];
 
@@ -153,8 +152,7 @@ class JobController extends Controller
             $job->terms_and_conditions = !empty($request->terms_and_conditions) ? $request->terms_and_conditions : '';
             $job->code                 = uniqid();
             $job->applicant            = !empty($request->applicant) ? implode(',', $request->applicant) : '';
-            $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';
-            $job->custom_question      = !empty($request->custom_question) ? implode(',', $request->custom_question) : '';
+            $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';           
             $job->workspace            = getActiveWorkSpace();
             $job->qualify_lead         = $request->qualify_lead;
             $job->receive_notification = $request->notification;
@@ -163,6 +161,15 @@ class JobController extends Controller
             $job->created_by           = creatorId();
             $job->save();
 
+            if ($request->has('custom_question')) {
+                foreach ($request->custom_question as $customQuestion) {
+                    JobCustomQuestion::create([
+                        'job_id' => $job->id,
+                        'question' => $customQuestion,
+                    ]);
+                }
+            }
+            
             if ($request->has('movies')) {
                 $movies = json_decode($request->movies, true);
 
@@ -273,11 +280,9 @@ class JobController extends Controller
         if (Auth::user()->isAbleTo('job edit')) {
 
             $rules = [
-                'title' => 'required',
-                'recruitment_type' => 'required',
+                'title' => 'required',                
                 'location' => 'required',
-                'category' => 'required',
-                'job_type' => 'required',
+                'category' => 'required',               
                 'remuneration' => 'required',
                 'skill' => 'required',
                 'position' => 'required|min:0',
@@ -600,7 +605,7 @@ class JobController extends Controller
                 'jobId' => $job->id,
                 'jobApplicationId' => $jobApplication->id,
                 'name' => $jobApplication->name,
-                'testType' => 'pre_selection',
+                'testType' => 'pre-selection',
                 'assistantId' => $job->id_assistant_openai_pre_selection,
             ]);
         }

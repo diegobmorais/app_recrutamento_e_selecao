@@ -25,7 +25,7 @@ class CompanyMenuListener
             'route' => '',
             'module' => $module,
             'permission' => ''
-        ]);
+        ]);/*
         $menu->add([
             'category' => 'General',
             'title' => __('User Management'),
@@ -64,7 +64,7 @@ class CompanyMenuListener
             'route' => 'roles.index',
             'module' => $module,
             'permission' => 'roles manage'
-        ]);/*
+        ]);
         $menu->add([
             'category' => 'Finance',
             'title' => __('Proposal'),

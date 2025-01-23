@@ -91,7 +91,7 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'jobapplication archived manage'
         ]);
-        /*$menu->add([
+        $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies Candidate'),
             'icon' => '',
@@ -116,7 +116,7 @@ class CompanyMenuListener
             'route' => 'job.on.board',
             'module' => $module,
             'permission' => 'jobonboard manage'
-        ]);*/
+        ]);
         $menu->add([
             'category' => 'HR',
             'title' => __('Custom Question'),

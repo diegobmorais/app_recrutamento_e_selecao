@@ -2,7 +2,7 @@
     <div class="list-group list-group-flush" id="useradd-sidenav">
         @permission('jobcategory manage')
             <a href="{{ route('job-category.index') }}"
-                class="list-group-item list-group-item-action border-0 {{ request()->is('job-category*') ? 'active' : '' }}">{{ __('Job Category') }}
+                class="list-group-item list-group-item-action border-0 {{ request()->is('job-category*') ? 'active' : '' }}">{{ __('Categoria da Vaga') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
         @endpermission
 

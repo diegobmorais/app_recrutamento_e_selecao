@@ -15,7 +15,7 @@ class JobInterviewCandidateController extends Controller
             'job_application_id' => 'required|integer|exists:job_applications,id',
             'sender' => 'required|string|in:candidato,assistente',
             'content' => 'required|string',
-            'test_type' => 'required|string|in:pre_selection,behavioral_test',
+            'test_type' => 'required|string|in:pre-selection,behavioral-test',
         ]);
 
         try {

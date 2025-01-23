@@ -68,6 +68,10 @@ class Job extends Model
     {
         return $this->hasOne(JobCategory::class, 'id', 'category');
     }
+    public function customQuestions()
+    {
+        return $this->hasMany(JobCustomQuestion::class);
+    }
 
     public function questions()
     {

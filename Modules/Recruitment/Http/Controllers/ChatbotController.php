@@ -33,9 +33,9 @@ class ChatbotController extends Controller
             }
 
             $assistantId = null;
-            if ($testType === 'pre_selection') {
+            if ($testType === 'pre-selection') {
                 $assistantId = $job->id_assistant_openai_pre_selection;
-            } elseif ($testType === 'behavioral_test') {
+            } elseif ($testType === 'behavioral-test') {
                 $assistantId = $job->id_assistant_openai_behavioral_test;
             }
 
@@ -211,7 +211,7 @@ class ChatbotController extends Controller
         }
     
         $responseData = $response->json();    
-     
+        
         if (isset($responseData['data'][0]['content'][0]['text']['value'])) {
             $message = $responseData['data'][0]['content'][0]['text']['value'];
             return response()->json(['response' => $message]);

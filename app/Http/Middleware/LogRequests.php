@@ -16,8 +16,8 @@ class LogRequests
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::info('Request headers: ', $request->headers->all());
-        Log::info('Request body: ', $request->all());
+        //Log::info('Request headers: ', $request->headers->all());
+        //Log::info('Request body: ', $request->all());
 
         return $next($request);
     }

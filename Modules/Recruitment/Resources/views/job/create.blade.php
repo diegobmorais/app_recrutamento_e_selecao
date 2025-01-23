@@ -115,8 +115,7 @@
             }
         });
     </script>
-
-    <script>
+    <!--<script>
         $(document).ready(function() {
             function toggleFormGroups() {
                 var selectedType = $('#recruitment_type').val();
@@ -142,7 +141,7 @@
 
             $('#recruitment_type').change(toggleFormGroups);
         });
-    </script>
+    </script>-->
     <script>
         const movieData = []
 
@@ -178,11 +177,88 @@
             $(element).closest('li').remove()
         }
 
-        function beforeFormSubmit() {        
+        function beforeFormSubmit() {
             const moviesInput = document.querySelector('#movies_input');
             moviesInput.value = JSON.stringify(movieData);
         }
         document.querySelector('#formMain').addEventListener('click', beforeFormSubmit);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const maxQuestions = 3;
+            const addCustomQuestionBtn = document.getElementById('addCustomQuestionBtn');
+            const saveCustomQuestionBtn = document.getElementById('saveCustomQuestionBtn');
+            const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+            const newCustomQuestionInput = document.getElementById('newCustomQuestion');
+      
+            function updateAddButtonState() {
+                const currentQuestions = customQuestionsContainer.querySelectorAll('.form-check').length;
+                addCustomQuestionBtn.disabled = currentQuestions >= maxQuestions;
+            }
+        
+            function addDeleteEvent(deleteButton, questionElement) {
+                deleteButton.addEventListener('click', () => {
+                    questionElement.remove();
+                    updateAddButtonState();
+                });
+            }
+         
+            saveCustomQuestionBtn.addEventListener('click', () => {
+                const questionText = newCustomQuestionInput.value.trim();
+
+                if (!questionText) {
+                    alert('{{ __('Please enter a question.') }}');
+                    return;
+                }
+
+                const currentQuestions = customQuestionsContainer.querySelectorAll('.form-check').length;
+                if (currentQuestions >= maxQuestions) {
+                    alert('{{ __('You can only add up to 3 questions.') }}');
+                    return;
+                }
+
+                const questionId = `custom_question_${Date.now()}`;
+                const newQuestion = document.createElement('div');
+                newQuestion.classList.add('form-check', 'custom-checkbox');
+                newQuestion.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" class="form-check-input" name="custom_question[]"
+                            value="${questionText}" id="${questionId}">
+                        <label class="form-check-label" for="${questionId}" style="flex: 1;">
+                            ${questionText}
+                        </label>
+                        <button type="button" class="btn btn-sm btn-danger delete-question-btn" style="padding: 5px 8px;">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+                customQuestionsContainer.appendChild(newQuestion);
+
+ 
+                const deleteButton = newQuestion.querySelector('.delete-question-btn');
+                addDeleteEvent(deleteButton, newQuestion);
+          
+                newCustomQuestionInput.value = '';
+                const modal = bootstrap.Modal.getInstance(document.getElementById(
+                'addCustomQuestionModal'));
+                modal.hide();
+
+                updateAddButtonState();
+            });
+
+            customQuestionsContainer.querySelectorAll('.delete-question-btn').forEach(button => {
+                const questionElement = button.closest('.form-check');
+                addDeleteEvent(button, questionElement);
+            });
+
+            updateAddButtonState();
+
+            addCustomQuestionBtn.addEventListener('click', () => {
+                const modal = new bootstrap.Modal(document.getElementById('addCustomQuestionModal'));
+                modal.show();
+            });
+        });
     </script>
 @endpush
 
@@ -210,12 +286,12 @@
                                     'placeholder' => 'Titulo da vaga',
                                 ]) !!}
                             </div>
-
-                            <div class="form-group col-md-6">
-                                {{ Form::label('recruitment_type', __('Recruitment Type'), ['class' => 'col-form-label']) }}
-                                {{ Form::select('recruitment_type', $recruitment_type, null, ['class' => 'form-control select', 'id' => 'recruitment_type']) }}
-                            </div>
-
+                            <!--
+                                            <div class="form-group col-md-6">
+                                                {{ Form::label('recruitment_type', __('Recruitment Type'), ['class' => 'col-form-label']) }}
+                                                {{ Form::select('recruitment_type', $recruitment_type, null, ['class' => 'form-control select', 'id' => 'recruitment_type']) }}
+                                            </div>
+                                            -->
                             @if (module_is_active('Hrm'))
                                 <div class="form-group col-md-6" id="branch" style="display: none;">
                                     {!! Form::label(
@@ -237,12 +313,12 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                {!! Form::label('category', __('Job Category'), ['class' => 'col-form-label']) !!}
+                                {!! Form::label('category', __('Tipo de Vaga'), ['class' => 'col-form-label']) !!}
                                 {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Categoria', 'required' => 'required']) }}
                                 @if (empty($categories->count()))
                                     <div class=" text-xs">
-                                        {{ __('Please add job category. ') }}<a
-                                            href="{{ route('job-category.index') }}"><b>{{ __('Add Job Category') }}</b></a>
+                                        {{ __('Por favor, adicione uma categoria. ') }}<a
+                                            href="{{ route('job-category.index') }}"><b>{{ __('Adicionar Categoria') }}</b></a>
                                     </div>
                                 @endif
                             </div>
@@ -262,13 +338,12 @@
                                 {!! Form::label('status', __('Status'), ['class' => 'col-form-label']) !!}
                                 {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
                             </div>
-
-
-                            <div class="form-group col-md-6">
-                                {{ Form::label('job_type', __('Job Type'), ['class' => 'col-form-label']) }}
-                                {{ Form::select('job_type', ['' => __('Tipo de Vaga')] + $job_type, null, ['class' => 'form-control select']) }}
-                            </div>
-
+                            <!--
+                                            <div class="form-group col-md-6">
+                                                {{ Form::label('job_type', __('Modelo de Trabalho'), ['class' => 'col-form-label']) }}
+                                                {{ Form::select('job_type', ['' => __('Modelo')] + $job_type, null, ['class' => 'form-control select']) }}
+                                            </div>
+                                            -->
                             <div class="form-group col-md-6">
                                 {!! Form::label('remuneration', __('Remuneração'), ['class' => 'col-form-label']) !!}
                                 {!! Form::number('remuneration', old('remuneration'), [
@@ -332,60 +407,60 @@
                 <div class="card card-fluid jobs-card">
                     <div class="card-body ">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <h6>{{ __('Need to Ask ?') }}</h6>
-                                    <div class="my-4">
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="applicant[]"
-                                                value="gender" id="check-gender">
-                                            <label class="form-check-label" for="check-gender">{{ __('Gênero') }} </label>
-                                        </div>
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="applicant[]"
-                                                value="dob" id="check-dob">
-                                            <label class="form-check-label"
-                                                for="check-dob">{{ __('Data de Nascimento') }}</label>
-                                        </div>
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="applicant[]"
-                                                value="country" id="check-country">
-                                            <label class="form-check-label" for="check-country">{{ __('País') }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <h6>{{ __('Need to show Option ?') }}</h6>
-                                    <div class="my-4">
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="visibility[]"
-                                                value="profile" id="check-profile">
-                                            <label class="form-check-label" for="check-profile">{{ __('Perfil') }}
-                                            </label>
-                                        </div>
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="visibility[]"
-                                                value="resume" id="check-resume">
-                                            <label class="form-check-label"
-                                                for="check-resume">{{ __('Resumo') }}</label>
-                                        </div>
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="visibility[]"
-                                                value="letter" id="check-letter">
-                                            <label class="form-check-label"
-                                                for="check-letter">{{ __('Carta de Apresentação') }}</label>
-                                        </div>
-                                        <div class="form-check custom-checkbox">
-                                            <input type="checkbox" class="form-check-input" name="visibility[]"
-                                                value="terms" id="check-terms">
-                                            <label class="form-check-label"
-                                                for="check-terms">{{ __('Termos e Condições') }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="col-md-6">
+                                                <div class="form-group">
+                                                    <h6>{{ __('Need to Ask ?') }}</h6>
+                                                    <div class="my-4">
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="applicant[]"
+                                                                value="gender" id="check-gender">
+                                                            <label class="form-check-label" for="check-gender">{{ __('Gênero') }} </label>
+                                                        </div>
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="applicant[]"
+                                                                value="dob" id="check-dob">
+                                                            <label class="form-check-label"
+                                                                for="check-dob">{{ __('Data de Nascimento') }}</label>
+                                                        </div>
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="applicant[]"
+                                                                value="country" id="check-country">
+                                                            <label class="form-check-label" for="check-country">{{ __('País') }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <h6>{{ __('Need to show Option ?') }}</h6>
+                                                    <div class="my-4">
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="visibility[]"
+                                                                value="profile" id="check-profile">
+                                                            <label class="form-check-label" for="check-profile">{{ __('Perfil') }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="visibility[]"
+                                                                value="resume" id="check-resume">
+                                                            <label class="form-check-label"
+                                                                for="check-resume">{{ __('Resumo') }}</label>
+                                                        </div>
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="visibility[]"
+                                                                value="letter" id="check-letter">
+                                                            <label class="form-check-label"
+                                                                for="check-letter">{{ __('Carta de Apresentação') }}</label>
+                                                        </div>
+                                                        <div class="form-check custom-checkbox">
+                                                            <input type="checkbox" class="form-check-input" name="visibility[]"
+                                                                value="terms" id="check-terms">
+                                                            <label class="form-check-label"
+                                                                for="check-terms">{{ __('Termos e Condições') }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>-->
                             <div class="form-group col-md-12" id="vaga-opcoes">
                                 <h6>{{ __('Opções da vaga') }}</h6>
                                 <div class="my-4">
@@ -411,9 +486,17 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <h6>{{ __('Custom Questions') }}</h6>
-                                <div class="my-4">
+                                <div>
+                                    @permission('custom question create')
+                                        <button type="button" id="addCustomQuestionBtn" class="btn btn-sm btn-primary"
+                                            data-bs-toggle="tooltip" title="{{ __('Adicionar Pergunta Personalizada') }}">
+                                            <i class="ti ti-plus"></i> {{ __('Adicionar Pergunta') }}
+                                        </button>
+                                    @endpermission
+                                </div>
+                                <div class="my-4" id="customQuestionsContainer">
                                     @foreach ($customQuestion as $question)
-                                        <div class="form-check custom-checkbox">
+                                        <div class="form-check custom-checkbox existing-question">
                                             <input type="checkbox" class="form-check-input" name="custom_question[]"
                                                 value="{{ $question->id }}"
                                                 @if ($question->is_required == 'yes') required @endif
@@ -427,7 +510,33 @@
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>                            
+                            </div>
+                            <!-- Modal para adicionar pergunta -->
+                            <div class="modal fade" id="addCustomQuestionModal" tabindex="-1"
+                                aria-labelledby="addCustomQuestionModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addCustomQuestionModalLabel">
+                                                {{ __('Adicionar Pergunta Personalizada') }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="newCustomQuestion">{{ __('Question') }}</label>
+                                                <input type="text" id="newCustomQuestion" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                            <button type="button" id="saveCustomQuestionBtn"
+                                                class="btn btn-primary">{{ __('Add') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group col-md-12">
                                 <div class="header">
                                     <h5 class="title mb-2" id="addVideoModalLabel">Aplicar Cursos para Vaga</h5>
@@ -499,8 +608,7 @@
             </div>
             <div class="col-md-12 text-end">
                 <div class="form-group">
-                    <input type="submit" id="submit" value="{{ __('Create') }}"
-                        class="btn btn-primary">
+                    <input type="submit" id="submit" value="{{ __('Create') }}" class="btn btn-primary">
                 </div>
             </div>
             {{ Form::close() }}
