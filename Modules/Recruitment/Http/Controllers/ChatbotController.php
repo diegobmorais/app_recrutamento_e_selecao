@@ -81,7 +81,7 @@ class ChatbotController extends Controller
     public function createThread()
     {
         $openAiUrl = "https://api.openai.com/v1/threads";
-        $apiKey = env('API_KEY_CHATGPT');
+        $apiKey = config('services.openai.api_key');
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -107,7 +107,7 @@ class ChatbotController extends Controller
             ]);
 
             $openAiUrl = "https://api.openai.com/v1/threads/{$data['threadId']}/messages";
-            $apiKey = env('API_KEY_CHATGPT');
+            $apiKey = config('services.openai.api_key');
 
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
@@ -148,7 +148,7 @@ class ChatbotController extends Controller
         ]);
 
         $openAiUrl = "https://api.openai.com/v1/threads/{$threadId}/runs";
-        $apiKey = env('API_KEY_CHATGPT');
+        $apiKey = config('services.openai.api_key');
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -176,7 +176,7 @@ class ChatbotController extends Controller
     public function recoverThread($threadId, $runId)
     {     
         $openAiUrl = "https://api.openai.com/v1/threads/{$threadId}/runs/{$runId}";
-        $apiKey = env('API_KEY_CHATGPT');
+        $apiKey = config('services.openai.api_key');
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -196,7 +196,7 @@ class ChatbotController extends Controller
     public function getResponse($threadId)
     {             
         $openAiUrl = "https://api.openai.com/v1/threads/{$threadId}/messages";
-        $apiKey = env('API_KEY_CHATGPT');
+        $apiKey = config('services.openai.api_key');
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
