@@ -17,6 +17,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomDomainRequestController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\HelpdeskConversionController;
+use App\Http\Controllers\HelpdeskTicketCategoryController;
 use App\Http\Controllers\HelpdeskTicketController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PurchaseController;

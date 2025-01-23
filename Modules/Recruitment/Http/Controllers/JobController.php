@@ -68,8 +68,8 @@ class JobController extends Controller
 
             $job_type        = Job::$job_type;
 
-            $recruitment_type = [];
-
+            /*$recruitment_type = [];
+           
             if (module_is_active('Hrm')) {
                 $recruitment_type = [
                     '' => __('Select Recruitment Type'),
@@ -81,9 +81,9 @@ class JobController extends Controller
                     '' => __('Select Recruitment Type'),
                     'client' => __('Client'),
                 ];
-            }
+            }*/
 
-            return view('recruitment::job.create', compact('categories', 'status', 'branches', 'customQuestion', 'users', 'job_type', 'recruitment_type'));
+            return view('recruitment::job.create', compact('categories', 'status', 'branches', 'customQuestion', 'users', 'job_type'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

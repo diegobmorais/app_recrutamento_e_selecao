@@ -190,19 +190,19 @@
             const saveCustomQuestionBtn = document.getElementById('saveCustomQuestionBtn');
             const customQuestionsContainer = document.getElementById('customQuestionsContainer');
             const newCustomQuestionInput = document.getElementById('newCustomQuestion');
-      
+
             function updateAddButtonState() {
                 const currentQuestions = customQuestionsContainer.querySelectorAll('.form-check').length;
                 addCustomQuestionBtn.disabled = currentQuestions >= maxQuestions;
             }
-        
+
             function addDeleteEvent(deleteButton, questionElement) {
                 deleteButton.addEventListener('click', () => {
                     questionElement.remove();
                     updateAddButtonState();
                 });
             }
-         
+
             saveCustomQuestionBtn.addEventListener('click', () => {
                 const questionText = newCustomQuestionInput.value.trim();
 
@@ -235,13 +235,13 @@
 
                 customQuestionsContainer.appendChild(newQuestion);
 
- 
+
                 const deleteButton = newQuestion.querySelector('.delete-question-btn');
                 addDeleteEvent(deleteButton, newQuestion);
-          
+
                 newCustomQuestionInput.value = '';
                 const modal = bootstrap.Modal.getInstance(document.getElementById(
-                'addCustomQuestionModal'));
+                    'addCustomQuestionModal'));
                 modal.hide();
 
                 updateAddButtonState();
@@ -286,12 +286,12 @@
                                     'placeholder' => 'Titulo da vaga',
                                 ]) !!}
                             </div>
-                            <!--
-                                            <div class="form-group col-md-6">
-                                                {{ Form::label('recruitment_type', __('Recruitment Type'), ['class' => 'col-form-label']) }}
-                                                {{ Form::select('recruitment_type', $recruitment_type, null, ['class' => 'form-control select', 'id' => 'recruitment_type']) }}
-                                            </div>
-                                            -->
+                            {{--
+                                <div class="form-group col-md-6">
+                                    {{ Form::label('recruitment_type', __('Recruitment Type'), ['class' => 'col-form-label']) }}
+                                    {{ Form::select('recruitment_type', $recruitment_type, null, ['class' => 'form-control select', 'id' => 'recruitment_type']) }}
+                                </div>
+                                            --}}
                             @if (module_is_active('Hrm'))
                                 <div class="form-group col-md-6" id="branch" style="display: none;">
                                     {!! Form::label(
@@ -338,12 +338,12 @@
                                 {!! Form::label('status', __('Status'), ['class' => 'col-form-label']) !!}
                                 {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
                             </div>
-                            <!--
+                            {{--
                                             <div class="form-group col-md-6">
                                                 {{ Form::label('job_type', __('Modelo de Trabalho'), ['class' => 'col-form-label']) }}
                                                 {{ Form::select('job_type', ['' => __('Modelo')] + $job_type, null, ['class' => 'form-control select']) }}
                                             </div>
-                                            -->
+                                            --}}
                             <div class="form-group col-md-6">
                                 {!! Form::label('remuneration', __('Remuneração'), ['class' => 'col-form-label']) !!}
                                 {!! Form::number('remuneration', old('remuneration'), [
@@ -407,7 +407,7 @@
                 <div class="card card-fluid jobs-card">
                     <div class="card-body ">
                         <div class="row">
-                            <!--<div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <h6>{{ __('Need to Ask ?') }}</h6>
                                                     <div class="my-4">
@@ -460,7 +460,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>-->
+                                            </div> --}}
                             <div class="form-group col-md-12" id="vaga-opcoes">
                                 <h6>{{ __('Opções da vaga') }}</h6>
                                 <div class="my-4">
