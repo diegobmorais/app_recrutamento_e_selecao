@@ -80,15 +80,7 @@
                 return false;
             } else {
                 $('#average_validation').addClass('d-none')
-            }
-
-            var benefits = $('.benefits_data').val();
-            if (benefits == '') {
-                $('#benefits_validation').removeClass('d-none')
-                return false;
-            } else {
-                $('#benefits_validation').addClass('d-none')
-            }
+            }           
 
             var description = $('textarea[name="description"]').val();
             if (!isNaN(description)) {
@@ -414,9 +406,7 @@
                                 <label class="col-form-label" for="benefits">{{ __('Benefícios') }}</label>
                                 <input type="text" class="form-control benefits_data" value="" data-toggle="tags"
                                     name="benefits" placeholder="Benefícios" />
-                            </div>
-                            <p class="text-danger d-none" id="benefits_validation">{{ __('benefits filed is required.') }}
-                            </p>
+                            </div>                           
                             <div class="form-group col-md-12">
                                 <label class="col-form-label" for="skill">{{ __('Skill Box') }}</label>
                                 <input type="text" class="form-control skill_data" value="" data-toggle="tags"
@@ -490,19 +480,19 @@
                                 <div class="my-4">
                                     <div class="form-check custom-checkbox">
                                         <input type="checkbox" class="form-check-input" name="qualify_lead"
-                                            value="qualify-lead" id="check-qualify-lead">
+                                            value="1" id="check-qualify-lead">
                                         <label class="form-check-label"
                                             for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga') }}</label>
                                     </div>
                                     <div class="form-check custom-checkbox">
                                         <input type="checkbox" class="form-check-input" name="notification"
-                                            value="notification" id="check-notification">
+                                            value="1" id="check-notification">
                                         <label class="form-check-label"
                                             for="check-notification">{{ __('Receber notificações a cada candidato recebido') }}</label>
                                     </div>
                                     <div class="form-check custom-checkbox">
                                         <input type="checkbox" class="form-check-input" name="activate_pre_selection"
-                                            value="activate-pre-selection" id="check-activate-pre-selection">
+                                            value="1" id="check-activate-pre-selection">
                                         <label class="form-check-label"
                                             for="check-activate-pre-selection">{{ __('Realizar pré-seleção automática a cada candidato') }}</label>
                                     </div>

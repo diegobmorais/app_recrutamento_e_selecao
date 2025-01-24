@@ -42,13 +42,13 @@
                                     <input type="radio" id="male" value="male" name="gender"
                                         class="form-check-input"
                                         {{ isset($_GET['gender']) && $_GET['gender'] == 'male' ? 'checked' : 'checked' }}>
-                                    <label class="form-check-label" for="male">{{ __('Male') }}</label>
+                                    <label class="form-check-label" for="male">{{ __('Homem') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline form-group">
                                     <input type="radio" id="female" value="female" name="gender"
                                         class="form-check-input"
                                         {{ isset($_GET['gender']) && $_GET['gender'] == 'female' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="female">{{ __('Female') }}</label>
+                                    <label class="form-check-label" for="female">{{ __('Mulher') }}</label>
                                 </div>
                             </div>
 
@@ -69,11 +69,11 @@
                             <div class="col-auto float-end ms-2 mt-4">
                                 <a class="btn btn-sm btn-primary"
                                     onclick="document.getElementById('applicarion_filter').submit(); return false;"
-                                    data-bs-toggle="tooltip" title="" data-bs-original-title="apply">
+                                    data-bs-toggle="tooltip" title="" data-bs-original-title="Aplicar">
                                     <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
                                 </a>
                                 <a href="{{ route('job-candidates.index') }}" class="btn btn-sm btn-danger"
-                                    data-bs-toggle="tooltip" title="" data-bs-original-title="Reset">
+                                    data-bs-toggle="tooltip" title="" data-bs-original-title="Resetar">
                                     <span class="btn-inner--icon"><i class="ti ti-trash-off text-white-off "></i></span>
                                 </a>
                             </div>
