@@ -51,7 +51,7 @@ class CompanyMenuListener
             'route' => 'job.index',
             'module' => $module,
             'permission' => 'job manage'
-        ]);
+        ]);/*
         $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies Create'),
@@ -64,7 +64,7 @@ class CompanyMenuListener
             'route' => 'job.create',
             'module' => $module,
             'permission' => 'job create'
-        ]);
+        ]);*/
         $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies Application'),
@@ -103,7 +103,7 @@ class CompanyMenuListener
             'route' => 'job-candidates.index',
             'module' => $module,
             'permission' => 'jobapplication candidate manage'
-        ]);
+        ]);/*
         $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies On-boarding'),
@@ -129,7 +129,7 @@ class CompanyMenuListener
             'route' => 'custom-question.index',
             'module' => $module,
             'permission' => 'custom question manage'
-        ]);
+        ]);*/
         $menu->add([
             'category' => 'HR',
             'title' => __('Interview Schedule'),
@@ -142,32 +142,32 @@ class CompanyMenuListener
             'route' => 'interview-schedule.index',
             'module' => $module,
             'permission' => 'interview schedule manage'
-        ]);
+        ]);        
         $menu->add([
             'category' => 'HR',
-            'title' => __('System Setup'),
+            'title' => __('Vacancy Announcement'),
             'icon' => '',
-            'name' => 'system-setup',
+            'name' => 'Vacancy Announcement',
             'parent' => 'recruitment',
             'order' => 50,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'job-category.index',
-            'module' => $module,
-            'permission' => 'branch manage'
-        ]);
-        $menu->add([
-            'category' => 'HR',
-            'title' => __('Career'),
-            'icon' => '',
-            'name' => 'career',
-            'parent' => 'recruitment',
-            'order' => 55,
             'ignore_if' => [],
             'depend_on' => [],
             'route' => 'career',
             'module' => $module,
             'permission' => 'career manage'
+        ]);
+        $menu->add([
+            'category' => 'HR',
+            'title' => __('Job Configuration'),
+            'icon' => '',
+            'name' => 'system-setup',
+            'parent' => 'recruitment',
+            'order' => 55,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'job-category.index',
+            'module' => $module,
+            'permission' => 'branch manage'
         ]);
     }
 }

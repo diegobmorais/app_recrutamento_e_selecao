@@ -186,9 +186,7 @@ class CompanyMenuListener
             'route' => 'reports.warehouse',
             'module' => $module,
             'permission' => 'report warehouse'
-        ]);*/
-
-
+        ]);
         $menu->add([
             'category' => 'Communication',
             'title' => __('Messenger'),
@@ -202,7 +200,7 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'user chat manage'
         ]);
-       /* $menu->add([
+        $menu->add([
             'category' => 'Settings',
             'title' => __('Helpdesk'),
             'icon' => 'headphones',
@@ -240,7 +238,7 @@ class CompanyMenuListener
             'route' => 'settings.index',
             'module' => $module,
             'permission' => 'setting manage'
-        ]);
+        ]);/*
         $menu->add([
             'category' => 'Settings',
             'title' => __('Setup Subscription Plan'),
@@ -279,6 +277,6 @@ class CompanyMenuListener
             'route' => 'plan.order.index',
             'module' => $module,
             'permission' => 'plan orders'
-        ]);
+        ]);*/
     }
 }
