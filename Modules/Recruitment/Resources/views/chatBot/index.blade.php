@@ -36,7 +36,7 @@
             sendMessage: "{{ route('assistants.sendMessage') }}",
             runAssistant: "{{ route('assistants.run', ['threadId' => ':threadId']) }}",
             recoverThread: "{{ route('assistants.recoverThread', ['threadId' => ':threadId', 'runId' => ':runId']) }}",
-            saveSummary: "{{ route('assistants.saveSummary', ['candidateId' => ':candidateId', 'testType' => ':testType']) }}",
+            saveSummary: "{{ route('assistants.saveSummary', ['candidateId' => ':candidateId']) }}",
             saveHistory: "{{ route('assistants.saveHistory') }}",
         };
     </script>
@@ -326,8 +326,7 @@
             const id_candidato = sessionStorage.getItem('id_candidato');
             const tipoTeste = sessionStorage.getItem('tipoTeste');
             const url = buildRoute(routes.saveSummary, {
-                candidateId: id_candidato,
-                testType: tipoTeste
+                candidateId: id_candidato                
             });
 
             try {
@@ -337,7 +336,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        mensagemIA
+                        mensagemIA,
+                        testType: tipoTeste
                     }),
                 });
                 if (!response.ok) throw new Error('Erro ao salvar resumo.');

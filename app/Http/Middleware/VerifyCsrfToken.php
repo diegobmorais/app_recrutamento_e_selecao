@@ -51,7 +51,7 @@ class VerifyCsrfToken extends Middleware
         'assistants/run/*',
         'assistants/recover-thread/*/*',
         'assistants/get-response/*',
-        'assistants/save-summary/*/*',
+        'assistants/save-summary/*',
         'assistants/save-history',
     ];
 }

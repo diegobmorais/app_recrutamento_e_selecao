@@ -49,14 +49,14 @@ class ChatbotController extends Controller
             }
 
             return view('recruitment::chatBot.index', compact('jobId', 'jobApplicationId', 'testType', 'assistantId'));
-        } catch (\Exception $e) {            
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', __('An error occurred while preparing the chatbot.'));
         }
     }
 
 
     public function getAssistant($jobId, $testType)
-    {          
+    {
         $job = Job::find($jobId);
 
         if (!$jobId) {
@@ -142,7 +142,7 @@ class ChatbotController extends Controller
     }
 
     public function runAssistant(Request $request, $threadId)
-    {   
+    {
         $data = $request->validate([
             'assistantId' => 'required|string'
         ]);
@@ -159,7 +159,7 @@ class ChatbotController extends Controller
             ->post($openAiUrl, [
                 'assistant_id' => $data['assistantId']
             ]);
-        
+
         if ($response->failed()) {
             return response()->json(['error' => 'Failed to communicate with OpenAI', 'details' => $response->body()], 500);
         }
@@ -174,7 +174,7 @@ class ChatbotController extends Controller
     }
 
     public function recoverThread($threadId, $runId)
-    {     
+    {
         $openAiUrl = "https://api.openai.com/v1/threads/{$threadId}/runs/{$runId}";
         $apiKey = config('services.openai.api_key');
 
@@ -194,7 +194,7 @@ class ChatbotController extends Controller
     }
 
     public function getResponse($threadId)
-    {             
+    {
         $openAiUrl = "https://api.openai.com/v1/threads/{$threadId}/messages";
         $apiKey = config('services.openai.api_key');
 
@@ -204,33 +204,28 @@ class ChatbotController extends Controller
             'OpenAI-Beta' => 'assistants=v2'
         ])
             ->withoutVerifying()
-            ->get($openAiUrl);     
+            ->get($openAiUrl);
 
         if ($response->failed()) {
             return response()->json(['error' => 'API error: ' . $response->reason()], $response->status());
         }
-    
-        $responseData = $response->json();    
-        
+
+        $responseData = $response->json();
+
         if (isset($responseData['data'][0]['content'][0]['text']['value'])) {
             $message = $responseData['data'][0]['content'][0]['text']['value'];
             return response()->json(['response' => $message]);
         }
-    
+
         return response()->json(['error' => 'No message found in response'], 404);
     }
 
     public function saveSummary(Request $request, $candidateId)
-    {   
+    {
         $data = $request->validate([
-            'aiMessage' => 'required|array'
+            'mensagemIA' => 'required|string',
+            'testType' => 'required|string'
         ]);
-
-        $aiResponse = $this->parseAIResponse($data['aiMessage']);
-
-        if (!isset($aiResponse['score'], $aiResponse['summary'])) {
-            return response()->json(['error' => 'Invalid AI response format'], 400);
-        }
 
         $candidate = JobApplication::find($candidateId);
 
@@ -238,44 +233,43 @@ class ChatbotController extends Controller
             return response()->json(['error' => 'Candidate not found'], 404);
         }
 
-        $testType = $request->input('testType');
-        $fields = $this->getFieldsByTestType($testType);
-
-        if (!$fields) {
-            return response()->json(['error' => 'Invalid test typee'], 400);
+        $aiResponse = $this->parseAIResponse($data['mensagemIA']);
+     
+        if (!isset($aiResponse['score'], $aiResponse['summary'])) {
+            return response()->json(['error' => 'Invalid AI response format'], 400);
         }
 
         $candidate->update([
-            $fields['score'] => $aiResponse['score'],
-            $fields['summary'] => $aiResponse['summary']
+            'final_score' => $aiResponse['score'],
+            'final_summary' => $aiResponse['summary']
         ]);
-
-        JobInterviewCandidate::where('job_application_id', $candidateId)->first()->delete();
 
         return response()->json(['message' => 'Summary saved successfully']);
     }
 
     private function parseAIResponse($aiResponse)
     {
-        if (is_array($aiResponse)) {
-            $aiResponse = $aiResponse['aiMessage'] ?? '';
+        preg_match('/```json(.*?)```/s', $aiResponse, $jsonMatch);
+
+        if (!isset($jsonMatch[1])) {
+            return [
+                'score' => null,
+                'summary' => null,
+            ];
+        }
+   
+        $parsedJson = json_decode(trim($jsonMatch[1]), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return [
+                'score' => null,
+                'summary' => null,
+            ];
         }
 
-        $cleanResponse = preg_replace('/```json\n|```/', '', $aiResponse);
-        return json_decode($cleanResponse, true);
-    }
-
-    private function getFieldsByTestType($testType)
-    {
         return [
-            'pre_selection_test' => [
-                'score' => 'pre_selection_score',
-                'summary' => 'pre_selection_summary'
-            ],
-            'behavioral_test' => [
-                'score' => 'behavioral_test_score',
-                'summary' => 'behavioral_test_summary'
-            ]
-        ][$testType] ?? null;
+            'score' => $parsedJson['pontuacao'] ?? null,
+            'summary' => $parsedJson['resumo'] ?? null,
+        ];
     }
 }

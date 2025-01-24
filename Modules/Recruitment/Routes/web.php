@@ -283,7 +283,7 @@ Route::prefix('assistants')->group(function () {
     Route::post('send-message', [ChatbotController::class, 'sendMessage'])->name('assistants.sendMessage');
     Route::post('run/{threadId}', [ChatbotController::class, 'runAssistant'])->name('assistants.run');   
     Route::post('recover-thread/{threadId}/{runId}', [ChatbotController::class, 'recoverThread'])->name('assistants.recoverThread');  
-    Route::post('save-summary/{candidateId}/{testType}', [ChatbotController::class, 'saveSummary'])->name('assistants.saveSummary');
+    Route::post('save-summary/{candidateId}', [ChatbotController::class, 'saveSummary'])->name('assistants.saveSummary');
     Route::post('save-history', [JobInterviewCandidateController::class, 'saveMessage'])->name('assistants.saveHistory');
 });
 //------------------------------------ End Recurtment --------------------------------

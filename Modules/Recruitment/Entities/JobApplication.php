@@ -31,6 +31,8 @@ class JobApplication extends Model
         'workspace',
         'test_available',
         'created_by',
+        'final_score',
+        'final_summary'
     ];
     
     protected static function newFactory()

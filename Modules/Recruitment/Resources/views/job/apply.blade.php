@@ -84,10 +84,7 @@
                                     <div class="form-group">
                                         {{ Form::label('phone', __('Phone'), ['class' => 'form-label']) }}<span
                                             class="text-danger pl-1">*</span>
-                                        {{ Form::text('phone', null, ['class' => 'form-control', 'required' => 'required']) }}
-                                        <div class=" text-xs text-danger">
-                                            {{ __('Please add mobile number with country code. (ex. +91)') }}
-                                        </div>
+                                        {{ Form::text('phone', null, ['class' => 'form-control', 'required' => 'required', 'id' => 'phone', 'oninput' => 'handlePhone(event)', 'maxlength' => '15']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -251,6 +248,7 @@
     <script src="{{ asset('Modules/Recruitment/Resources/assets/js/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('Modules/Recruitment/Resources/assets/js/daterangepicker.js') }}"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const qualifyLead = document.getElementById('qualify_lead').value;
@@ -301,10 +299,10 @@
                 prevBtn.disabled = currentIndex === 0;
                 nextBtn.disabled = true;
             };
-            
+
             confirmButton.addEventListener('click', () => {
                 movieModal.hide();
-                document.querySelector('form').submit(); 
+                document.querySelector('form').submit();
             });
 
             const handleSubmit = (e) => {
@@ -319,5 +317,18 @@
 
             document.getElementById('submitApplication').addEventListener('click', handleSubmit);
         });
+
+        const handlePhone = (event) => {
+            let input = event.target;
+            input.value = phoneMask(input.value);
+        };
+
+        const phoneMask = (value) => {
+            if (!value) return "";
+            value = value.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, "($1) $2"); 
+            value = value.replace(/(\d)(\d{4})$/, "$1-$2"); 
+            return value;
+        };
     </script>
 @endpush
