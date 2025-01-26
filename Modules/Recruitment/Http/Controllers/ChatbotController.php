@@ -234,7 +234,7 @@ class ChatbotController extends Controller
         }
 
         $aiResponse = $this->parseAIResponse($data['mensagemIA']);
-     
+
         if (!isset($aiResponse['score'], $aiResponse['summary'])) {
             return response()->json(['error' => 'Invalid AI response format'], 400);
         }
@@ -243,6 +243,14 @@ class ChatbotController extends Controller
             'final_score' => $aiResponse['score'],
             'final_summary' => $aiResponse['summary']
         ]);
+
+        $testAvailable = json_decode($candidate->test_available, true);
+        
+        if (is_array($testAvailable)) {
+            $testAvailable['pre_selection'] = 1; 
+            $candidate->test_available = json_encode($testAvailable);
+            $candidate->save();
+        }
 
         return response()->json(['message' => 'Summary saved successfully']);
     }
@@ -257,7 +265,7 @@ class ChatbotController extends Controller
                 'summary' => null,
             ];
         }
-   
+
         $parsedJson = json_decode(trim($jsonMatch[1]), true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
