@@ -24,6 +24,7 @@ use Modules\Recruitment\Entities\InterviewSchedule;
 use Modules\Recruitment\Entities\Job;
 use Modules\Recruitment\Entities\JobApplication;
 use Modules\Recruitment\Entities\JobApplicationNote;
+use Modules\Recruitment\Entities\JobInterviewCandidate;
 use Modules\Recruitment\Entities\JobOnBoard;
 use Modules\Recruitment\Entities\JobStage;
 use Modules\Recruitment\Entities\OfferLetter;
@@ -857,5 +858,16 @@ class JobApplicationController extends Controller
         ];
         $Offerletter->content = OfferLetter::replaceVariable($Offerletter->content, $obj);
         return view('recruitment::jobApplication.template.offerletterdocx', compact('Offerletter', 'name'));
+    }
+
+    public function showAnalysis($encryptedId)
+    {   
+        $id = Crypt::decrypt($encryptedId);
+
+        $user = Auth::user();        
+        $jobApplication = JobApplication::findOrFail($id);       
+        $interviewHistory = JobInterviewCandidate::where('job_application_id', $id)->orderBy('created_at', 'asc')->get();       
+    
+        return view('recruitment::jobApplication.analysis', compact('jobApplication', 'interviewHistory'));
     }
 }

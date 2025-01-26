@@ -216,6 +216,11 @@ Route::group(['middleware' => 'PlanModuleCheck:Recruitment'], function () {
             'auth',
         ]
     );
+    Route::get('job-application/analysis/{id}', [JobApplicationController::class, 'showAnalysis'])->name('job.application.analysis')->middleware(
+        [
+            'auth',
+        ]
+    );
 
     Route::resource('custom-question', CustomQuestionController::class)->middleware(
         [
