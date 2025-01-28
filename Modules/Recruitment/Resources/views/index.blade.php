@@ -219,7 +219,7 @@
                                     data-bs-original-title="{{ __('Career Page') }}"
                                     title="{{ __('Click to copy link') }}">
                                     <i class="ti ti-link"></i>
-                                    {{ __('Career Page') }}
+                                    Página de Divulgação
                                 </a>
                             </div>
                         </div>

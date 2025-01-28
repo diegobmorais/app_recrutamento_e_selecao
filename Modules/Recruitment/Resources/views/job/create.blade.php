@@ -482,19 +482,25 @@
                                         <input type="checkbox" class="form-check-input" name="qualify_lead"
                                             value="1" id="check-qualify-lead">
                                         <label class="form-check-label"
-                                            for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga') }}</label>
+                                            for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga.') }}</label>
                                     </div>
                                     <div class="form-check custom-checkbox">
                                         <input type="checkbox" class="form-check-input" name="notification"
                                             value="1" id="check-notification">
                                         <label class="form-check-label"
-                                            for="check-notification">{{ __('Receber notificações a cada candidato recebido') }}</label>
+                                            for="check-notification">{{ __('Receber notificações a cada candidato recebido.') }}</label>
                                     </div>
                                     <div class="form-check custom-checkbox">
                                         <input type="checkbox" class="form-check-input" name="activate_pre_selection"
                                             value="1" id="check-activate-pre-selection">
                                         <label class="form-check-label"
-                                            for="check-activate-pre-selection">{{ __('Realizar pré-seleção automática a cada candidato') }}</label>
+                                            for="check-activate-pre-selection">{{ __('Realizar pré-seleção automático a cada candidato.') }}</label>
+                                    </div>
+                                    <div class="form-check custom-checkbox">
+                                        <input type="checkbox" class="form-check-input" name="activate_behavioral_test"
+                                            value="1" id="check-activate-behavioral_test">
+                                        <label class="form-check-label"
+                                            for="check-activate-behavioral_test">Realizar teste comportamental automático se aprovado.</label>
                                     </div>
                                 </div>
                             </div>

@@ -32,7 +32,9 @@ class JobApplication extends Model
         'test_available',
         'created_by',
         'final_score',
-        'final_summary'
+        'final_summary',
+        'behavioral_test_score',
+        'behavioral_test_summary'
     ];
     
     protected static function newFactory()

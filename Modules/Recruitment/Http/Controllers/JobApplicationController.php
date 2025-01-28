@@ -870,4 +870,8 @@ class JobApplicationController extends Controller
     
         return view('recruitment::jobApplication.analysis', compact('jobApplication', 'interviewHistory'));
     }
+    public function sendTestBehavior(Request $request, $id)
+    {
+        //test
+    }
 }

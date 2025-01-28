@@ -234,14 +234,21 @@
                                                 value="notification" id="check-notification"
                                                 {{ $job->receive_notification === 1 ? 'checked' : '' }}>
                                             <label class="form-check-label"
-                                                for="check-notification">{{ __('Receber notificações a cada candidato recebido') }}</label>
+                                                for="check-notification">{{ __('Receber notificações a cada candidato recebido.') }}</label>
                                         </div>
                                         <div class="form-check custom-checkbox">
                                             <input type="checkbox" class="form-check-input" name="activate_pre_selection"
                                                 value="activate-pre-selection" id="check-activate-pre-selection"
                                                 {{ $job->activate_pre_selection === 1 ? 'checked' : '' }}>
                                             <label class="form-check-label"
-                                                for="check-activate-pre-selection">{{ __('Realizar pré-seleção automática a cada candidato') }}</label>
+                                                for="check-activate-pre-selection">{{ __('Realizar pré-seleção automático a cada candidato.') }}</label>
+                                        </div>
+                                        <div class="form-check custom-checkbox">
+                                            <input type="checkbox" class="form-check-input" name="activate_behavioral_test"
+                                                value="1" id="check-activate-behavioral_test"
+                                                {{ $job->activate_behavioral_test === 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                for="check-activate-behavioral_test">Realizar teste comportamental automático se aprovado.</label>
                                         </div>
                                     </div>
                                 </div>

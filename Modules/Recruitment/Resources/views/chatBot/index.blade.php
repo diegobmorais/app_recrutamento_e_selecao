@@ -326,7 +326,7 @@
             const id_candidato = sessionStorage.getItem('id_candidato');
             const tipoTeste = sessionStorage.getItem('tipoTeste');
             const url = buildRoute(routes.saveSummary, {
-                candidateId: id_candidato                
+                candidateId: id_candidato
             });
 
             try {
@@ -340,8 +340,16 @@
                         testType: tipoTeste
                     }),
                 });
-                if (!response.ok) throw new Error('Erro ao salvar resumo.');
-                addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect) {
+                        addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
+                        window.location.href = data.redirect;
+                    } else {
+                        addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
+                        console.log(data.message);
+                    }
+                })
             } catch (error) {
                 console.error('Erro ao finalizar teste:', error);
             }

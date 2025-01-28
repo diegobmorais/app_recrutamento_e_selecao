@@ -227,22 +227,25 @@
                                                 </h5>
                                                 @php
                                                     $testAvailable = json_decode($application->test_available, true);
-                                                @endphp                                                                                               
+                                                @endphp
                                                 <div class="mt-2">
                                                     <div class="icon-item">
-                                                        <div class="circle" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                        <div class="circle"
+                                                            style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
                                                             background-color: {{ isset($testAvailable['qualified']) && $testAvailable['qualified'] == 1 ? '#28a745' : '#dc3545' }};">
                                                         </div>
                                                         <span style="font-size: 10px;">Candidato Qualificado</span>
                                                     </div>
                                                     <div class="icon-item">
-                                                        <div class="circle" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                        <div class="circle"
+                                                            style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
                                                             background-color: {{ isset($testAvailable['pre_selection']) && $testAvailable['pre_selection'] == 1 ? '#28a745' : '#dc3545' }};">
                                                         </div>
-                                                        <span style="font-size: 10px;">Teste Pré-seleção</span> 
+                                                        <span style="font-size: 10px;">Teste Pré-seleção</span>
                                                     </div>
                                                     <div class="icon-item">
-                                                        <div class="circle" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                        <div class="circle"
+                                                            style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
                                                             background-color: {{ isset($testAvailable['behavioral']) && $testAvailable['behavioral'] == 1 ? '#28a745' : '#dc3545' }};">
                                                         </div>
                                                         <span style="font-size: 10px;">Teste Comportamental</span>
@@ -273,7 +276,10 @@
                                                                 </a>
                                                                 {!! Form::close() !!}
                                                             @endpermission
-
+                                                            <a href="{{ route('job-application.sendMessage', $application->id) }}"
+                                                                class="dropdown-item"><i class="ti ti-direction"></i><span
+                                                                    class="ms-2">Enviar Teste Comportamental</span>
+                                                            </a>
                                                             @permission('jobapplication delete')
                                                                 @if ($application->is_archive == 0)
                                                                     {!! Form::open([
@@ -287,7 +293,7 @@
                                                                             class="ms-2">{{ __('Delete') }}</span></a>
                                                                     {!! Form::close() !!}
                                                                 @endif
-                                                            @endpermission
+                                                            @endpermission                                                           
                                                         </div>
                                                     </div>
                                                 </div>

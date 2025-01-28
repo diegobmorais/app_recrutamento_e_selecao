@@ -141,6 +141,11 @@ Route::group(['middleware' => 'PlanModuleCheck:Recruitment'], function () {
             'auth',
         ]
     );
+    Route::post('job-application/{id}/sendTestBehavior', [JobApplicationController::class, 'sendTestBehavior'])->name('job-application.sendMessage')->middleware(
+        [
+            'auth',
+        ]
+    );
 
     Route::post('job-application/{id}/skill/store', [JobApplicationController::class, 'addSkill'])->name('job.application.skill.store')->middleware(
         [

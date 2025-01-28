@@ -156,6 +156,7 @@ class JobController extends Controller
             $job->qualify_lead         = $request->qualify_lead;
             $job->receive_notification = $request->notification;
             $job->activate_pre_selection = $request->activate_pre_selection;
+            $job->activate_behavioral_test = $request->activate_behavioral_test;
             $job->average              = $request->average;
             $job->created_by           = creatorId();
             $job->save();
@@ -333,6 +334,7 @@ class JobController extends Controller
             $job->qualify_lead         = $request->qualify_lead;
             $job->receive_notification = $request->notification;
             $job->activate_pre_selection = $request->activate_pre_selection;
+            $job->activate_behavioral_test = $request->activate_behavioral_test;
             $job->average              = $request->average;
 
             $job->save();

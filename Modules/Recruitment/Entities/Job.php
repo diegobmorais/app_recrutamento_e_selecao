@@ -35,6 +35,8 @@ class Job extends Model
         'qualify_lead',
         'receive_notification',
         'activete_pre_selection',
+        'activete_behavioral_test',
+        'average',
         'created_by',
         'id_assistant_openai_pre_selection',
         'id_assistant_openai_behavioral_test',

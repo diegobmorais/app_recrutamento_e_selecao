@@ -252,6 +252,18 @@ class ChatbotController extends Controller
             $candidate->save();
         }
 
+        $job = Job::find($candidate->job);
+
+        if ($job->activete_behavioral_test == 1 && $aiResponse['score'] >= $job->average) {
+            $newChatRoute = route('recruitment.chatbot', [
+                'jobApplicationId' => $candidateId,
+                'jobId' => $job->id,
+                'name' => $candidate->name,
+                'testType' => 'behavioral-test',
+                'assistantId' => $job->id_assistant_openai_behavioral_test
+            ]);
+            return response()->json(['redirect' => $newChatRoute]);
+        }
         return response()->json(['message' => 'Summary saved successfully']);
     }
 

@@ -188,7 +188,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-auto">
+                        <div class="col text-end">
+                            <a data-url="{{ route('job.application.analysis', Crypt::encrypt($jobApplication->id)) }}"
+                                data-ajax-popup="true" data-title="Analises e Resultados" class="btn btn-info btn-sm">
+                                <i class="ti ti-eye"></i> Analises e Resultados
+                            </a>
+                        </div>
+                        {{--  <div class="col-auto">
                             <h6 class="text-muted">{{ __('Basic Information') }}</h6>
                         </div>
                         <div class="col text-end">
@@ -201,7 +207,7 @@
                                         <i class="ti ti-plus "></i>{{ __('Add to Job OnBoard') }}</a>
                                 </div>
                             @endif
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -271,15 +277,8 @@
                     @else
                         <div class="mx-4">-</div>
                         @endif
-                    </dl>                    
-                    <div class="mt-3">
-                        <a data-url="{{ route('job.application.analysis', Crypt::encrypt($jobApplication->id)) }}"
-                            data-ajax-popup="true"
-                            data-title="Analises e Resultados"
-                            class="btn btn-info btn-sm">
-                            <i class="ti ti-eye"></i> Analises e Resultados
-                        </a>
-                    </div>  
+                    </dl>
+
                     <div class='rating-stars text-right'>
                         <ul id='stars'>
                             <li class='star {{ in_array($jobApplication->rating, [1, 2, 3, 4, 5]) == true ? 'selected' : '' }}'

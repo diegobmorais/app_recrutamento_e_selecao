@@ -90,7 +90,7 @@ class CompanyMenuListener
             'route' => 'job.application.archived',
             'module' => $module,
             'permission' => 'jobapplication archived manage'
-        ]);
+        ]);/*
         $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies Candidate'),
@@ -103,7 +103,7 @@ class CompanyMenuListener
             'route' => 'job-candidates.index',
             'module' => $module,
             'permission' => 'jobapplication candidate manage'
-        ]);/*
+        ]);
         $menu->add([
             'category' => 'HR',
             'title' => __('Vacancies On-boarding'),
