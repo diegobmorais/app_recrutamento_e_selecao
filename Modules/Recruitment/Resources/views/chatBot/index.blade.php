@@ -59,6 +59,8 @@
         }
         // Inicializa o chat e inicia o processo
         async function startChat() {
+
+
             try {
                 await salvarParametrosNoLocalStorage();
                 await recuperarAssistente();
@@ -338,18 +340,22 @@
                     body: JSON.stringify({
                         mensagemIA,
                         testType: tipoTeste
-                    }),
+                    })
                 });
-                .then(response => response.json())
-                .then(data => {
-                    if (data.redirect) {
-                        addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
-                        window.location.href = data.redirect;
-                    } else {
-                        addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
-                        console.log(data.message);
-                    }
-                })
+                if (!response.ok) {
+                    throw new Error('Erro ao salvar o resumo do teste.');
+                }
+                const data = await response.json();
+                console.log(data);
+                
+                if (data.redirect) {
+                    addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
+                    window.location.href = data.redirect;
+                } else {
+                    addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
+                    console.log(data.message);
+                }
+
             } catch (error) {
                 console.error('Erro ao finalizar teste:', error);
             }

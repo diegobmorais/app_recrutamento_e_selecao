@@ -42,6 +42,7 @@ use Modules\Recruitment\Events\JobApplicationArchive;
 use Modules\Recruitment\Events\JobApplicationChangeOrder;
 use Modules\Recruitment\Events\UpdateJobBoard;
 
+
 class JobApplicationController extends Controller
 {
     /**
@@ -77,7 +78,7 @@ class JobApplicationController extends Controller
                 $filter['job'] = $request->job;
             } else {
                 $filter['job'] = '';
-            }           
+            }
             return view('recruitment::jobApplication.index', compact('stages', 'jobs', 'filter'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -177,7 +178,7 @@ class JobApplicationController extends Controller
                 $job->custom_question  = json_encode($request->question);
                 $job->workspace        = getActiveWorkSpace();
                 $job->created_by       = creatorId();
-                $job->save();
+                $job->save();             
 
                 event(new CreateJobApplication($request, $job));
 
@@ -196,7 +197,7 @@ class JobApplicationController extends Controller
      * @return Renderable
      */
     public function show($ids)
-    {   
+    {
         if (Auth::user()->isAbleTo('jobapplication show')) {
             $id             = Crypt::decrypt($ids);
             $jobApplication = JobApplication::find($id);
@@ -205,7 +206,7 @@ class JobApplicationController extends Controller
             $notes          = JobApplicationNote::where('application_id', $id)->get();
 
             $stages = JobStage::where('created_by', creatorId())->where('workspace', getActiveWorkSpace())->get();
-            
+
             return view('recruitment::jobApplication.show', compact('jobApplication', 'notes', 'stages', 'jobOnBoards', 'interview'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -861,17 +862,17 @@ class JobApplicationController extends Controller
     }
 
     public function showAnalysis($encryptedId)
-    {   
+    {
         $id = Crypt::decrypt($encryptedId);
 
-        $user = Auth::user();        
-        $jobApplication = JobApplication::findOrFail($id);       
-        $interviewHistory = JobInterviewCandidate::where('job_application_id', $id)->orderBy('created_at', 'asc')->get();       
-    
+        $user = Auth::user();
+        $jobApplication = JobApplication::findOrFail($id);
+        $interviewHistory = JobInterviewCandidate::where('job_application_id', $id)->orderBy('created_at', 'asc')->get();
+
         return view('recruitment::jobApplication.analysis', compact('jobApplication', 'interviewHistory'));
     }
     public function sendTestBehavior(Request $request, $id)
     {
         //test
-    }
+    }    
 }

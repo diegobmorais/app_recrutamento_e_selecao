@@ -4,6 +4,7 @@ namespace Modules\Recruitment\Http\Controllers;
 
 use App\Models\User;
 use App\Models\WorkSpace;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -598,6 +599,9 @@ class JobController extends Controller
 
         $jobApplication->save();
 
+        $jobApplication->generateTestToken('pre_selection');
+        $jobApplication->generateTestToken('behavioral_test');
+        
         event(new CreateJobApplication($request, $jobApplication));
 
         if ($job->activate_pre_selection) {
@@ -624,5 +628,36 @@ class JobController extends Controller
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
+    }    
+    public function generateTestLink($candidateId, $testType)
+    {
+        $candidate = JobApplication::findOrFail($candidateId);
+
+        $token = $candidate->generateTestToken($testType);
+
+        return route('test.start', ['token' => $token]);
     }
+    public function startTest($token)
+    {
+        $candidate = JobApplication::whereRaw("JSON_CONTAINS(test_tokens, '\"$token\"')")->first();
+
+        if (!$candidate) {
+            abort(404, 'Invalid or expired test link.');
+        }
+
+        // Identifica o tipo de teste com base no token
+        $testTokens = json_decode($candidate->test_tokens, true);
+        $testType = collect($testTokens)->first(fn($details) => $details['token'] === $token);
+
+        if (!$testType) {
+            abort(404, 'Invalid test type.');
+        }
+
+        $createdAt = $testType['created_at'];
+        if (Carbon::parse($createdAt)->addHours(24)->isPast()) {
+            abort(404, 'This test link has expired.');
+        }
+
+        return view('tests.' . array_search($token, array_column($testTokens, 'token')), compact('candidate'));
+    }    
 }

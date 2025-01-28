@@ -4,7 +4,7 @@ namespace Modules\Recruitment\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Support\Str;
 class JobApplication extends Model
 {
     use HasFactory;
@@ -34,9 +34,10 @@ class JobApplication extends Model
         'final_score',
         'final_summary',
         'behavioral_test_score',
-        'behavioral_test_summary'
+        'behavioral_test_summary',
+        'test_tokens',
     ];
-    
+
     protected static function newFactory()
     {
         return \Modules\Recruitment\Database\factories\JobApplicationFactory::new();
@@ -46,7 +47,7 @@ class JobApplication extends Model
     {
         return $this->hasOne(Job::class, 'id', 'job');
     }
-    
+
     public function stages()
     {
         return $this->hasOne(JobStage::class, 'id', 'stage');
@@ -57,4 +58,25 @@ class JobApplication extends Model
         'new' => 'New',
         'job_candidate' => 'Job Candidate',
     ];
+    public function generateTestToken(string $testType)
+    {
+        $testTokens = json_decode($this->test_tokens ?? '{}', true);
+
+        $testTokens[$testType] = [
+            'token' => Str::random(32),
+            'created_at' => now()->toDateTimeString()
+        ];
+
+        $this->test_tokens = json_encode($testTokens);
+        $this->save();
+
+        return $testTokens[$testType]['token'];
+    }
+
+    public function getTestToken(string $testType)
+    {
+        $testTokens = json_decode($this->test_tokens ?? '{}', true);
+
+        return $testTokens[$testType]['token'] ?? null;
+    }
 }

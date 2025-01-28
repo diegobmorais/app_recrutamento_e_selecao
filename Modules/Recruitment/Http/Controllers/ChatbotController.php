@@ -19,41 +19,74 @@ class ChatbotController extends Controller
     public function index(Request $request)
     {
         try {
+            $token = $request->get('token');
             $jobId = $request->get('jobId');
             $jobApplicationId = $request->get('jobApplicationId');
             $testType = $request->get('testType');
 
-            if (!$jobId || !$jobApplicationId || !$testType) {
-                return redirect()->back()->with('error', __('Missing required parameters.'));
-            }
+            if ($token) {
 
-            $job = Job::find($jobId);
-            if (!$job) {
-                return redirect()->back()->with('error', __('Job not found.'));
-            }
+                $jobApplication = JobApplication::whereRaw("JSON_CONTAINS(test_tokens, '\"$token\"')")->first();
 
-            $assistantId = null;
-            if ($testType === 'pre-selection') {
-                $assistantId = $job->id_assistant_openai_pre_selection;
-            } elseif ($testType === 'behavioral-test') {
-                $assistantId = $job->id_assistant_openai_behavioral_test;
+                if (!$jobApplication) {
+                    return redirect()->back()->with('error', __('Invalid or expired token.'));
+                }
+
+                $testTokens = json_decode($jobApplication->test_tokens, true);
+                $testType = array_search($token, array_column($testTokens, 'token'));
+
+                if (!$testType) {
+                    return redirect()->back()->with('error', __('Invalid test type.'));
+                }
+
+                $createdAt = $testTokens[$testType]['created_at'];
+                if (\Carbon\Carbon::parse($createdAt)->addHours(24)->isPast()) {
+                    return redirect()->back()->with('error', __('This test link has expired.'));
+                }
+
+                $job = Job::find($jobApplication->job);
+
+                if (!$job) {
+                    return redirect()->back()->with('error', __('Job not found.'));
+                }
+
+                $assistantId = $testType === 'pre-selection'
+                    ? $job->id_assistant_openai_pre_selection
+                    : $job->id_assistant_openai_behavioral_test;
+            } else {
+                if (!$jobId || !$jobApplicationId || !$testType) {
+                    return redirect()->back()->with('error', __('Missing required parameters.'));
+                }
+
+                $job = Job::find($jobId);
+                if (!$job) {
+                    return redirect()->back()->with('error', __('Job not found.'));
+                }
+
+                $jobApplication = JobApplication::find($jobApplicationId);
+                if (!$jobApplication) {
+                    return redirect()->back()->with('error', __('Candidate application not found.'));
+                }
+
+                $assistantId = $testType === 'pre-selection'
+                    ? $job->id_assistant_openai_pre_selection
+                    : $job->id_assistant_openai_behavioral_test;
             }
 
             if (!$assistantId) {
                 return redirect()->back()->with('error', __('Assistant not found for the given test type.'));
             }
 
-            $jobApplication = JobApplication::find($jobApplicationId);
-            if (!$jobApplication) {
-                return redirect()->back()->with('error', __('Candidate application not found.'));
-            }
-
-            return view('recruitment::chatBot.index', compact('jobId', 'jobApplicationId', 'testType', 'assistantId'));
+            return view('recruitment::chatBot.index', [
+                'jobId' => $job->id,
+                'jobApplicationId' => $jobApplication->id,
+                'testType' => $testType,
+                'assistantId' => $assistantId,
+            ]);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('An error occurred while preparing the chatbot.'));
         }
     }
-
 
     public function getAssistant($jobId, $testType)
     {
@@ -234,27 +267,43 @@ class ChatbotController extends Controller
         }
 
         $aiResponse = $this->parseAIResponse($data['mensagemIA']);
-
+ 
         if (!isset($aiResponse['score'], $aiResponse['summary'])) {
             return response()->json(['error' => 'Invalid AI response format'], 400);
         }
 
-        $candidate->update([
-            'final_score' => $aiResponse['score'],
-            'final_summary' => $aiResponse['summary']
-        ]);
+        if ($data['testType'] === 'pre-selection') {
+            $candidate->update([
+                'final_score' => $aiResponse['score'],
+                'final_summary' => $aiResponse['summary']
+            ]);
 
-        $testAvailable = json_decode($candidate->test_available, true);
-        
-        if (is_array($testAvailable)) {
-            $testAvailable['pre_selection'] = 1; 
-            $candidate->test_available = json_encode($testAvailable);
-            $candidate->save();
+            $testAvailable = json_decode($candidate->test_available, true);
+            if (is_array($testAvailable)) {
+                $testAvailable['pre_selection'] = 1;
+                $candidate->test_available = json_encode($testAvailable);
+            }
+        } elseif ($data['testType'] === 'behavioral-test') {
+            $candidate->update([
+                'behavioral_test_score' => $aiResponse['score'],
+                'behavioral_test_summary' => $aiResponse['summary']
+            ]);
+
+            $testAvailable = json_decode($candidate->test_available, true);
+            if (is_array($testAvailable)) {
+                $testAvailable['behavioral'] = 1;
+                $candidate->test_available = json_encode($testAvailable);
+            }
         }
+        $candidate->save();
 
         $job = Job::find($candidate->job);
 
-        if ($job->activete_behavioral_test == 1 && $aiResponse['score'] >= $job->average) {
+        if (
+            $data['testType'] === 'pre-selection' &&
+            $aiResponse['score'] >= $job->average &&
+            $job->activate_behavioral_test == 1
+        ) {
             $newChatRoute = route('recruitment.chatbot', [
                 'jobApplicationId' => $candidateId,
                 'jobId' => $job->id,
@@ -262,23 +311,23 @@ class ChatbotController extends Controller
                 'testType' => 'behavioral-test',
                 'assistantId' => $job->id_assistant_openai_behavioral_test
             ]);
+
             return response()->json(['redirect' => $newChatRoute]);
         }
+
         return response()->json(['message' => 'Summary saved successfully']);
     }
 
-    private function parseAIResponse($aiResponse)
-    {
-        preg_match('/```json(.*?)```/s', $aiResponse, $jsonMatch);
 
-        if (!isset($jsonMatch[1])) {
-            return [
-                'score' => null,
-                'summary' => null,
-            ];
+    private function parseAIResponse($aiResponse)
+    {   
+        if (preg_match('/```json(.*?)```/s', $aiResponse, $jsonMatch)) {
+            $jsonContent = trim($jsonMatch[1]);
+        } else {      
+            $jsonContent = trim($aiResponse);
         }
 
-        $parsedJson = json_decode(trim($jsonMatch[1]), true);
+        $parsedJson = json_decode($jsonContent, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             return [
