@@ -190,7 +190,10 @@
                     <div class="row">
                         <div class="col text-end">
                             <a data-url="{{ route('job.application.analysis', Crypt::encrypt($jobApplication->id)) }}"
-                                data-ajax-popup="true" data-title="Analises e Resultados" class="btn btn-info btn-sm">
+                                data-ajax-popup="true" 
+                                data-title="Analises e Resultados" 
+                                class="btn btn-info btn-sm"
+                                data-size="lg">
                                 <i class="ti ti-eye"></i> Analises e Resultados
                             </a>
                         </div>

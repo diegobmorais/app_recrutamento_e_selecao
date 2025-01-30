@@ -178,7 +178,7 @@ class JobApplicationController extends Controller
                 $job->custom_question  = json_encode($request->question);
                 $job->workspace        = getActiveWorkSpace();
                 $job->created_by       = creatorId();
-                $job->save();             
+                $job->save();
 
                 event(new CreateJobApplication($request, $job));
 
@@ -867,8 +867,21 @@ class JobApplicationController extends Controller
 
         $user = Auth::user();
         $jobApplication = JobApplication::findOrFail($id);
-        $interviewHistory = JobInterviewCandidate::where('job_application_id', $id)->orderBy('created_at', 'asc')->get();
 
-        return view('recruitment::jobApplication.analysis', compact('jobApplication', 'interviewHistory'));
-    }  
+        $preSelectionHistory = JobInterviewCandidate::where('job_application_id', $id)
+            ->where('test_type', 'pre-selection')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $behavioralTestHistory = JobInterviewCandidate::where('job_application_id', $id)
+            ->where('test_type', 'behavioral-test')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('recruitment::jobApplication.analysis', compact(
+            'jobApplication',
+            'preSelectionHistory',
+            'behavioralTestHistory'
+        ));
+    }
 }
