@@ -33,7 +33,7 @@ class JobController extends Controller
      * @return Renderable
      */
     public function index()
-    {   
+    {
         if (Auth::user()->isAbleTo('job manage')) {
             $jobs = Job::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->with(['branches', 'createdBy'])->get();
 
@@ -100,9 +100,9 @@ class JobController extends Controller
         if (Auth::user()->isAbleTo('job create')) {
 
             $rules = [
-                'title' => 'required',               
+                'title' => 'required',
                 'location' => 'required',
-                'category' => 'required',               
+                'category' => 'required',
                 'remuneration' => 'required',
                 'skill' => 'required',
                 'position' => 'required|min:0',
@@ -110,7 +110,7 @@ class JobController extends Controller
                 'end_date' => 'required|after_or_equal:start_date',
                 'description' => 'required',
                 'requirement' => 'required',
-                'custom_question.*' => 'required',          
+                'custom_question.*' => 'required',
                 'average' => 'required',
             ];
 
@@ -134,7 +134,7 @@ class JobController extends Controller
             }
 
             $job                       = new Job();
-            $job->title                = $request->title;       
+            $job->title                = $request->title;
             $job->branch               = !empty($request->branch) ? $request->branch : 0;
             $job->location             = !empty($request->location) ? $request->location : '';
             $job->category             = $request->category;
@@ -152,7 +152,7 @@ class JobController extends Controller
             $job->terms_and_conditions = !empty($request->terms_and_conditions) ? $request->terms_and_conditions : '';
             $job->code                 = uniqid();
             $job->applicant            = !empty($request->applicant) ? implode(',', $request->applicant) : '';
-            $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';           
+            $job->visibility           = !empty($request->visibility) ? implode(',', $request->visibility) : '';
             $job->workspace            = getActiveWorkSpace();
             $job->qualify_lead         = $request->qualify_lead;
             $job->receive_notification = $request->notification;
@@ -170,7 +170,7 @@ class JobController extends Controller
                     ]);
                 }
             }
-            
+
             if ($request->has('movies')) {
                 $movies = json_decode($request->movies, true);
 
@@ -281,9 +281,9 @@ class JobController extends Controller
         if (Auth::user()->isAbleTo('job edit')) {
 
             $rules = [
-                'title' => 'required',                
+                'title' => 'required',
                 'location' => 'required',
-                'category' => 'required',               
+                'category' => 'required',
                 'remuneration' => 'required',
                 'skill' => 'required',
                 'position' => 'required|min:0',
@@ -313,7 +313,7 @@ class JobController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
-            $job->title                = $request->title;         
+            $job->title                = $request->title;
             $job->branch               = !empty($request->branch) ? $request->branch : 0;
             $job->location             = !empty($request->location) ? $request->location : '';
             $job->category             = $request->category;
@@ -601,7 +601,7 @@ class JobController extends Controller
 
         $jobApplication->generateTestToken('pre_selection');
         $jobApplication->generateTestToken('behavioral_test');
-        
+
         event(new CreateJobApplication($request, $jobApplication));
 
         if ($job->activate_pre_selection) {
@@ -628,7 +628,7 @@ class JobController extends Controller
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
-    }    
+    }
     public function generateTestLink($candidateId, $testType)
     {
         $candidate = JobApplication::findOrFail($candidateId);
@@ -659,5 +659,5 @@ class JobController extends Controller
         }
 
         return view('tests.' . array_search($token, array_column($testTokens, 'token')), compact('candidate'));
-    }    
+    }
 }

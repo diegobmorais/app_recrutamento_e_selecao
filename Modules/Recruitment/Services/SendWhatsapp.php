@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Modules\Recruitment\Services;
 
 use Exception;
 
@@ -20,10 +20,10 @@ class SendWhatsapp
         $url = 'https://wpp.studiopro.com.br/message/sendText/' . $this->instanceName;
 
         $data = json_encode([
-            "number" => $toNumber,
+            "number" => '+55'.$toNumber,
             "textMessage" => ["text" => $text],
         ]);
-
+        
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
@@ -42,7 +42,7 @@ class SendWhatsapp
         }
 
         curl_close($curl);
-
+      
         return json_decode($response);
     }
 }

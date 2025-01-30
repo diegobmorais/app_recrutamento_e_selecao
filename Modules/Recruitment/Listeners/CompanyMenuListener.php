@@ -80,7 +80,7 @@ class CompanyMenuListener
         ]);
         $menu->add([
             'category' => 'HR',
-            'title' => __('Vacancies Archived'),
+            'title' => __('Candidate Archived'),
             'icon' => '',
             'name' => 'job-archived',
             'parent' => 'recruitment',

@@ -870,9 +870,5 @@ class JobApplicationController extends Controller
         $interviewHistory = JobInterviewCandidate::where('job_application_id', $id)->orderBy('created_at', 'asc')->get();
 
         return view('recruitment::jobApplication.analysis', compact('jobApplication', 'interviewHistory'));
-    }
-    public function sendTestBehavior(Request $request, $id)
-    {
-        //test
-    }    
+    }  
 }

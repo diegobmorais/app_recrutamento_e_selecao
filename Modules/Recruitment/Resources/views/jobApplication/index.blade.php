@@ -91,7 +91,6 @@
                             var new_status = $("#" + target.id).data('status');
                             var stage_id = $(target).attr('data-id');
 
-
                             $("#" + source.id).parent().find('.count').text($("#" + source.id +
                                 " > div").length);
                             $("#" + target.id).parent().find('.count').text($("#" + target.id +
@@ -127,6 +126,48 @@
 
             }(window.jQuery);
         @endpermission
+        //send msg
+        $(document).on("click", ".send-test", function(e) {
+            e.preventDefault();
+
+            let applicationId = $(this).data("id");
+
+            let routeUrl = "{{ route('send.test', ':id') }}".replace(":id", applicationId);
+
+            Swal.fire({
+                title: "Confirmar envio?",
+                text: "Deseja enviar o teste para este candidato?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Sim, enviar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: routeUrl,
+                        type: "POST",
+                        data: {
+                            _token: $("meta[name='csrf-token']").attr("content"),
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Teste enviado!",
+                                text: "O candidato recebeu o teste com sucesso.",
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Erro ao enviar",
+                                text: xhr.responseJSON.message ||
+                                    "Ocorreu um erro ao enviar o teste.",
+                            });
+                        },
+                    });
+                }
+            });
+        });
     </script>
 @endpush
 @section('page-action')
@@ -276,9 +317,11 @@
                                                                 </a>
                                                                 {!! Form::close() !!}
                                                             @endpermission
-                                                            <a href="{{ route('job-application.sendMessage', $application->id) }}"
-                                                                class="dropdown-item"><i class="ti ti-direction"></i><span
-                                                                    class="ms-2">Enviar Teste Comportamental</span>
+                                                            <a href="#" class="dropdown-item send-test"
+                                                                data-id="{{ $application->id }}"
+                                                                data-stage="{{ $stage->title }}">
+                                                                <i class="ti ti-direction"></i><span class="ms-2">Enviar
+                                                                    Teste</span>
                                                             </a>
                                                             @permission('jobapplication delete')
                                                                 @if ($application->is_archive == 0)
@@ -293,7 +336,7 @@
                                                                             class="ms-2">{{ __('Delete') }}</span></a>
                                                                     {!! Form::close() !!}
                                                                 @endif
-                                                            @endpermission                                                           
+                                                            @endpermission
                                                         </div>
                                                     </div>
                                                 </div>

@@ -21,6 +21,7 @@ use Modules\Recruitment\Http\Controllers\JobQualificationController;
 use Modules\Recruitment\Http\Controllers\JobSkillController;
 use Modules\Recruitment\Http\Controllers\JobStageController;
 use Modules\Recruitment\Http\Controllers\PayslipTypeController;
+use Modules\Recruitment\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,11 +142,11 @@ Route::group(['middleware' => 'PlanModuleCheck:Recruitment'], function () {
             'auth',
         ]
     );
-    Route::post('job-application/{id}/sendTestBehavior', [JobApplicationController::class, 'sendTestBehavior'])->name('job-application.sendMessage')->middleware(
+    Route::post('/send-test/{id}', [TestController::class, 'sendTest'])->name('send.test')->middleware(
         [
             'auth',
         ]
-    );
+    ); 
 
     Route::post('job-application/{id}/skill/store', [JobApplicationController::class, 'addSkill'])->name('job.application.skill.store')->middleware(
         [
@@ -262,21 +263,21 @@ Route::group(['middleware' => 'PlanModuleCheck:Recruitment'], function () {
             'auth',
         ]
     );
-    
+
     //offer Letter
     Route::post('setting/offerlatter/{lang?}', [JobApplicationController::class, 'offerletterupdate'])->name('offerlatter.update');
     Route::get('job-onboard/pdf/{id}', [JobApplicationController::class, 'offerletterPdf'])->name('offerlatter.download.pdf');
     Route::get('job-onboard/doc/{id}', [JobApplicationController::class, 'offerletterDoc'])->name('offerlatter.download.doc');
 
     // // job template settig in account
-    Route::get('/job/preview/{template}/{color}', [JobCandidateController::class,'previewJob'])->name('job.preview');
-    Route::post('/recruitment/setting/store', [JobCandidateController::class,'saveJobTemplateSettings'])->name('job.template.setting');
+    Route::get('/job/preview/{template}/{color}', [JobCandidateController::class, 'previewJob'])->name('job.preview');
+    Route::post('/recruitment/setting/store', [JobCandidateController::class, 'saveJobTemplateSettings'])->name('job.template.setting');
 });
 
 Route::get('career/{slug?}/{lang?}', [JobController::class, 'career'])->name('career');
 
 // resume show
-Route::get('resume/pdf/{id}', [JobCandidateController::class,'DownloadResume'])->name('resume.pdf');
+Route::get('resume/pdf/{id}', [JobCandidateController::class, 'DownloadResume'])->name('resume.pdf');
 
 Route::get('job/requirement/{code}/{lang}', [JobController::class, 'jobRequirement'])->name('job.requirement');
 Route::get('job/apply/{code}/{lang}', [JobController::class, 'jobApply'])->name('job.apply');
@@ -286,13 +287,13 @@ Route::post('job/apply/data/{code}', [JobController::class, 'jobApplyData'])->na
 //chat-bot
 Route::get('chatbot/start', [ChatbotController::class, 'index'])->name('recruitment.chatbot');
 
-Route::prefix('assistants')->group(function () {  
-    Route::get('get-response/{threadId}', [ChatbotController::class, 'getResponse'])->name('assistants.getResponse');  
+Route::prefix('assistants')->group(function () {
+    Route::get('get-response/{threadId}', [ChatbotController::class, 'getResponse'])->name('assistants.getResponse');
     Route::get('{vagaId}/{tipoTeste}', [ChatbotController::class, 'getAssistant'])->name('assistants.getAssistant');
     Route::post('create-thread', [ChatbotController::class, 'createThread'])->name('assistants.createThread');
     Route::post('send-message', [ChatbotController::class, 'sendMessage'])->name('assistants.sendMessage');
-    Route::post('run/{threadId}', [ChatbotController::class, 'runAssistant'])->name('assistants.run');   
-    Route::post('recover-thread/{threadId}/{runId}', [ChatbotController::class, 'recoverThread'])->name('assistants.recoverThread');  
+    Route::post('run/{threadId}', [ChatbotController::class, 'runAssistant'])->name('assistants.run');
+    Route::post('recover-thread/{threadId}/{runId}', [ChatbotController::class, 'recoverThread'])->name('assistants.recoverThread');
     Route::post('save-summary/{candidateId}', [ChatbotController::class, 'saveSummary'])->name('assistants.saveSummary');
     Route::post('save-history', [JobInterviewCandidateController::class, 'saveMessage'])->name('assistants.saveHistory');
 });
