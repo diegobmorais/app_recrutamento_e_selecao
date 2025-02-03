@@ -77,7 +77,8 @@
                                                         <a
                                                             class="mx-3 btn btn-sm  align-items-center bs-pass-para show_confirm"
                                                             data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"
-                                                            aria-label="Delete" data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}"  data-confirm-yes="delete-form-{{$branch->id}}"><i
+                                                            aria-label="Delete" data-confirm="Você tem certeza?"
+                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"  data-confirm-yes="delete-form-{{$branch->id}}"><i
                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                     {{Form::close()}}
                                                 </div>

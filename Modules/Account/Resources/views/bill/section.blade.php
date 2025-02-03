@@ -24,7 +24,7 @@
                 JsSearchBox();
             },
             hide: function(deleteElement) {
-                if (confirm('Are you sure you want to delete this element?')) {
+                if (confirm('Você tem certeza que deseja excluir este elemento?')) {
                     $(this).slideUp(deleteElement);
                     $(this).remove();
 

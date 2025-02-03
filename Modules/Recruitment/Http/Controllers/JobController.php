@@ -239,8 +239,8 @@ class JobController extends Controller
             $job->visibility      = explode(',', $job->visibility);
             $job->custom_question = explode(',', $job->custom_question);
 
-            $customQuestion = CustomQuestion::where('created_by', creatorId())->where('workspace', getActiveWorkSpace())->get();
-
+            $customQuestion = JobCustomQuestion::where('job_id', $job->id)->get();
+           
             $users = User::where('created_by', '=', creatorId())->where('type', '=', 'client')->where('workspace_id', getActiveWorkSpace())->get()->pluck('name', 'id');
             if (count($users) != 0) {
 

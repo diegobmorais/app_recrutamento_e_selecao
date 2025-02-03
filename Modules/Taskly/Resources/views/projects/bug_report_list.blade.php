@@ -238,7 +238,7 @@
                 }
             });
             $(document).on("click", ".delete-comment", function() {
-                if (confirm('{{ __('Are you sure ?') }}')) {
+                if (confirm('Você tem certeza?')) {
                     var btn = $(this);
                     $.ajax({
                         url: $(this).attr('data-url'),
@@ -329,7 +329,7 @@
                 });
             });
             $(document).on("click", ".delete-comment-file", function() {
-                if (confirm('{{ __('Are you sure ?') }}')) {
+                if (confirm('Você tem certeza?')) {
                     var btn = $(this);
                     $.ajax({
                         url: $(this).attr('data-url'),

@@ -54,12 +54,12 @@
                                     {!! Form::label('title', __('Job Title'), ['class' => 'col-form-label']) !!}
                                     {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
-                                {{------------------------------------
+                                {{-- ----------------------------------
                                 <div class="form-group col-md-6">
                                     {{ Form::label('recruitment_type', __('Recruitment Type'), ['class' => 'col-form-label']) }}
                                     {{ Form::select('recruitment_type', $recruitment_type, null, ['class' => 'form-control select', 'id' => 'recruitment_type']) }}
                                 </div>
-                                --------------------------------------}}
+                                ------------------------------------ --}}
                                 @if (module_is_active('Hrm'))
                                     <div class="form-group col-md-6" id="branch" style="display: none;">
                                         {!! Form::label(
@@ -75,12 +75,12 @@
                                     {!! Form::label('location', __('Location'), ['class' => 'form-label']) !!}
                                     {!! Form::text('location', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                 </div>
-                                
+
                                 <div class="form-group col-md-6">
                                     {!! Form::label('category', __('Tipo da Vaga'), ['class' => 'form-label']) !!}
                                     {{ Form::select('category', $categories, null, ['class' => 'form-control ', 'placeholder' => 'Categoria', 'required' => 'required']) }}
                                 </div>
-                               
+
                                 <div class="form-group col-md-6">
                                     {!! Form::label('status', __('Status'), ['class' => 'form-label']) !!}
                                     {{ Form::select('status', $status, null, ['class' => 'form-control ', 'placeholder' => 'Selecione o Status', 'required' => 'required']) }}
@@ -95,13 +95,13 @@
                                                 href="{{ route('users.index') }}">{{ __('here') }}</a>.
                                         </div>
                                     @endif
-                                </div>    
-                                {{------------------------------------
+                                </div>
+                                {{-- ----------------------------------
                                 <div class="form-group col-md-6">
                                     {{ Form::label('job_type', __('Tipo de Vaga'), ['class' => 'form-label']) }}
                                     {{ Form::select('job_type', $job_type, null, ['class' => 'form-control select']) }}
                                 </div>
-                                 --------------------------------------}}
+                                 ------------------------------------ --}}
                                 <div class="form-group col-md-6">
                                     {!! Form::label('remuneration', __('Remuneração'), ['class' => 'form-label']) !!}
                                     {!! Form::number('remuneration', old('remuneration'), [
@@ -247,30 +247,67 @@
                                             <input type="checkbox" class="form-check-input" name="activate_behavioral_test"
                                                 value="1" id="check-activate-behavioral_test"
                                                 {{ $job->activate_behavioral_test === 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label"
-                                                for="check-activate-behavioral_test">Realizar teste comportamental automático se aprovado.</label>
+                                            <label class="form-check-label" for="check-activate-behavioral_test">Realizar
+                                                teste comportamental automático se aprovado.</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <h6>{{ __('Custom Questions') }}</h6>
-                                    <div class="my-4">
+                                    {{--
+                                    <div>
+                                        @permission('custom question create')
+                                            <button type="button" id="addCustomQuestionBtn" class="btn btn-sm btn-primary"
+                                                data-bs-toggle="tooltip"
+                                                title="{{ __('Adicionar Pergunta Personalizada') }}">
+                                                <i class="ti ti-plus"></i> {{ __('Adicionar Pergunta') }}
+                                            </button>
+                                        @endpermission
+                                    </div>   --}}
+                                    <div class="my-4" id="customQuestionsContainer">
                                         @foreach ($customQuestion as $question)
-                                            <div class="form-check custom-checkbox">
-                                                <input type="checkbox" class="form-check-input" name="custom_question[]"
-                                                    value="{{ $question->id }}"@if ($question->is_required == 'yes') required @endif
-                                                    id="custom_question_{{ $question->id }}"
-                                                    {{ in_array($question->id, $job->custom_question) ? 'checked' : '' }}>
+                                            <div class="form-check custom-checkbox existing-question mb-3"
+                                                style="display: flex; align-items: center; gap: 10px; font-family: Arial, sans-serif; font-size: 12px;">
+                                                <i class="far fa-question-circle"></i>
                                                 <label class="form-check-label"
-                                                    for="custom_question_{{ $question->id }}">{{ $question->question }}
+                                                    for="custom_question_{{ $question->id }}">
+                                                    {{ $question->question }}
                                                     @if ($question->is_required == 'yes')
                                                         <span class="text-danger">*</span>
                                                     @endif
                                                 </label>
                                             </div>
                                         @endforeach
+
                                     </div>
                                 </div>
+                                {{--
+                                <!-- Modal para adicionar pergunta -->
+                                <div class="modal fade" id="addCustomQuestionModal" tabindex="-1"
+                                    aria-labelledby="addCustomQuestionModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addCustomQuestionModalLabel">
+                                                    {{ __('Adicionar Pergunta Personalizada') }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="newCustomQuestion">{{ __('Question') }}</label>
+                                                    <input type="text" id="newCustomQuestion" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                                <button type="button" id="saveCustomQuestionBtn"
+                                                    class="btn btn-primary">{{ __('Add') }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
                                 <div class="form-group col-md-12">
                                     <div class="header">
                                         <h5 class="title mb-2" id="addVideoModalLabel">Aplicar Cursos para Vaga</h5>
@@ -283,7 +320,7 @@
                                                 placeholder="Adicione o link do Curso">
                                             <button type="button" class="btn btn-success"
                                                 onclick="addMovie()">Adicionar</button>
-                                        </div>                                        
+                                        </div>
                                         <div id="alertContainer"></div>
                                         <ul id="movie_list" class="list-group mt-3">
                                             @foreach ($job->movies as $movie)
@@ -361,6 +398,41 @@
 
     @push('scripts')
         <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                var qualifyLeadCheckbox = document.getElementById("check-qualify-lead");
+                var applyCoursesBlock = document.getElementById("addVideoModalLabel").closest(".form-group");
+
+                applyCoursesBlock.style.display = qualifyLeadCheckbox.checked ? "block" : "none";
+
+                qualifyLeadCheckbox.addEventListener("change", function() {
+                    applyCoursesBlock.style.display = this.checked ? "block" : "none";
+                });
+
+                var preSelectionCheckbox = document.getElementById("check-activate-pre-selection");
+                var behavioralTestCheckbox = document.getElementById("check-activate-behavioral_test");
+
+                behavioralTestCheckbox.addEventListener("change", function() {
+                    if (!preSelectionCheckbox.checked) {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Ação não permitida!",
+                            text: "Para ativar este teste, primeiro ative a opção 'Realizar pré-seleção automático a cada candidato.'",
+                            confirmButtonText: "Entendido",
+                            confirmButtonColor: "#d33",
+                        });
+                        this.checked = false;
+                    }
+                });
+
+                preSelectionCheckbox.addEventListener("change", function() {
+                    if (!this.checked) {
+                        behavioralTestCheckbox.checked = false;
+                    }
+                });
+            });
+        </script>
+        <script>
             $(document).ready(function() {
                 var checkbox = $('#check-terms');
                 var termsDiv = $('#termsandcondition');
@@ -409,34 +481,34 @@
             });
         </script>
         <!--
-        <script>
-            $(document).ready(function() {
-                function toggleFormGroups() {
-                    var selectedType = $('#recruitment_type').val();
-                    if (selectedType === 'internal') {
-                        $('#branch').show();
-                        $('#users').hide();
-                        $('#branch').prop('required', true);
-                        $('#users').prop('required', false);
-                    } else if (selectedType === 'client') {
-                        $('#branch').hide();
-                        $('#users').show();
-                        $('#users').prop('required', true);
-                        $('#branch').prop('required', false);
-                    } else {
-                        $('#branch').hide();
-                        $('#users').hide();
-                        $('#users').prop('required', false);
-                        $('#branch').prop('required', false);
-                    }
-                }
+                    <script>
+                        $(document).ready(function() {
+                            function toggleFormGroups() {
+                                var selectedType = $('#recruitment_type').val();
+                                if (selectedType === 'internal') {
+                                    $('#branch').show();
+                                    $('#users').hide();
+                                    $('#branch').prop('required', true);
+                                    $('#users').prop('required', false);
+                                } else if (selectedType === 'client') {
+                                    $('#branch').hide();
+                                    $('#users').show();
+                                    $('#users').prop('required', true);
+                                    $('#branch').prop('required', false);
+                                } else {
+                                    $('#branch').hide();
+                                    $('#users').hide();
+                                    $('#users').prop('required', false);
+                                    $('#branch').prop('required', false);
+                                }
+                            }
 
-                toggleFormGroups();
+                            toggleFormGroups();
 
-                $('#recruitment_type').change(toggleFormGroups);
-            });
-        </script>
-        -->
+                            $('#recruitment_type').change(toggleFormGroups);
+                        });
+                    </script>
+                    -->
         <script>
             let movieData = [];
             let removedMovies = [];
@@ -480,11 +552,11 @@
                 $(element).closest('li').remove();
             }
 
-            function beforeFormSubmit() {               
+            function beforeFormSubmit() {
                 const moviesInput = document.querySelector('#movies_input');
                 const removedMoviesInput = document.querySelector('#removed_movies');
-                moviesInput.value = JSON.stringify(movieData); 
-                removedMoviesInput.value = JSON.stringify(removedMovies); 
+                moviesInput.value = JSON.stringify(movieData);
+                removedMoviesInput.value = JSON.stringify(removedMovies);
             }
 
             document.querySelector('#formMain').addEventListener('submit', beforeFormSubmit);

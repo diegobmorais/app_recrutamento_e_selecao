@@ -61,7 +61,7 @@ $(document).ready(function() {
 
             case 'question':
                 swal({
-                    title: 'Are you sure?',
+                    title: 'Você tem certeza?',
                     text: 'A few words about this sweet alert ...',
                     type: 'question',
                     buttonsStyling: false,
@@ -71,20 +71,20 @@ $(document).ready(function() {
 
             case 'confirm':
                 swal({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'Você tem certeza?',
+                    text: "Você não poderá reverter isso!",
                     type: 'warning',
                     showCancelButton: true,
                     buttonsStyling: false,
                     confirmButtonClass: 'btn btn-danger',
-                    confirmButtonText: 'Yes, delete it!',
+                    confirmButtonText: 'Sim, Deletar!',
                     cancelButtonClass: 'btn btn-secondary'
                 }).then(function(result) {
                     if (result.value) {
                         // Show confirmation
                         swal({
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
+                            title: 'Deletado!',
+                            text: 'Seu registro foi excluído.',
                             type: 'success',
                             buttonsStyling: false,
                             confirmButtonClass: 'btn btn-primary'

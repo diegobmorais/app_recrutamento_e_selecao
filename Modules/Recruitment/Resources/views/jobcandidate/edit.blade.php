@@ -289,8 +289,8 @@
                                                                                             title=""
                                                                                             data-bs-original-title="Delete"
                                                                                             aria-label="Delete"
-                                                                                            data-confirm="{{ __('Are You Sure?') }}"
-                                                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                                            data-confirm="Você tem certeza?"
+                                                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                                             data-confirm-yes="delete-form-{{ $job_experience->id }}"><i
                                                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                                                         {{ Form::close() }}
@@ -402,8 +402,8 @@
                                                                                             title=""
                                                                                             data-bs-original-title="Delete"
                                                                                             aria-label="Delete"
-                                                                                            data-confirm="{{ __('Are You Sure?') }}"
-                                                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                                            data-confirm="Você tem certeza?"
+                                                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                                             data-confirm-yes="delete-form-{{ $job_project->id }}"><i
                                                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                                                         {{ Form::close() }}
@@ -514,8 +514,8 @@
                                                                                             title=""
                                                                                             data-bs-original-title="Delete"
                                                                                             aria-label="Delete"
-                                                                                            data-confirm="{{ __('Are You Sure?') }}"
-                                                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                                            data-confirm="Você tem certeza?"
+                                                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                                             data-confirm-yes="delete-form-{{ $job_experience_candidate->id }}"><i
                                                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                                                         {{ Form::close() }}
@@ -629,8 +629,8 @@
                                                                                             title=""
                                                                                             data-bs-original-title="Delete"
                                                                                             aria-label="Delete"
-                                                                                            data-confirm="{{ __('Are You Sure?') }}"
-                                                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                                            data-confirm="Você tem certeza?"
+                                                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                                             data-confirm-yes="delete-form-{{ $job_qualification->id }}"><i
                                                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                                                         {{ Form::close() }}
@@ -743,8 +743,8 @@
                                                                                             title=""
                                                                                             data-bs-original-title="Delete"
                                                                                             aria-label="Delete"
-                                                                                            data-confirm="{{ __('Are You Sure?') }}"
-                                                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                                            data-confirm="Você tem certeza?"
+                                                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                                             data-confirm-yes="delete-form-{{ $job_skill->id }}"><i
                                                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                                                         {{ Form::close() }}
@@ -857,8 +857,8 @@
                                                                                             title=""
                                                                                             data-bs-original-title="Delete"
                                                                                             aria-label="Delete"
-                                                                                            data-confirm="{{ __('Are You Sure?') }}"
-                                                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                                            data-confirm="Você tem certeza?"
+                                                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                                             data-confirm-yes="delete-form-{{ $job_award->id }}"><i
                                                                                                 class="ti ti-trash text-white text-white"></i></a>
                                                                                         {{ Form::close() }}

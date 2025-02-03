@@ -20,6 +20,7 @@ use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Modules\Recruitment\Entities\JobStage;
 
 if (!function_exists('getMenu')) {
     function getMenu()
@@ -638,7 +639,6 @@ if (!function_exists('languages')) {
         return $arrLang;
     }
 }
-
 
 // setConfigEmail ( SMTP )
 if (!function_exists('SetConfigEmail')) {

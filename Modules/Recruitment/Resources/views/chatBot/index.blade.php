@@ -265,6 +265,9 @@
                         if (mensagemIA.includes('pontuacao') || mensagemIA.includes('resumo') || mensagemIA.includes(
                                 'nota')) {
                             finalizarTeste(mensagemIA);
+
+                            document.getElementById('messageInput').disabled = true;
+                            document.getElementById('sendBtn').disabled = true;
                         } else {
                             addMensagem(`IA: ${mensagemIA}`, false);
                             salvarMensagemNoBanco('assistente', mensagemIA);
@@ -346,8 +349,7 @@
                     throw new Error('Erro ao salvar o resumo do teste.');
                 }
                 const data = await response.json();
-                console.log(data);
-                
+
                 if (data.redirect) {
                     addMensagem('IA: Teste concluído. Avaliação salva com sucesso.', false);
                     window.location.href = data.redirect;

@@ -114,8 +114,8 @@
                                                                     @method('DELETE')
                                                                     <a href="#"
                                                                         class="dropdown-item bs-pass-para show_confirm"
-                                                                        data-confirm="{{ __('Are You Sure?') }}"
-                                                                        data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                        data-confirm="Você tem certeza?"
+                                                                        data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                         data-confirm-yes="delete-form-{{ $bug->id }}"><i
                                                                             class="ti ti-trash"></i>
                                                                         {{ __('Delete') }}
@@ -311,7 +311,7 @@
                 }
             });
             $(document).on("click", ".delete-comment", function() {
-                if (confirm('{{ __('Are you sure ?') }}')) {
+                if (confirm('Você tem certeza?')) {
                     var btn = $(this);
                     $.ajax({
                         url: $(this).attr('data-url'),
@@ -402,7 +402,7 @@
                 });
             });
             $(document).on("click", ".delete-comment-file", function() {
-                if (confirm('{{ __('Are you sure ?') }}')) {
+                if (confirm('Você tem certeza?')) {
                     var btn = $(this);
                     $.ajax({
                         url: $(this).attr('data-url'),

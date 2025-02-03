@@ -563,7 +563,9 @@
                                                     {{Form::open(array('route'=>array('bill.payment.destroy',$bill->id,$payment->id),'class' => 'm-0'))}}
                                                         <a href="#" class="mx-3 btn btn-sm align-items-center bs-pass-para show_confirm"
                                                             data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"
-                                                            aria-label="Delete" data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}"  data-confirm-yes="delete-form-{{$payment->id}}">
+                                                            aria-label="Delete" data-confirm="Você tem certeza?"
+                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
+                                                            data-confirm-yes="delete-form-{{$payment->id}}">
                                                             <i class="text-white ti ti-trash"></i>
                                                         </a>
                                                     {{Form::close()}}
@@ -616,7 +618,8 @@
                                                         @method('DELETE')
                                                         <a href="#" class="mx-3 btn btn-sm align-items-center bs-pass-para show_confirm"
                                                             data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"
-                                                            aria-label="Delete" data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}"  data-confirm-yes="delete-form-{{$debitNote->id}}">
+                                                            aria-label="Delete" data-confirm="Você tem certeza?"
+                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?" data-confirm-yes="delete-form-{{$debitNote->id}}">
                                                             <i class="text-white ti ti-trash"></i>
                                                         </a>
                                                     {{Form::close()}}
@@ -678,7 +681,8 @@
                                                             @method('DELETE')
                                                             <a href="#" class="mx-3 btn btn-sm align-items-center bs-pass-para show_confirm"
                                                                 data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"
-                                                                aria-label="Delete" data-confirm="{{__('Are You Sure?')}}" data-text="{{__('This action can not be undone. Do you want to continue?')}}"  data-confirm-yes="delete-form-{{$attachment->id}}">
+                                                                aria-label="Delete" data-confirm="Você tem certeza?"
+                                                                data-text="Esta ação não poderá ser desfeita. Você quer continuar?"  data-confirm-yes="delete-form-{{$attachment->id}}">
                                                                 <i class="text-white ti ti-trash"></i>
                                                             </a>
                                                             {{Form::close()}}

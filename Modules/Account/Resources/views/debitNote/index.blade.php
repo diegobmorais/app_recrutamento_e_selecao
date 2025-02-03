@@ -88,7 +88,8 @@
                                                         <div class="action-btn bg-danger ms-2">
                                                             {!! Form::open(['method' => 'DELETE', 'route' => array('bill.delete.debit.note', $debitNote->bill,$debitNote->id),'id'=>'delete-form-'.$debitNote->id]) !!}
 
-                                                            <a  class="mx-3 btn btn-sm align-items-center bs-pass-para" data-bs-toggle="tooltip" title="{{__('Delete')}}" data-original-title="{{__('Delete')}}" data-confirm="{{__('Are You Sure?').'|'.__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="document.getElementById('delete-form-{{$debitNote->id}}').submit();">
+                                                            <a  class="mx-3 btn btn-sm align-items-center bs-pass-para" data-bs-toggle="tooltip" title="{{__('Delete')}}" data-original-title="{{__('Delete')}}" data-confirm="Você tem certeza?"
+                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?" data-confirm-yes="document.getElementById('delete-form-{{$debitNote->id}}').submit();">
                                                                 <i class="ti ti-trash text-white"></i>
                                                             </a>
                                                             {!! Form::close() !!}

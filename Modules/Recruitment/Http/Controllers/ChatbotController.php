@@ -9,6 +9,7 @@ use Modules\Recruitment\Entities\Job;
 use Modules\Recruitment\Entities\JobApplication;
 use Illuminate\Support\Facades\Http;
 use Modules\Recruitment\Entities\JobInterviewCandidate;
+use Modules\Recruitment\Entities\JobStage;
 
 class ChatbotController extends Controller
 {
@@ -258,16 +259,23 @@ class ChatbotController extends Controller
         $data = $request->validate([
             'mensagemIA' => 'required|string',
             'testType' => 'required|string'
-        ]);
+        ]);       
+
+        $stages = JobStage::where('created_by', creatorId())
+            ->where('workspace', getActiveWorkSpace())
+            ->orderBy('order', 'asc')
+            ->get();
+
+        $preSelectionStage = $stages->where('title', 'Pré-Seleção')->first();
+        $behavioralTestStage = $stages->where('title', 'Teste Comportamental')->first();
 
         $candidate = JobApplication::find($candidateId);
-
         if (!$candidate) {
             return response()->json(['error' => 'Candidate not found'], 404);
         }
 
         $aiResponse = $this->parseAIResponse($data['mensagemIA']);
- 
+
         if (!isset($aiResponse['score'], $aiResponse['summary'])) {
             return response()->json(['error' => 'Invalid AI response format'], 400);
         }
@@ -278,18 +286,28 @@ class ChatbotController extends Controller
                 'final_summary' => $aiResponse['summary']
             ]);
 
+            if ($preSelectionStage) {
+                $candidate->update(['stage' => $preSelectionStage->id]);
+            }
+
             $testAvailable = json_decode($candidate->test_available, true);
+
             if (is_array($testAvailable)) {
                 $testAvailable['pre_selection'] = 1;
                 $candidate->test_available = json_encode($testAvailable);
             }
-        } elseif ($data['testType'] === 'behavioral-test') {
+        } elseif ($data['testType'] === 'behavioral-test') {            
             $candidate->update([
                 'behavioral_test_score' => $aiResponse['score'],
                 'behavioral_test_summary' => $aiResponse['summary']
             ]);
 
+            if ($behavioralTestStage) {
+                $candidate->update(['stage' => $behavioralTestStage->id]);
+            }
+
             $testAvailable = json_decode($candidate->test_available, true);
+
             if (is_array($testAvailable)) {
                 $testAvailable['behavioral'] = 1;
                 $candidate->test_available = json_encode($testAvailable);
@@ -320,10 +338,10 @@ class ChatbotController extends Controller
 
 
     private function parseAIResponse($aiResponse)
-    {   
+    {
         if (preg_match('/```json(.*?)```/s', $aiResponse, $jsonMatch)) {
             $jsonContent = trim($jsonMatch[1]);
-        } else {      
+        } else {
             $jsonContent = trim($aiResponse);
         }
 

@@ -36,17 +36,14 @@
 
             if (errorMessageContainer.length === 0) {
                 errorMessageContainer = $('<div id="customQuestionsError" class="text-danger mt-2 d-none"></div>');
-                errorMessageContainer.text('{{ __('Por favor, selecione todas as perguntas obrigatórias.') }}');
+                errorMessageContainer.text('Por favor, insira todas as perguntas para o teste de pré-selção.');
                 customQuestionsContainer.append(errorMessageContainer);
             }
 
-            customQuestionsContainer.find('input[type="checkbox"]').each(function() {
-                if (!this.checked) {
-                    allChecked = false;
-                }
-            });
+            var totalQuestions = customQuestionsContainer.find('.form-check').length;
 
-            if (!allChecked) {
+            if (totalQuestions === 0) {
+                event.preventDefault();
                 errorMessageContainer.removeClass('d-none');
                 $('html, body').animate({
                     scrollTop: customQuestionsContainer.offset().top - 50
@@ -55,7 +52,7 @@
             } else {
                 errorMessageContainer.addClass('d-none');
             }
-            
+
             $("#vaga-opcoes input[type='checkbox']").each(function() {
                 if (!this.checked) {
                     const hiddenInput = document.createElement('input');
@@ -80,7 +77,7 @@
                 return false;
             } else {
                 $('#average_validation').addClass('d-none')
-            }           
+            }
 
             var description = $('textarea[name="description"]').val();
             if (!isNaN(description)) {
@@ -277,6 +274,41 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            var qualifyLeadCheckbox = document.getElementById("check-qualify-lead");
+            var applyCoursesBlock = document.getElementById("addVideoModalLabel").closest(".form-group");
+
+            applyCoursesBlock.style.display = "none";
+
+            qualifyLeadCheckbox.addEventListener("change", function() {
+                applyCoursesBlock.style.display = this.checked ? "block" : "none";
+            });
+
+            var preSelectionCheckbox = document.getElementById("check-activate-pre-selection");
+            var behavioralTestCheckbox = document.getElementById("check-activate-behavioral_test");
+
+            behavioralTestCheckbox.addEventListener("change", function() {
+                if (!preSelectionCheckbox.checked) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Ação não permitida!",
+                        text: "Para ativar este teste, primeiro ative a opção 'Realizar pré-seleção automático a cada candidato.'",
+                        confirmButtonText: "Entendido",
+                        confirmButtonColor: "#d33",
+                    });
+                    this.checked = false;
+                }
+            });
+
+            preSelectionCheckbox.addEventListener("change", function() {
+                if (!this.checked) {
+                    behavioralTestCheckbox.checked = false;
+                }
+            });
+        });
+    </script>
 @endpush
 
 @section('page-breadcrumb')
@@ -406,7 +438,7 @@
                                 <label class="col-form-label" for="benefits">{{ __('Benefícios') }}</label>
                                 <input type="text" class="form-control benefits_data" value="" data-toggle="tags"
                                     name="benefits" placeholder="Benefícios" />
-                            </div>                           
+                            </div>
                             <div class="form-group col-md-12">
                                 <label class="col-form-label" for="skill">{{ __('Skill Box') }}</label>
                                 <input type="text" class="form-control skill_data" value="" data-toggle="tags"
@@ -479,14 +511,14 @@
                                 <h6>{{ __('Opções da vaga') }}</h6>
                                 <div class="my-4">
                                     <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input" name="qualify_lead"
-                                            value="1" id="check-qualify-lead">
+                                        <input type="checkbox" class="form-check-input" name="qualify_lead" value="1"
+                                            id="check-qualify-lead">
                                         <label class="form-check-label"
                                             for="check-qualify-lead">{{ __('Qualificar lead através dos cursos da vaga.') }}</label>
                                     </div>
                                     <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input" name="notification"
-                                            value="1" id="check-notification">
+                                        <input type="checkbox" class="form-check-input" name="notification" value="1"
+                                            id="check-notification">
                                         <label class="form-check-label"
                                             for="check-notification">{{ __('Receber notificações a cada candidato recebido.') }}</label>
                                     </div>
@@ -499,8 +531,8 @@
                                     <div class="form-check custom-checkbox">
                                         <input type="checkbox" class="form-check-input" name="activate_behavioral_test"
                                             value="1" id="check-activate-behavioral_test">
-                                        <label class="form-check-label"
-                                            for="check-activate-behavioral_test">Realizar teste comportamental automático se aprovado.</label>
+                                        <label class="form-check-label" for="check-activate-behavioral_test">Realizar teste
+                                            comportamental automático se aprovado.</label>
                                     </div>
                                 </div>
                             </div>

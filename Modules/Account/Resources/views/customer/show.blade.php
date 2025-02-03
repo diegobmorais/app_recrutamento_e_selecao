@@ -448,8 +448,8 @@ $company_settings['proposal_shipping_display'] = isset($company_settings['propos
                                                       title=""
                                                       data-bs-original-title="Delete"
                                                       aria-label="Delete"
-                                                      data-confirm="{{ __('Are You Sure?') }}"
-                                                      data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                      data-confirm="Você tem certeza?"
+                                                      data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                       data-confirm-yes="delete-form-{{ $proposal->id }}"><i
                                                       class="ti ti-trash text-white text-white"></i></a>
                                                    {{ Form::close() }}
@@ -602,8 +602,8 @@ $company_settings['proposal_shipping_display'] = isset($company_settings['propos
                                                       title=""
                                                       data-bs-original-title="Delete"
                                                       aria-label="Delete"
-                                                      data-confirm="{{ __('Are You Sure?') }}"
-                                                      data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                      data-confirm="Você tem certeza?"
+                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                       data-confirm-yes="delete-form-{{ $invoice->id }}">
                                                    <i
                                                       class="ti ti-trash text-white text-white"></i>
@@ -722,8 +722,8 @@ $company_settings['proposal_shipping_display'] = isset($company_settings['propos
                                                       title=""
                                                       data-bs-original-title="Delete"
                                                       aria-label="Delete"
-                                                      data-confirm="{{ __('Are You Sure?') }}"
-                                                      data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                      data-confirm="Você tem certeza?"
+                                                            data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                       data-confirm-yes="delete-form-{{ $revenue->id }}"><i
                                                       class="ti ti-trash text-white text-white"></i></a>
                                                    {{ Form::close() }}

@@ -177,8 +177,8 @@
                                                             @csrf
                                                             <a href="#"
                                                                 class="dropdown-item text-danger delete-popup bs-pass-para show_confirm"
-                                                                data-confirm="{{ __('Are You Sure?') }}"
-                                                                data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                                data-confirm="Você tem certeza?"
+                                                                 data-text="Esta ação não poderá ser desfeita. Você quer continuar?"
                                                                 data-confirm-yes="delete-form-{{ $project->id }}">
                                                                 <i class="ti ti-trash"></i> <span>{{ __('Delete') }}</span>
                                                             </a>

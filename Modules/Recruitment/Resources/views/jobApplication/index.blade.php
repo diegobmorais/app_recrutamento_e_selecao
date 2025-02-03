@@ -270,13 +270,15 @@
                                                     $testAvailable = json_decode($application->test_available, true);
                                                 @endphp
                                                 <div class="mt-2">
-                                                    <div class="icon-item">
-                                                        <div class="circle"
-                                                            style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+                                                    @if ($testAvailable['qualified'] == 1)
+                                                        <div class="icon-item">
+                                                            <div class="circle"
+                                                                style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;
                                                             background-color: {{ isset($testAvailable['qualified']) && $testAvailable['qualified'] == 1 ? '#28a745' : '#dc3545' }};">
+                                                            </div>
+                                                            <span style="font-size: 10px;">Curso de seleção concluído</span>
                                                         </div>
-                                                        <span style="font-size: 10px;">Candidato Qualificado</span>
-                                                    </div>
+                                                    @endif
                                                     <div class="icon-item">
                                                         <div class="circle"
                                                             style="width: 8px; height: 8px; border-radius: 50%; display: inline-block;

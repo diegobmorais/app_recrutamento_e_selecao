@@ -787,12 +787,12 @@ var Charts = (function () {
             buttonsStyling: false
         })
         swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "This action can not be undone. Do you want to continue?",
+            title: 'Você tem certeza?',
+            text: "Esta ação não poderá ser desfeita. Você quer continuar?" ,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
@@ -806,11 +806,11 @@ var Charts = (function () {
         var title = $(this).attr("data-confirm");
         var text = $(this).attr("data-text");
         if (title == '' || title == undefined) {
-            title = "Are you sure?";
+            title = "Você tem certeza?";
 
         }
         if (text == '' || text == undefined) {
-            text = "This action can not be undone. Do you want to continue?";
+            text = "Esta ação não poderá ser desfeita. Você quer continuar?";
 
         }
         const swalWithBootstrapButtons = Swal.mixin({
@@ -825,8 +825,8 @@ var Charts = (function () {
             text: text,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {

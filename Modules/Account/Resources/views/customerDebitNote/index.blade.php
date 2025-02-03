@@ -116,7 +116,7 @@
                                                                     class="mx-3 btn btn-sm align-items-center show_confirm"
                                                                     data-bs-toggle="tooltip" title="{{ __('Delete') }}"
                                                                     data-original-title="{{ __('Delete') }}"
-                                                                    data-confirm="{{ __('Are You Sure?') }}"
+                                                                    data-confirm="Você tem certeza?"
                                                                     data-confirm-yes="document.getElementById('delete-form-{{ $customdebitNote->id }}').submit();">
                                                                     <i class="ti ti-trash text-white"></i>
                                                                 </a>
